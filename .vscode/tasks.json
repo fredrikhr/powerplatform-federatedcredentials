@@ -1,0 +1,287 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // solutions/DataverseServicePrincipalTokenAcquisition
+    {
+      "label": "DataverseServicePrincipalTokenAcquisition | Build solution (Unmanaged)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "--configuration:Debug",
+        "solutions/DataverseServicePrincipalTokenAcquisition",
+        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
+        "--property:PackageSigningCertificatePassword="
+      ],
+      "group": "build",
+      "problemMatcher": ["$msCompile"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "DataverseServicePrincipalTokenAcquisition | Push to Power Platform (Unmanaged)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "tool",
+        "run",
+        "pac",
+        "--",
+        "solution",
+        "import",
+        "--async",
+        "--activate-plugins",
+        "--force-overwrite",
+        "--path",
+        "bin/DataverseServicePrincipalTokenAcquisition/Debug/DataverseServicePrincipalTokenAcquisition.zip"
+      ],
+      "dependsOn": [
+        "DataverseServicePrincipalTokenAcquisition | Build solution (Unmanaged)"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "DataverseServicePrincipalTokenAcquisition | Pull from Power Platform (Unmanaged)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "tool",
+        "run",
+        "pac",
+        "--",
+        "solution",
+        "sync",
+        "--async",
+        "--packagetype",
+        "Unmanaged",
+        "--solution-folder",
+        "solutions/DataverseServicePrincipalTokenAcquisition/src"
+      ],
+      "dependsOn": [],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "DataverseServicePrincipalTokenAcquisition | Build solution (Managed)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "--configuration:Release",
+        "solutions/DataverseServicePrincipalTokenAcquisition",
+        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
+        "--property:PackageSigningCertificatePassword="
+      ],
+      "group": "build",
+      "problemMatcher": ["$msCompile"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "DataverseServicePrincipalTokenAcquisition | Push to Power Platform (Managed)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "tool",
+        "run",
+        "pac",
+        "--",
+        "solution",
+        "import",
+        "--async",
+        "--convert-to-managed",
+        "--publish-changes",
+        "--path",
+        "bin/DataverseServicePrincipalTokenAcquisition/Release/DataverseServicePrincipalTokenAcquisition.zip"
+      ],
+      "dependsOn": [
+        "DataverseServicePrincipalTokenAcquisition | Build solution (Managed)"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    // solutions/DataverseManagedIdentityCustomApis
+    {
+      "label": "DataverseManagedIdentityCustomApis | Build solution (Unmanaged)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "--configuration:Debug",
+        "solutions/DataverseManagedIdentityCustomApis",
+        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
+        "--property:PackageSigningCertificatePassword="
+      ],
+      "group": "build",
+      "problemMatcher": ["$msCompile"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "DataverseManagedIdentityCustomApis | Push to Power Platform (Unmanaged)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "tool",
+        "run",
+        "pac",
+        "--",
+        "solution",
+        "import",
+        "--async",
+        "--activate-plugins",
+        "--force-overwrite",
+        "--path",
+        "bin/DataverseManagedIdentityCustomApis/Debug/DataverseManagedIdentityCustomApis.zip"
+      ],
+      "dependsOn": [
+        "DataverseManagedIdentityCustomApis | Build solution (Unmanaged)"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "DataverseManagedIdentityCustomApis | Pull from Power Platform (Unmanaged)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "tool",
+        "run",
+        "pac",
+        "--",
+        "solution",
+        "sync",
+        "--async",
+        "--packagetype",
+        "Unmanaged",
+        "--solution-folder",
+        "solutions/DataverseManagedIdentityCustomApis/src"
+      ],
+      "dependsOn": [],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "DataverseManagedIdentityCustomApis | Build solution (Managed)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "--configuration:Release",
+        "solutions/DataverseManagedIdentityCustomApis",
+        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
+        "--property:PackageSigningCertificatePassword="
+      ],
+      "group": "build",
+      "problemMatcher": ["$msCompile"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "DataverseManagedIdentityCustomApis | Push to Power Platform (Managed)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "tool",
+        "run",
+        "pac",
+        "--",
+        "solution",
+        "import",
+        "--async",
+        "--convert-to-managed",
+        "--publish-changes",
+        "--path",
+        "bin/DataverseManagedIdentityCustomApis/Release/DataverseManagedIdentityCustomApis.zip"
+      ],
+      "dependsOn": [
+        "DataverseManagedIdentityCustomApis | Build solution (Managed)"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+
+    // Repository solution tasks
+    {
+      "label": "Build Solution",
+      "type": "dotnet",
+      "task": "build",
+      "group": "build",
+      "problemMatcher": ["$msCompile"]
+    },
+    {
+      "label": "Clean Solution",
+      "type": "dotnet",
+      "task": "clean",
+      "group": "build",
+      "problemMatcher": ["$msCompile"]
+    }
+  ]
+}

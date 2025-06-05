@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project>
+
+  <!-- Import Directory.Build file from parent directory -->
+  <PropertyGroup>
+    <MSBuildAllProjects>
+      $(MSBuildAllProjects);$(MSBuildThisFileDirectory)..\$(MSBuildThisFileName)$(MSBuildThisFileExtension)</MSBuildAllProjects>
+  </PropertyGroup>
+  <Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFileName)$(MSBuildThisFileExtension)" />
+
+  <PropertyGroup>
+    <LangVersion>13</LangVersion>
+    <TargetFramework>net471</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.Xrm.Sdk" />
+    <Using Include="Microsoft.Xrm.Sdk.Extensions" />
+  </ItemGroup>
+
+</Project>
