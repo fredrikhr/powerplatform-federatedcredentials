@@ -23,12 +23,10 @@
     <RestoreAdditionalProjectFallbackFolders>
       $(MSBuildThisFileDirectory)packages;
     </RestoreAdditionalProjectFallbackFolders>
-    <!--
     <RestoreAdditionalProjectFallbackFolders>
       $(RestoreAdditionalProjectFallbackFolders);
       $(MSBuildThisFileDirectory).submodules\fredrikhr\powerplatform-sdk-extensions\packages
     </RestoreAdditionalProjectFallbackFolders>
-    -->
     <RestoreAdditionalProjectFallbackFolders>
       $(RestoreAdditionalProjectFallbackFolders);
       $(MSBuildThisFileDirectory).submodules\fredrikhr\powerplatform-sdk-extensions\.submodules\fredrikhr\nuget-msbuild-extensions\packages

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.2.25052.200" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.25052.200" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.25052.00202">
+  <SolutionManifest>
+    <UniqueName>PowerPlatformFederatedIdentityCustomApis</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="Power Platform Federated Identity Custom APIs" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions />
+    <Version>1.1.0</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>fredrikhr</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="Fredrik Høisæther Rasch" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions />
+      <EMailAddress>fredrik.rasch@gmail.com</EMailAddress>
+      <SupportingWebsiteUrl>https://github.com/fredrikhr</SupportingWebsiteUrl>
+      <CustomizationPrefix>frh</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>79884</CustomizationOptionValuePrefix>
+      <Addresses />
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="91" id="{d0731f98-eb42-f011-877a-6045bd8ef238}" schemaName="FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required type="ManagedIdentity" solution="PowerPlatformFederatedIdentityService_Anchor (1.0.0)" id="{1304a7e4-ed28-f011-8c4d-7c1e5226ec1f}" />
+        <Dependent type="PluginPackage" displayName="pwrplatf_AccessTokenAcquisitionPlugins" id.uniquename="pwrplatf_AccessTokenAcquisitionPlugins" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
@@ -54,6 +54,9 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.CrmSdk.CoreAssemblies">
       <Version>9.0.2.59</Version>
+    </PackageVersion>
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt">
+      <Version>8.3.0</Version>
     </PackageVersion>
   </ItemGroup>
 </Project>

@@ -1,0 +1,18 @@
+<customapi uniquename="pwrplatf_AcquireManagedIdentityAccessToken">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Acquire Access Token using Plugin Assembly associated Managed Identity Credentials">
+    <label description="Acquire Access Token using Plugin Assembly associated Managed Identity Credentials" languagecode="1033" />
+  </description>
+  <displayname default="Acquire Managed Identity Access Token">
+    <label description="Acquire Managed Identity Access Token" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>AcquireManagedIdentityAccessToken</name>
+  <plugintypeid>
+    <plugintypeexportkey>797328076A84E5D52D6711E5631C0664FEB918A84A2D5831F54F3465342EA8B4</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

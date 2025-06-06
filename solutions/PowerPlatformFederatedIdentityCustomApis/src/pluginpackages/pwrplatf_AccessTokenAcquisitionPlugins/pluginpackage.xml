@@ -1,0 +1,12 @@
+<pluginpackage uniquename="pwrplatf_AccessTokenAcquisitionPlugins">
+  <exportkeyversion>1</exportkeyversion>
+  <iscustomizable>1</iscustomizable>
+  <managedidentityid>
+    <managedidentityid>1304a7e4-ed28-f011-8c4d-7c1e5226ec1f</managedidentityid>
+  </managedidentityid>
+  <name>pwrplatf_AccessTokenAcquisitionPlugins</name>
+  <package mimetype="application/octet-stream">pwrplatf_AccessTokenAcquisitionPlugins.nupkg</package>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+  <version>1.1.0</version>
+</pluginpackage>

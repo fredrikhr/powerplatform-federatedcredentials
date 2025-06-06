@@ -1,11 +1,11 @@
 namespace FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins;
 
-public class PluginAssemblyContextTokenAcquisitionPlugin : IPlugin
+public class PluginAssemblyContextTokenAcquisitionPlugin
+    : AccessTokenAcquisitionPluginBase, IPlugin
 {
-    public void Execute(IServiceProvider serviceProvider)
+    protected override string AcquireAccessToken(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.Get<IPluginExecutionContext>();
-        var outputs = context.OutputParameters;
 
         var authority = context.InputParameterOrDefault<string>("Authority");
         var resourceId = context.InputParameterOrDefault<string>("ResourceId");
@@ -21,13 +21,6 @@ public class PluginAssemblyContextTokenAcquisitionPlugin : IPlugin
                     ignoreCase: true
                     );
         }
-        catch (ArgumentNullException)
-        {
-            throw new InvalidPluginExecutionException(
-                message: $"Input parameter {nameof(AuthenticationType)} must not be null.",
-                httpStatus: PluginHttpStatusCode.BadRequest
-                );
-        }
         catch (ArgumentException argExcept)
         {
             throw new InvalidPluginExecutionException(
@@ -37,20 +30,10 @@ public class PluginAssemblyContextTokenAcquisitionPlugin : IPlugin
         }
 
         var tokenAcquirer = serviceProvider.Get<IAssemblyAuthenticationContext>();
-        try
-        {
-            outputs["AccessToken"] = tokenAcquirer.AcquireToken(
-                authority,
-                resourceId,
-                authenticationType
-                );
-        }
-        catch (Exception except)
-        {
-            throw new InvalidPluginExecutionException(
-                message: except.Message,
-                exception: except
-                );
-        }
+        return tokenAcquirer.AcquireToken(
+            authority,
+            resourceId,
+            authenticationType
+            );
     }
 }

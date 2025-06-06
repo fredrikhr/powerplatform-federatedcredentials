@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="JsonWebToken">
+  <description default="The decoded properties of the issued access token.">
+    <label description="The decoded properties of the issued access token." languagecode="1033" />
+  </description>
+  <displayname default="JWT Data">
+    <label description="JWT Data" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>AcquirePluginAssemblyContextAccessToken-Out-JsonWebToken</name>
+  <type>3</type>
+</customapiresponseproperty>

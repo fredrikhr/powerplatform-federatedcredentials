@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="ResourceId">
+  <description default="Resource ID of the resource to access.">
+    <label description="Resource ID of the resource to access." languagecode="1033" />
+  </description>
+  <displayname default="Resource">
+    <label description="Resource" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>0</isoptional>
+  <name>AcquireEntraIdAccessToken-In-ResourceId</name>
+  <type>10</type>
+</customapirequestparameter>

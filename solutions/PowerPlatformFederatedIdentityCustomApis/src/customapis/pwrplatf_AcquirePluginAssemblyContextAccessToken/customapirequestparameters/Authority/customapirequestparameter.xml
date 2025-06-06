@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="Authority">
+  <description default="Authority to request access token from.">
+    <label description="Authority to request access token from." languagecode="1033" />
+  </description>
+  <displayname default="Authority">
+    <label description="Authority" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>0</isoptional>
+  <name>AcquirePluginAssemblyContextAccessToken-In-Authority</name>
+  <type>10</type>
+</customapirequestparameter>

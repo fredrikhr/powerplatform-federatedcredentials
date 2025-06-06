@@ -1,15 +1,15 @@
 {
   "version": "2.0.0",
   "tasks": [
-    // solutions/DataverseServicePrincipalTokenAcquisition
+    // plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins
     {
-      "label": "DataverseServicePrincipalTokenAcquisition | Build solution (Unmanaged)",
+      "label": "pwrplatf_DataverseManagedIdentityPlugins | Build Plugin Package (Debug)",
       "type": "shell",
       "command": "dotnet",
       "args": [
         "build",
         "--configuration:Debug",
-        "solutions/DataverseServicePrincipalTokenAcquisition",
+        "plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins",
         "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
         "--property:PackageSigningCertificatePassword="
       ],
@@ -25,7 +25,51 @@
       }
     },
     {
-      "label": "DataverseServicePrincipalTokenAcquisition | Push to Power Platform (Unmanaged)",
+      "label": "pwrplatf_DataverseManagedIdentityPlugins | Build Plugin Package (Release)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "--configuration:Release",
+        "plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins",
+        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
+        "--property:PackageSigningCertificatePassword="
+      ],
+      "group": "build",
+      "problemMatcher": ["$msCompile"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+
+    // solutions/PowerPlatformFederatedIdentityService_Anchor
+    {
+      "label": "PowerPlatformFederatedIdentityService_Anchor | Build solution (Unmanaged)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "--configuration:Debug",
+        "solutions/PowerPlatformFederatedIdentityService_Anchor",
+      ],
+      "group": "build",
+      "problemMatcher": ["$msCompile"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "PowerPlatformFederatedIdentityService_Anchor | Push to Power Platform (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -37,12 +81,11 @@
         "import",
         "--async",
         "--activate-plugins",
-        "--force-overwrite",
         "--path",
-        "bin/DataverseServicePrincipalTokenAcquisition/Debug/DataverseServicePrincipalTokenAcquisition.zip"
+        "bin/PowerPlatformFederatedIdentityService_Anchor/Debug/PowerPlatformFederatedIdentityService_Anchor.zip"
       ],
       "dependsOn": [
-        "DataverseServicePrincipalTokenAcquisition | Build solution (Unmanaged)"
+        "PowerPlatformFederatedIdentityService_Anchor | Build solution (Unmanaged)"
       ],
       "problemMatcher": [],
       "presentation": {
@@ -55,7 +98,7 @@
       }
     },
     {
-      "label": "DataverseServicePrincipalTokenAcquisition | Pull from Power Platform (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentityService_Anchor | Pull from Power Platform (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -69,7 +112,7 @@
         "--packagetype",
         "Unmanaged",
         "--solution-folder",
-        "solutions/DataverseServicePrincipalTokenAcquisition/src"
+        "solutions/PowerPlatformFederatedIdentityService_Anchor/src"
       ],
       "dependsOn": [],
       "problemMatcher": [],
@@ -83,15 +126,13 @@
       }
     },
     {
-      "label": "DataverseServicePrincipalTokenAcquisition | Build solution (Managed)",
+      "label": "PowerPlatformFederatedIdentityService_Anchor | Build solution (Managed)",
       "type": "shell",
       "command": "dotnet",
       "args": [
         "build",
         "--configuration:Release",
-        "solutions/DataverseServicePrincipalTokenAcquisition",
-        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
-        "--property:PackageSigningCertificatePassword="
+        "solutions/PowerPlatformFederatedIdentityService_Anchor",
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -105,7 +146,7 @@
       }
     },
     {
-      "label": "DataverseServicePrincipalTokenAcquisition | Push to Power Platform (Managed)",
+      "label": "PowerPlatformFederatedIdentityService_Anchor | Push to Power Platform (Managed)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -119,10 +160,10 @@
         "--convert-to-managed",
         "--publish-changes",
         "--path",
-        "bin/DataverseServicePrincipalTokenAcquisition/Release/DataverseServicePrincipalTokenAcquisition.zip"
+        "bin/PowerPlatformFederatedIdentityService_Anchor/Release/PowerPlatformFederatedIdentityService_Anchor.zip"
       ],
       "dependsOn": [
-        "DataverseServicePrincipalTokenAcquisition | Build solution (Managed)"
+        "PowerPlatformFederatedIdentityService_Anchor | Build solution (Managed)"
       ],
       "problemMatcher": [],
       "presentation": {
@@ -134,15 +175,15 @@
         "clear": true
       }
     },
-    // solutions/DataverseManagedIdentityCustomApis
+    // solutions/PowerPlatformFederatedIdentityCustomApis
     {
-      "label": "DataverseManagedIdentityCustomApis | Build solution (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentityCustomApis | Build solution (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
         "build",
         "--configuration:Debug",
-        "solutions/DataverseManagedIdentityCustomApis",
+        "solutions/PowerPlatformFederatedIdentityCustomApis",
         "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
         "--property:PackageSigningCertificatePassword="
       ],
@@ -158,7 +199,7 @@
       }
     },
     {
-      "label": "DataverseManagedIdentityCustomApis | Push to Power Platform (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentityCustomApis | Push to Power Platform (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -172,10 +213,10 @@
         "--activate-plugins",
         "--force-overwrite",
         "--path",
-        "bin/DataverseManagedIdentityCustomApis/Debug/DataverseManagedIdentityCustomApis.zip"
+        "bin/PowerPlatformFederatedIdentityCustomApis/Debug/PowerPlatformFederatedIdentityCustomApis.zip"
       ],
       "dependsOn": [
-        "DataverseManagedIdentityCustomApis | Build solution (Unmanaged)"
+        "PowerPlatformFederatedIdentityCustomApis | Build solution (Unmanaged)"
       ],
       "problemMatcher": [],
       "presentation": {
@@ -188,7 +229,7 @@
       }
     },
     {
-      "label": "DataverseManagedIdentityCustomApis | Pull from Power Platform (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentityCustomApis | Pull from Power Platform (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -202,7 +243,7 @@
         "--packagetype",
         "Unmanaged",
         "--solution-folder",
-        "solutions/DataverseManagedIdentityCustomApis/src"
+        "solutions/PowerPlatformFederatedIdentityCustomApis/src"
       ],
       "dependsOn": [],
       "problemMatcher": [],
@@ -216,13 +257,13 @@
       }
     },
     {
-      "label": "DataverseManagedIdentityCustomApis | Build solution (Managed)",
+      "label": "PowerPlatformFederatedIdentityCustomApis | Build solution (Managed)",
       "type": "shell",
       "command": "dotnet",
       "args": [
         "build",
         "--configuration:Release",
-        "solutions/DataverseManagedIdentityCustomApis",
+        "solutions/PowerPlatformFederatedIdentityCustomApis",
         "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
         "--property:PackageSigningCertificatePassword="
       ],
@@ -238,7 +279,7 @@
       }
     },
     {
-      "label": "DataverseManagedIdentityCustomApis | Push to Power Platform (Managed)",
+      "label": "PowerPlatformFederatedIdentityCustomApis | Push to Power Platform (Managed)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -252,10 +293,10 @@
         "--convert-to-managed",
         "--publish-changes",
         "--path",
-        "bin/DataverseManagedIdentityCustomApis/Release/DataverseManagedIdentityCustomApis.zip"
+        "bin/PowerPlatformFederatedIdentityCustomApis/Release/PowerPlatformFederatedIdentityCustomApis.zip"
       ],
       "dependsOn": [
-        "DataverseManagedIdentityCustomApis | Build solution (Managed)"
+        "PowerPlatformFederatedIdentityCustomApis | Build solution (Managed)"
       ],
       "problemMatcher": [],
       "presentation": {

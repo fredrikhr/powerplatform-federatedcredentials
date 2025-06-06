@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.2.25052.200" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.25052.200" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.25052.00200">
+  <SolutionManifest>
+    <UniqueName>PowerPlatformFederatedIdentityService_Anchor</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="Power Platform Federated Identity Service (Anchor Solution)" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Provides the base template for the Managed Identity Entity used for Power Platform Federated Credentials" languagecode="1033" />
+    </Descriptions>
+    <Version>1.0.0</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>fredrikhr</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="Fredrik Høisæther Rasch" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions />
+      <EMailAddress>fredrik.rasch@gmail.com</EMailAddress>
+      <SupportingWebsiteUrl>https://github.com/fredrikhr</SupportingWebsiteUrl>
+      <CustomizationPrefix>frh</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>79884</CustomizationOptionValuePrefix>
+      <Addresses />
+    </Publisher>
+    <RootComponents />
+    <MissingDependencies />
+  </SolutionManifest>
+</ImportExportXml>

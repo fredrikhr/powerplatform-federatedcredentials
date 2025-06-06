@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="AuthenticationType">
+  <description default="Plugin Assembly Authentication Context Authentication Type: ClientCredential, ClientAssertionCertificate, ClientAssertionCertificateWithX5c, ManagedIdentity. Defaults to ManagedIdentity">
+    <label description="Plugin Assembly Authentication Context Authentication Type: ClientCredential, ClientAssertionCertificate, ClientAssertionCertificateWithX5c, ManagedIdentity. Defaults to ManagedIdentity" languagecode="1033" />
+  </description>
+  <displayname default="Authentication type">
+    <label description="Authentication type" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>AcquirePluginAssemblyContextAccessToken-In-AuthenticationType</name>
+  <type>10</type>
+</customapirequestparameter>

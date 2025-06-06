@@ -1,0 +1,18 @@
+<customapi uniquename="pwrplatf_AcquireEntraIdAccessToken">
+  <allowedcustomprocessingsteptype>0</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Acquire Entra ID Access Token for a specified Entra ID resource.">
+    <label description="Acquire Entra ID Access Token for a specified Entra ID resource." languagecode="1033" />
+  </description>
+  <displayname default="Acquire Entra ID Access Token">
+    <label description="Acquire Entra ID Access Token" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>AcquireEntraIdAccessToken</name>
+  <plugintypeid>
+    <plugintypeexportkey>925CE43E406D1B3C813A2B71555474C4F4F68725C25CC3634E87CA6467EF466F</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>
