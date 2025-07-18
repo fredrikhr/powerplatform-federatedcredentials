@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.2.25052.200" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.25052.200" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.25052.00202">
+<ImportExportXml version="9.2.25063.192" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.25063.192" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.25064.00178">
   <SolutionManifest>
     <UniqueName>PowerPlatformFederatedIdentityCustomApis</UniqueName>
     <LocalizedNames>
@@ -12,6 +12,7 @@
       <UniqueName>fredrikhr</UniqueName>
       <LocalizedNames>
         <LocalizedName description="Fredrik Høisæther Rasch" languagecode="1033" />
+        <LocalizedName description="Fredrik Høisæther Rasch" languagecode="1044" />
       </LocalizedNames>
       <Descriptions />
       <EMailAddress>fredrik.rasch@gmail.com</EMailAddress>
