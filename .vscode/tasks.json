@@ -9,9 +9,7 @@
       "args": [
         "build",
         "--configuration:Debug",
-        "plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins",
-        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
-        "--property:PackageSigningCertificatePassword="
+        "plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins"
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -31,9 +29,7 @@
       "args": [
         "build",
         "--configuration:Release",
-        "plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins",
-        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
-        "--property:PackageSigningCertificatePassword="
+        "plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins"
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -183,9 +179,7 @@
       "args": [
         "build",
         "--configuration:Debug",
-        "solutions/PowerPlatformFederatedIdentityCustomApis",
-        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
-        "--property:PackageSigningCertificatePassword="
+        "solutions/PowerPlatformFederatedIdentityCustomApis"
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -263,9 +257,7 @@
       "args": [
         "build",
         "--configuration:Release",
-        "solutions/PowerPlatformFederatedIdentityCustomApis",
-        "--property:PackageSigningCertificatePath=${workspaceFolder}\\bld\\PluginPackage-SigningCertificate.pfx",
-        "--property:PackageSigningCertificatePassword="
+        "solutions/PowerPlatformFederatedIdentityCustomApis"
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],

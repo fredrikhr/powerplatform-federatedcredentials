@@ -7,8 +7,11 @@
     <PackageDescription>No package description provided</PackageDescription>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageSigningCertificatePath>SigningCertificate.pfx</PackageSigningCertificatePath>
+  <PropertyGroup
+    Condition="Exists('$(MSBuildThisFileDirectory)..\..\bld\PluginPackage-SigningCertificate.pfx')"
+  >
+    <PackageSigningCertificatePath>$(MSBuildThisFileDirectory)..\..\bld\PluginPackage-SigningCertificate.pfx</PackageSigningCertificatePath>
+    <PackageSigningCertificatePassword></PackageSigningCertificatePassword>
     <PackageSignatureTimestamper>http://timestamp.acs.microsoft.com</PackageSignatureTimestamper>
   </PropertyGroup>
 
