@@ -22,6 +22,7 @@
       <Addresses />
     </Publisher>
     <RootComponents>
+      <RootComponent type="29" id="{dde5db66-f063-f011-bec2-000d3aab2440}" behavior="0" />
       <RootComponent type="91" id="{d0731f98-eb42-f011-877a-6045bd8ef238}" schemaName="FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null" behavior="0" />
     </RootComponents>
     <MissingDependencies>
