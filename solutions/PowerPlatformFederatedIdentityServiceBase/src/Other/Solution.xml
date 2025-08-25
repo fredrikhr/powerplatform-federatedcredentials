@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ImportExportXml version="9.2.25052.200" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.25052.200" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.25052.00200">
   <SolutionManifest>
-    <UniqueName>PowerPlatformFederatedIdentityService_Anchor</UniqueName>
+    <UniqueName>PowerPlatformFederatedIdentityServiceBase</UniqueName>
     <LocalizedNames>
-      <LocalizedName description="Power Platform Federated Identity Service (Anchor Solution)" languagecode="1033" />
+      <LocalizedName description="Power Platform Federated Identity Service (Base)" languagecode="1033" />
     </LocalizedNames>
     <Descriptions>
       <Description description="Provides the base template for the Managed Identity Entity used for Power Platform Federated Credentials" languagecode="1033" />

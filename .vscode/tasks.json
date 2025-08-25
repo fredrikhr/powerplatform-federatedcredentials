@@ -43,15 +43,15 @@
       }
     },
 
-    // solutions/PowerPlatformFederatedIdentityService_Anchor
+    // solutions/PowerPlatformFederatedIdentityServiceBase
     {
-      "label": "PowerPlatformFederatedIdentityService_Anchor | Build solution (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentityServiceBase | Build solution (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
         "build",
         "--configuration:Debug",
-        "solutions/PowerPlatformFederatedIdentityService_Anchor",
+        "solutions/PowerPlatformFederatedIdentityServiceBase",
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -65,7 +65,7 @@
       }
     },
     {
-      "label": "PowerPlatformFederatedIdentityService_Anchor | Push to Power Platform (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentityServiceBase | Push to Power Platform (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -78,10 +78,10 @@
         "--async",
         "--activate-plugins",
         "--path",
-        "bin/PowerPlatformFederatedIdentityService_Anchor/Debug/PowerPlatformFederatedIdentityService_Anchor.zip"
+        "bin/PowerPlatformFederatedIdentityServiceBase/Debug/PowerPlatformFederatedIdentityServiceBase.zip"
       ],
       "dependsOn": [
-        "PowerPlatformFederatedIdentityService_Anchor | Build solution (Unmanaged)"
+        "PowerPlatformFederatedIdentityServiceBase | Build solution (Unmanaged)"
       ],
       "problemMatcher": [],
       "presentation": {
@@ -94,7 +94,7 @@
       }
     },
     {
-      "label": "PowerPlatformFederatedIdentityService_Anchor | Pull from Power Platform (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentityServiceBase | Pull from Power Platform (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -108,7 +108,7 @@
         "--packagetype",
         "Unmanaged",
         "--solution-folder",
-        "solutions/PowerPlatformFederatedIdentityService_Anchor/src"
+        "solutions/PowerPlatformFederatedIdentityServiceBase/src"
       ],
       "dependsOn": [],
       "problemMatcher": [],
@@ -122,13 +122,13 @@
       }
     },
     {
-      "label": "PowerPlatformFederatedIdentityService_Anchor | Build solution (Managed)",
+      "label": "PowerPlatformFederatedIdentityServiceBase | Build solution (Managed)",
       "type": "shell",
       "command": "dotnet",
       "args": [
         "build",
         "--configuration:Release",
-        "solutions/PowerPlatformFederatedIdentityService_Anchor",
+        "solutions/PowerPlatformFederatedIdentityServiceBase",
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -142,7 +142,7 @@
       }
     },
     {
-      "label": "PowerPlatformFederatedIdentityService_Anchor | Push to Power Platform (Managed)",
+      "label": "PowerPlatformFederatedIdentityServiceBase | Push to Power Platform (Managed)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -156,10 +156,10 @@
         "--convert-to-managed",
         "--publish-changes",
         "--path",
-        "bin/PowerPlatformFederatedIdentityService_Anchor/Release/PowerPlatformFederatedIdentityService_Anchor.zip"
+        "bin/PowerPlatformFederatedIdentityServiceBase/Release/PowerPlatformFederatedIdentityServiceBase.zip"
       ],
       "dependsOn": [
-        "PowerPlatformFederatedIdentityService_Anchor | Build solution (Managed)"
+        "PowerPlatformFederatedIdentityServiceBase | Build solution (Managed)"
       ],
       "problemMatcher": [],
       "presentation": {
