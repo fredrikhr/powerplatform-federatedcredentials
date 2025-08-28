@@ -153,7 +153,6 @@
         "solution",
         "import",
         "--async",
-        "--convert-to-managed",
         "--publish-changes",
         "--path",
         "bin/PowerPlatformFederatedIdentityServiceBase/Release/PowerPlatformFederatedIdentityServiceBase.zip"
@@ -282,7 +281,6 @@
         "solution",
         "import",
         "--async",
-        "--convert-to-managed",
         "--publish-changes",
         "--path",
         "bin/PowerPlatformFederatedIdentityCustomApis/Release/PowerPlatformFederatedIdentityCustomApis.zip"
