@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.2.25063.192" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.25063.192" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.25064.00178">
+<ImportExportXml version="9.2.25071.164" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.25071.164" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.25072.00144">
   <SolutionManifest>
     <UniqueName>PowerPlatformFederatedIdentityCustomApis</UniqueName>
     <LocalizedNames>
@@ -23,7 +23,7 @@
     </Publisher>
     <RootComponents>
       <RootComponent type="29" id="{dde5db66-f063-f011-bec2-000d3aab2440}" behavior="0" />
-      <RootComponent type="91" id="{d0731f98-eb42-f011-877a-6045bd8ef238}" schemaName="FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null" behavior="0" />
+      <RootComponent type="91" id="{447b88d2-b864-f011-bec2-7c1e5260bb9d}" schemaName="FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null" behavior="0" />
     </RootComponents>
     <MissingDependencies>
       <MissingDependency>
