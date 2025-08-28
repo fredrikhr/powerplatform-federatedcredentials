@@ -14,7 +14,7 @@ indent_size = 2
 [*.{json,yml,yaml}]
 indent_size = 2
 
-[*.{js,jsx,ts,tsx,vue,css,styl,html}]
+[*.{js,jsx,ts,tsx,http,vue,css,styl,html}]
 indent_size = 2
 
 [{{packages,nuget}.config,*.nuspec}]
