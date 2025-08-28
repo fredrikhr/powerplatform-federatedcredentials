@@ -1,0 +1,29 @@
+{
+  "name": "@fredrikhr/powerplatform-federatedcredentials-httpyac",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Fredrik Høisæther Rasch",
+    "email": "fredrik.rasch@gmail.com",
+    "url": "https://github.com/fredrikhr"
+  },
+  "type": "commonjs",
+  "main": "node_modules/httpyac/bin/httpyac.js",
+  "scripts": {},
+  "devDependencies": {
+    "@eslint/js": "^9",
+    "@tsconfig/node20": "^20",
+    "@tsconfig/strictest": "^2",
+    "eslint": "^9",
+    "eslint-config-prettier": "^10.1",
+    "eslint-plugin-import": "^2.29",
+    "eslint-plugin-n": "^17",
+    "eslint-plugin-prettier": "^5",
+    "prettier": "^3",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "httpyac": "^6.16"
+  }
+}

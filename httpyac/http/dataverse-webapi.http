@@ -1,0 +1,85 @@
+###
+# @name DataverseInstanceInformation
+GET {{dataverse_instanceUrl}}/api/data/v9.2
+  /RetrieveCurrentOrganization(AccessType=@AccessType)
+  ?@AccessType=Microsoft.Dynamics.CRM.EndpointAccessType'Default'
+Authorization: oauth2 device_code dataverse
+OData-Version: 4.01
+OData-MaxVersion: 4.01
+Prefer: odata.include-annotations=*
+
+?? status == 200
+?? body Detail exists
+
+###
+# @name FederatedIdentityAuthorizationGrant
+@federatedid_resourceId = {{$input Federated Identity Resource Id}}
+{{
+  request.options.json = {
+    Scopes: [`${federatedid_resourceId}/.default`],
+  };
+}}
+POST {{dataverse_instanceUrl}}/api/data/v9.2
+  /pwrplatf_AcquireManagedIdentityAccessToken
+Authorization: oauth2 device_code dataverse
+OData-Version: 4.01
+OData-MaxVersion: 4.01
+Prefer: odata.include-annotations=*
+
+?? status == 200
+?? body AccessToken exists
+
+###
+# @name FederatedIdentityOnBehalfOfAuthorizationGrant
+@federatedid_resourceId = {{$input Federated Identity Resource Id}}
+{{
+  request.options.json = {
+    Scopes: [`${federatedid_resourceId}/.default`],
+  };
+}}
+POST {{dataverse_instanceUrl}}/api/data/v9.2
+  /pwrplatf_AcquireOnBehalfOfAccessToken
+Authorization: oauth2 device_code dataverse
+OData-Version: 4.01
+OData-MaxVersion: 4.01
+Prefer: odata.include-annotations=*
+
+?? status == 200
+?? body AccessToken exists
+
+###
+# @name FederatedIdentityOtherManagedIdentityAuthorizationGrant
+@federatedid_resourceId = {{$input Federated Identity Resource Id}}
+{{
+  request.options.json = {
+    Scopes: [`${federatedid_resourceId}/.default`],
+  };
+}}
+POST {{dataverse_instanceUrl}}/api/data/v9.2
+  /managedidentities(8e144a8c-473a-4162-8e69-bbfc49a53b73)
+  /Microsoft.Dynamics.CRM.pwrplatf_AcquirePluginPackageManagedIdentityAccessToken
+Authorization: oauth2 device_code dataverse
+OData-Version: 4.01
+OData-MaxVersion: 4.01
+Prefer: odata.include-annotations=*
+
+?? status == 200
+?? body AccessToken exists
+
+###
+# @name FederatedIdentityInternalAuthorizationGrant
+@federatedid_resourceId = {{$input Federated Identity Resource Id}}
+{{
+  request.options.json = {
+    Scopes: [`${federatedid_resourceId}/.default`],
+  };
+}}
+POST {{dataverse_instanceUrl}}/api/data/v9.2
+  /pwrplatf_AcquireInternalManagedIdentityAccessToken
+Authorization: oauth2 device_code dataverse
+OData-Version: 4.01
+OData-MaxVersion: 4.01
+Prefer: odata.include-annotations=*
+
+?? status == 200
+?? body AccessToken exists
