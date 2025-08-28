@@ -5,7 +5,7 @@ namespace FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins;
 
 public abstract class AccessTokenAcquisitionPluginBase : IPlugin
 {
-    private static readonly JwtSecurityTokenHandler jwtHandler = new();
+    private static readonly JwtSecurityTokenHandler JwtHandler = new();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Design",
@@ -23,9 +23,14 @@ public abstract class AccessTokenAcquisitionPluginBase : IPlugin
         {
             accessToken = AcquireAccessToken(serviceProvider);
         }
-        catch (InvalidPluginExecutionException) { throw; }
+        catch (InvalidPluginExecutionException except)
+        {
+            trace.Trace("{0}", except);
+            throw;
+        }
         catch (Exception except)
         {
+            trace.Trace("{0}", except);
             throw new InvalidPluginExecutionException(
                 message: except.Message,
                 exception: except
@@ -49,7 +54,7 @@ public abstract class AccessTokenAcquisitionPluginBase : IPlugin
         Entity jwtEntity = new();
         try
         {
-            var jwt = jwtHandler.ReadJwtToken(accessToken);
+            var jwt = JwtHandler.ReadJwtToken(accessToken);
             jwtEntity[nameof(jwt.Header)] = ToEntity(jwt.Header);
             jwtEntity[nameof(jwt.Payload)] = ToEntity(jwt.Payload);
             jwtEntity["Signature"] = jwt.RawSignature;

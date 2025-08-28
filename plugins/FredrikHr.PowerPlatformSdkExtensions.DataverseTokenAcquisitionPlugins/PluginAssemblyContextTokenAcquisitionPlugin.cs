@@ -7,7 +7,8 @@ public class PluginAssemblyContextTokenAcquisitionPlugin
     {
         var context = serviceProvider.Get<IPluginExecutionContext>();
 
-        var authority = context.InputParameterOrDefault<string>("Authority");
+        var authority = context.InputParameterOrDefault<string>("Authority") ??
+            serviceProvider.Get<IEnvironmentService>()?.AzureAuthorityHost?.ToString();
         var resourceId = context.InputParameterOrDefault<string>("ResourceId");
         AuthenticationType authenticationType;
         var authenticationTypeString = context.InputParameterOrDefault<string?>(nameof(AuthenticationType));
@@ -23,6 +24,7 @@ public class PluginAssemblyContextTokenAcquisitionPlugin
         }
         catch (ArgumentException argExcept)
         {
+            serviceProvider.Get<ITracingService>()?.Trace("{0}", argExcept);
             throw new InvalidPluginExecutionException(
                 message: argExcept.Message,
                 httpStatus: PluginHttpStatusCode.BadRequest
