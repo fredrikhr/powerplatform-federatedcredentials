@@ -52,6 +52,9 @@
     </PackageVersion>
   </ItemGroup>
   <ItemGroup>
+    <PackageVersion Include="Azure.Identity">
+      <Version>1.11.4</Version>
+    </PackageVersion>
     <PackageVersion Include="Microsoft.CrmSdk.CoreAssemblies">
       <Version>9.0.2.59</Version>
     </PackageVersion>

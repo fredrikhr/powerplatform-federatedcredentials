@@ -24,6 +24,9 @@
       <PrivateAssets>all</PrivateAssets>
       <ProjectReference>$(MSBuildThisFileDirectory)..\..\.submodules\fredrikhr\powerplatform-sdk-extensions\.submodules\fredrikhr\nuget-msbuild-extensions\build\FredrikHr.NupkgMSBuild.PackageAuthorSigning\FredrikHr.NupkgMSBuild.PackageAuthorSigning.csproj</ProjectReference>
     </PackageReference>
+    <PackageReference Include="Azure.Identity">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

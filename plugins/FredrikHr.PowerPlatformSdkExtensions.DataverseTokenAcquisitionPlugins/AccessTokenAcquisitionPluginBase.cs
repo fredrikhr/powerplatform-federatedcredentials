@@ -5,6 +5,12 @@ namespace FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins;
 
 public abstract class AccessTokenAcquisitionPluginBase : IPlugin
 {
+    internal static class OutputParameterNames
+    {
+        internal const string AccessToken = nameof(AccessToken);
+        internal const string JsonWebToken = "JsonWebToken";
+    }
+
     private static readonly JwtSecurityTokenHandler JwtHandler = new();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
@@ -36,11 +42,11 @@ public abstract class AccessTokenAcquisitionPluginBase : IPlugin
                 exception: except
                 );
         }
-        outputs["AccessToken"] = accessToken;
+        outputs[OutputParameterNames.AccessToken] = accessToken;
 
         try
         {
-            outputs["JsonWebToken"] = GetJwtEntity(accessToken);
+            outputs[OutputParameterNames.JsonWebToken] = GetJwtEntity(accessToken);
         }
         catch (Exception except)
         {
@@ -55,8 +61,8 @@ public abstract class AccessTokenAcquisitionPluginBase : IPlugin
         try
         {
             var jwt = JwtHandler.ReadJwtToken(accessToken);
-            jwtEntity[nameof(jwt.Header)] = ToEntity(jwt.Header);
-            jwtEntity[nameof(jwt.Payload)] = ToEntity(jwt.Payload);
+            jwtEntity[nameof(jwt.Header)] = JwtDictionaryToEntity(jwt.Header);
+            jwtEntity[nameof(jwt.Payload)] = JwtDictionaryToEntity(jwt.Payload);
             jwtEntity["Signature"] = jwt.RawSignature;
         }
         catch (ArgumentException argExcept)
@@ -71,7 +77,7 @@ public abstract class AccessTokenAcquisitionPluginBase : IPlugin
         return jwtEntity;
     }
 
-    private static Entity? ToEntity(Dictionary<string, object?>? jwtDict)
+    private static Entity? JwtDictionaryToEntity(Dictionary<string, object?>? jwtDict)
     {
         if (jwtDict is null) return null;
         Entity jwtEntity = new();
@@ -103,7 +109,7 @@ public abstract class AccessTokenAcquisitionPluginBase : IPlugin
                     ? jsonLong
                     : jsonElement.GetDouble(),
                 JsonValueKind.Array => GetEntityAttributeValueFromArray(jsonElement),
-                JsonValueKind.Object => ToEntity(jsonElement.Deserialize<Dictionary<string, object?>>()!),
+                JsonValueKind.Object => JwtDictionaryToEntity(jsonElement.Deserialize<Dictionary<string, object?>>()!),
                 _ => jsonElement.Deserialize<Dictionary<string, object?>>(),
             };
 
