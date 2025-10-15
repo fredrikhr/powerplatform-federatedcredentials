@@ -1,0 +1,18 @@
+<customapi uniquename="pwrplatf_AsManagedIdentity">
+  <allowedcustomprocessingsteptype>1</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Dynamically creates a virtual managed identity record based on the input parameters">
+    <label description="Dynamically creates a virtual managed identity record based on the input parameters" languagecode="1033" />
+  </description>
+  <displayname default="As Managed Identity">
+    <label description="As Managed Identity" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>As Managed Identity</name>
+  <plugintypeid>
+    <plugintypeexportkey>FBFCCE3A6A4E682D3342AB9ECC77B1AA2A3C101E4E61CDEF78C137CE4E0ECAA5</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

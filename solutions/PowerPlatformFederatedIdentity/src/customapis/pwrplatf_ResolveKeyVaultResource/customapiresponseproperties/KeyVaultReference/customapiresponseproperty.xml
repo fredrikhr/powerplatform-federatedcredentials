@@ -1,0 +1,12 @@
+<customapiresponseproperty uniquename="KeyVaultReference">
+  <description default="Dynamically created virtual Key Vault Reference record representing the referenced resource">
+    <label description="Dynamically created virtual Key Vault Reference record representing the referenced resource" languagecode="1033" />
+  </description>
+  <displayname default="Key Vault Reference">
+    <label description="Key Vault Reference" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <logicalentityname>keyvaultreference</logicalentityname>
+  <name>pwrplatf_ResolveKeyVaultResource-Out-KeyVaultReference</name>
+  <type>3</type>
+</customapiresponseproperty>

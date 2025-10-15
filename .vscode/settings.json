@@ -7,8 +7,50 @@
   "dotnet.testWindow.useTestingPlatformProtocol": true,
   "json.schemas": [
     {
-      "fileMatch": ["Workflows/*.json"],
-      "url": "./.submodules/fredrikhr/powerplatform-sdk-extensions/schemas/modernflow-json/workflow-clientdata.json"
+      "fileMatch": ["{solutions,test,thirdparty}/*/src/Workflows/*.json"],
+      "url": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/modernflow-json/workflow-clientdata.json"
+    }
+  ],
+  "xml.format.preserveAttributeLineBreaks": true,
+  "xml.format.splitAttributes": "preserve",
+  "xml.format.spaceBeforeEmptyCloseTag": true,
+  "xml.format.closingBracketNewLine": true,
+  "xml.fileAssociations": [
+    {
+      "pattern": "{solutions,test,thirdparty}/*/src/Entities/*/Entity.xml",
+      "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/Entity.xsd"
+    },
+    {
+      "pattern": "{solutions,test,thirdparty}/*/src/Entities/*/RibbonDiff.xml",
+      "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/RibbonCore.xsd"
+    },
+    {
+      "pattern": "{solutions,test,thirdparty}/*/src/Entities/*/FormXml/*/*.xml",
+      "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/FormXmlSystemforms.xsd"
+    },
+    {
+      "pattern": "{solutions,test,thirdparty}/*/src/Entities/*/SavedQueries/*.xml",
+      "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/SavedQueries.xsd"
+    },
+    {
+      "pattern": "{solutions,test,thirdparty}/*/src/environmentvariabledefinitions/*/environmentvariabledefinition.xml",
+      "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/EnvironmentVariableDefinition.xsd"
+    },
+    {
+      "pattern": "{solutions,test,thirdparty}/*/src/Other/{Customizations,Solution}.xml",
+      "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/CustomizationsSolution.xsd"
+    },
+    {
+      "pattern": "{solutions,test,thirdparty}/*/src/Other/Relationships/*.xml",
+      "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/EntityRelationships.xsd"
+    },
+    {
+      "pattern": "{solutions,test,thirdparty}/*/src/pluginpackages/*/pluginpackage.xml",
+      "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/PluginPackage.xsd"
+    },
+    {
+      "pattern": "{solutions,test,thirdparty}/*/src/Workflows/*.xml",
+      "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/Workflow.xsd"
     }
   ]
 }

@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="KeyVaultResourceIdentifier">
+  <description default="Resource Identifier for Azure Resource Manager identifying the referenced resource">
+    <label description="Resource Identifier for Azure Resource Manager identifying the referenced resource" languagecode="1033" />
+  </description>
+  <displayname default="Resource Identifier">
+    <label description="Resource Identifier" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_ResolveKeyVaultResource-Out-KeyVaultResourceIdentifier</name>
+  <type>10</type>
+</customapiresponseproperty>

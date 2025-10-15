@@ -1,7 +1,7 @@
 {
   "version": "2.0.0",
   "tasks": [
-    // plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins
+    // plugins/FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins
     {
       "label": "pwrplatf_DataverseManagedIdentityPlugins | Build Plugin Package (Debug)",
       "type": "shell",
@@ -9,7 +9,7 @@
       "args": [
         "build",
         "--configuration:Debug",
-        "plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins"
+        "plugins/FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins"
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -29,7 +29,7 @@
       "args": [
         "build",
         "--configuration:Release",
-        "plugins/FredrikHr.PowerPlatformSdkExtensions.DataverseTokenAcquisitionPlugins"
+        "plugins/FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins"
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -43,15 +43,15 @@
       }
     },
 
-    // solutions/PowerPlatformFederatedIdentityServiceBase
+    // solutions/PowerPlatformFederatedIdentity
     {
-      "label": "PowerPlatformFederatedIdentityServiceBase | Build solution (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentity | Build solution (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
         "build",
         "--configuration:Debug",
-        "solutions/PowerPlatformFederatedIdentityServiceBase",
+        "solutions/PowerPlatformFederatedIdentity"
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -65,7 +65,7 @@
       }
     },
     {
-      "label": "PowerPlatformFederatedIdentityServiceBase | Push to Power Platform (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentity | Push to Power Platform (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -78,10 +78,10 @@
         "--async",
         "--activate-plugins",
         "--path",
-        "bin/PowerPlatformFederatedIdentityServiceBase/Debug/PowerPlatformFederatedIdentityServiceBase.zip"
+        "bin/PowerPlatformFederatedIdentity/Debug/PowerPlatformFederatedIdentity.zip"
       ],
       "dependsOn": [
-        "PowerPlatformFederatedIdentityServiceBase | Build solution (Unmanaged)"
+        "PowerPlatformFederatedIdentity | Build solution (Unmanaged)"
       ],
       "problemMatcher": [],
       "presentation": {
@@ -94,7 +94,7 @@
       }
     },
     {
-      "label": "PowerPlatformFederatedIdentityServiceBase | Pull from Power Platform (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentity | Pull from Power Platform (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -108,7 +108,7 @@
         "--packagetype",
         "Unmanaged",
         "--solution-folder",
-        "solutions/PowerPlatformFederatedIdentityServiceBase/src"
+        "solutions/PowerPlatformFederatedIdentity/src"
       ],
       "dependsOn": [],
       "problemMatcher": [],
@@ -122,13 +122,13 @@
       }
     },
     {
-      "label": "PowerPlatformFederatedIdentityServiceBase | Build solution (Managed)",
+      "label": "PowerPlatformFederatedIdentity | Build solution (Managed)",
       "type": "shell",
       "command": "dotnet",
       "args": [
         "build",
         "--configuration:Release",
-        "solutions/PowerPlatformFederatedIdentityServiceBase",
+        "solutions/PowerPlatformFederatedIdentity"
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -142,57 +142,7 @@
       }
     },
     {
-      "label": "PowerPlatformFederatedIdentityServiceBase | Push to Power Platform (Managed)",
-      "type": "shell",
-      "command": "dotnet",
-      "args": [
-        "tool",
-        "run",
-        "pac",
-        "--",
-        "solution",
-        "import",
-        "--async",
-        "--publish-changes",
-        "--path",
-        "bin/PowerPlatformFederatedIdentityServiceBase/Release/PowerPlatformFederatedIdentityServiceBase.zip"
-      ],
-      "dependsOn": [
-        "PowerPlatformFederatedIdentityServiceBase | Build solution (Managed)"
-      ],
-      "problemMatcher": [],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "dedicated",
-        "showReuseMessage": true,
-        "clear": true
-      }
-    },
-    // solutions/PowerPlatformFederatedIdentityCustomApis
-    {
-      "label": "PowerPlatformFederatedIdentityCustomApis | Build solution (Unmanaged)",
-      "type": "shell",
-      "command": "dotnet",
-      "args": [
-        "build",
-        "--configuration:Debug",
-        "solutions/PowerPlatformFederatedIdentityCustomApis"
-      ],
-      "group": "build",
-      "problemMatcher": ["$msCompile"],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "dedicated",
-        "showReuseMessage": true,
-        "clear": true
-      }
-    },
-    {
-      "label": "PowerPlatformFederatedIdentityCustomApis | Push to Power Platform (Unmanaged)",
+      "label": "PowerPlatformFederatedIdentity | Push to Power Platform (Managed)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -205,11 +155,12 @@
         "--async",
         "--activate-plugins",
         "--force-overwrite",
+        "--publish-changes",
         "--path",
-        "bin/PowerPlatformFederatedIdentityCustomApis/Debug/PowerPlatformFederatedIdentityCustomApis.zip"
+        "bin/PowerPlatformFederatedIdentity/Release/PowerPlatformFederatedIdentity.zip"
       ],
       "dependsOn": [
-        "PowerPlatformFederatedIdentityCustomApis | Build solution (Unmanaged)"
+        "PowerPlatformFederatedIdentity | Build solution (Managed)"
       ],
       "problemMatcher": [],
       "presentation": {
@@ -221,42 +172,15 @@
         "clear": true
       }
     },
+    // solutions/PowerPlatformFederatedIdentityManagedIdentity
     {
-      "label": "PowerPlatformFederatedIdentityCustomApis | Pull from Power Platform (Unmanaged)",
-      "type": "shell",
-      "command": "dotnet",
-      "args": [
-        "tool",
-        "run",
-        "pac",
-        "--",
-        "solution",
-        "sync",
-        "--async",
-        "--packagetype",
-        "Unmanaged",
-        "--solution-folder",
-        "solutions/PowerPlatformFederatedIdentityCustomApis/src"
-      ],
-      "dependsOn": [],
-      "problemMatcher": [],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "dedicated",
-        "showReuseMessage": true,
-        "clear": true
-      }
-    },
-    {
-      "label": "PowerPlatformFederatedIdentityCustomApis | Build solution (Managed)",
+      "label": "PowerPlatformFederatedIdentityManagedIdentity | Build solution (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
         "build",
-        "--configuration:Release",
-        "solutions/PowerPlatformFederatedIdentityCustomApis"
+        "--configuration:Debug",
+        "solutions/PowerPlatformFederatedIdentityManagedIdentity"
       ],
       "group": "build",
       "problemMatcher": ["$msCompile"],
@@ -270,7 +194,7 @@
       }
     },
     {
-      "label": "PowerPlatformFederatedIdentityCustomApis | Push to Power Platform (Managed)",
+      "label": "PowerPlatformFederatedIdentityManagedIdentity | Push to Power Platform (Unmanaged)",
       "type": "shell",
       "command": "dotnet",
       "args": [
@@ -281,12 +205,89 @@
         "solution",
         "import",
         "--async",
-        "--publish-changes",
+        "--activate-plugins",
         "--path",
-        "bin/PowerPlatformFederatedIdentityCustomApis/Release/PowerPlatformFederatedIdentityCustomApis.zip"
+        "bin/PowerPlatformFederatedIdentityManagedIdentity/Debug/PowerPlatformFederatedIdentityManagedIdentity.zip"
       ],
       "dependsOn": [
-        "PowerPlatformFederatedIdentityCustomApis | Build solution (Managed)"
+        "PowerPlatformFederatedIdentityManagedIdentity | Build solution (Unmanaged)"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "PowerPlatformFederatedIdentityManagedIdentity | Pull from Power Platform (Unmanaged)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "tool",
+        "run",
+        "pac",
+        "--",
+        "solution",
+        "sync",
+        "--async",
+        "--packagetype",
+        "Unmanaged",
+        "--solution-folder",
+        "solutions/PowerPlatformFederatedIdentityManagedIdentity/src"
+      ],
+      "dependsOn": [],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "PowerPlatformFederatedIdentityManagedIdentity | Build solution (Managed)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "--configuration:Release",
+        "solutions/PowerPlatformFederatedIdentityManagedIdentity"
+      ],
+      "group": "build",
+      "problemMatcher": ["$msCompile"],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": true
+      }
+    },
+    {
+      "label": "PowerPlatformFederatedIdentityManagedIdentity | Push to Power Platform (Managed)",
+      "type": "shell",
+      "command": "dotnet",
+      "args": [
+        "tool",
+        "run",
+        "pac",
+        "--",
+        "solution",
+        "import",
+        "--async",
+        "--activate-plugins",
+        "--path",
+        "bin/PowerPlatformFederatedIdentityManagedIdentity/Release/PowerPlatformFederatedIdentityManagedIdentity.zip"
+      ],
+      "dependsOn": [
+        "PowerPlatformFederatedIdentityManagedIdentity | Build solution (Managed)"
       ],
       "problemMatcher": [],
       "presentation": {
