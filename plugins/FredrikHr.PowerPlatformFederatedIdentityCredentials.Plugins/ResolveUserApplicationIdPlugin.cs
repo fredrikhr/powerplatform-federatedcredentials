@@ -2,12 +2,16 @@ using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
-public class ResolveUserApplicationIdPlugin()
-    : PluginBase(ExecuteInternal), IPlugin
+public class ResolveUserApplicationIdPlugin : PluginBase, IPlugin
 {
     internal static class OutputParameterName
     {
         internal const string UserApplicationId = nameof(UserApplicationId);
+    }
+
+    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    {
+        ExecuteInternal(serviceProvider);
     }
 
     internal static void ExecuteInternal(IServiceProvider serviceProvider)

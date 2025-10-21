@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="UserEffectivePermissionsDisplayName">
+  <description default="Effective permissions of the current user.">
+    <label description="Effective permissions of the current user." languagecode="1033" />
+  </description>
+  <displayname default="Effective Permissions">
+    <label description="Effective Permissions" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_EvaulateKeyVaultDataAccessPermissions-Out-UserEffectivePermissionsDisplayName</name>
+  <type>10</type>
+</customapiresponseproperty>

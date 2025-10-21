@@ -7,8 +7,7 @@ using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
-public class ResolveKeyVaultReferencePlugin()
-    : PluginBase(ExecuteInternal), IPlugin
+public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
 {
     internal static class InputParameterNames
     {
@@ -25,11 +24,18 @@ public class ResolveKeyVaultReferencePlugin()
         internal const string KeyVaultResourceIdentifier = nameof(KeyVaultResourceIdentifier);
     }
 
+    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    {
+        ExecuteInternal(serviceProvider);
+    }
+
     internal static void ExecuteInternal(IServiceProvider serviceProvider)
     {
         const StringComparison cmp = StringComparison.OrdinalIgnoreCase;
         var context = serviceProvider.Get<IPluginExecutionContext>();
         Entity? keyvaultReference;
+        string? keyVaultResourceIdString = null;
+        string? keyVaultUri;
         if (KeyVaultReferenceEntityInfo.EntityLogicalName.Equals(context.PrimaryEntityName, cmp))
         {
             keyvaultReference = RetrieveEntityByEntityId(
@@ -59,7 +65,7 @@ public class ResolveKeyVaultReferencePlugin()
             keyvaultReference = new(KeyVaultReferenceEntityInfo.EntityLogicalName);
             if (context.InputParameters.TryGetValue(
                 InputParameterNames.KeyVaultUri,
-                out string keyVaultUri
+                out keyVaultUri
                 ))
             {
                 keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultUri] =
@@ -87,22 +93,59 @@ public class ResolveKeyVaultReferencePlugin()
             }
             if (context.InputParameters.TryGetValue(
                 InputParameterNames.KeyVaultResourceIdentifier,
-                out string keyVaultResourceIdentifier
+                out keyVaultResourceIdString
                 ))
             {
                 keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultResourceIdentifier] =
-                    keyVaultResourceIdentifier;
+                    keyVaultResourceIdString;
             }
         }
 
-        if (!keyvaultReference.Attributes.ContainsKey(KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultResourceIdentifier))
+        ResourceIdentifier keyVaultResourceIdentifier;
+        if (string.IsNullOrEmpty(keyVaultResourceIdString) &&
+            (!keyvaultReference.TryGetAttributeValue(
+                KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultResourceIdentifier,
+                out keyVaultResourceIdString
+                ) || string.IsNullOrEmpty(keyVaultResourceIdString)))
         {
-            ResourceIdentifier keyVaultResourceIdentifier = ResolveKeyVaultResourceIdentifier(
+            keyVaultResourceIdentifier = ResolveKeyVaultResourceIdentifier(
                 serviceProvider,
                 keyvaultReference
                 ).GetAwaiter().GetResult();
             keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultResourceIdentifier] =
                 keyVaultResourceIdentifier.ToString();
+        }
+        else
+        {
+            keyVaultResourceIdentifier = ResourceIdentifier.Parse(keyVaultResourceIdString!);
+        }
+
+        if ((!keyvaultReference.TryGetAttributeValue(
+            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultUri,
+            out keyVaultUri) || string.IsNullOrEmpty(keyVaultUri)) &&
+            keyVaultResourceIdentifier.Parent?.Name is string keyVaultName)
+        {
+            keyVaultUri = $"https://{keyVaultName}.vault.azure.net";
+            keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultUri] =
+                keyVaultUri;
+        }
+        if ((!keyvaultReference.TryGetAttributeValue(
+            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyName,
+            out string keyName) || string.IsNullOrEmpty(keyName)) &&
+            keyVaultResourceIdentifier.Name is string keyNameFromId)
+        {
+            keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyName] =
+                keyNameFromId;
+            OptionSetValue keyType = keyVaultResourceIdentifier.ResourceType.GetLastType() switch
+            {
+                string t when t.EndsWith("certificates", cmp) =>
+                    new((int)KeyVaultReferenceKeyTypeOptionSet.Certificate),
+                string t when t.EndsWith("secrets", cmp) =>
+                    new((int)KeyVaultReferenceKeyTypeOptionSet.Secret),
+                _ => new((int)KeyVaultReferenceKeyTypeOptionSet.Unknown),
+            };
+            keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyType] =
+                keyType;
         }
 
         context.OutputParameters[OutputParameterNames.KeyVaultReference] =
@@ -138,9 +181,16 @@ public class ResolveKeyVaultReferencePlugin()
         )
     {
         const StringComparison cmp = StringComparison.OrdinalIgnoreCase;
-        var keyVaultUrl = (string)
-            keyVaultReferenceEntity[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultUri];
-        string keyVaultName = GetKeyVaultName(keyVaultUrl);
+        if (!keyVaultReferenceEntity.TryGetAttributeValue(
+            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultUri,
+            out string? keyVaultUrl) || string.IsNullOrEmpty(keyVaultUrl))
+        {
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: "Unable to resolve Key Vault Resource without Key Vault URI."
+                );
+        }
+        string keyVaultName = GetKeyVaultName(keyVaultUrl!);
         ArmClient armClient = AzureResourceContextProvider.GetOrCreateArmClient(
             serviceProvider
             );

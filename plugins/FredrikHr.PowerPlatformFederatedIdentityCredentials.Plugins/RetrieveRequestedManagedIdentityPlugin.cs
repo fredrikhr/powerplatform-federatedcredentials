@@ -5,8 +5,7 @@ using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
-public class RetrieveRequestedManagedIdentityPlugin()
-    : PluginBase(ExecuteInternal), IPlugin
+public class RetrieveRequestedManagedIdentityPlugin : PluginBase, IPlugin
 {
     internal static class InputParameterNames
     {
@@ -18,6 +17,11 @@ public class RetrieveRequestedManagedIdentityPlugin()
     internal static class OutputParameterNames
     {
         internal const string RequestedManagedIdentity = nameof(RequestedManagedIdentity);
+    }
+
+    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    {
+        ExecuteInternal(serviceProvider);
     }
 
     internal static void ExecuteInternal(IServiceProvider serviceProvider)

@@ -1,11 +1,25 @@
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
-public abstract class PluginBase(Action<IServiceProvider> executeAction) : IPlugin
+public abstract class PluginBase : IPlugin
 {
     static PluginBase()
     {
         PluginDependencyAssemblyLoader.DeregisterTracingService(null);
+    }
+
+    internal static void TraceException(ITracingService trace, Exception exception)
+    {
+        Stack<Exception> exceptions = [];
+        for (Exception? exceptInst = exception; exceptInst is not null; exceptInst = exceptInst.InnerException)
+        {
+            exceptions.Push(exceptInst);
+        }
+        while (exceptions.Count > 0)
+        {
+            Exception exceptInst = exceptions.Pop();
+            trace.Trace($"Unhandled during {nameof(Execute)}: {{0}}", exceptInst);
+        }
     }
 
     public void Execute(IServiceProvider serviceProvider)
@@ -14,12 +28,12 @@ public abstract class PluginBase(Action<IServiceProvider> executeAction) : IPlug
         PluginDependencyAssemblyLoader.RegisterTracingService(trace);
         try
         {
-            executeAction?.Invoke(serviceProvider);
+            ExecuteCore(serviceProvider);
         }
         catch (Exception except)
         when (except is not InvalidPluginExecutionException)
         {
-            trace.Trace($"Unhandled during {nameof(Execute)}: {{0}}", except);
+            TraceException(trace, except);
             throw;
         }
         finally
@@ -50,4 +64,6 @@ public abstract class PluginBase(Action<IServiceProvider> executeAction) : IPlug
             _ => false,
         };
     }
+
+    protected abstract void ExecuteCore(IServiceProvider serviceProvider);
 }

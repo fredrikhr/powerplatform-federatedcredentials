@@ -1,15 +1,36 @@
+using System.Reflection;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
+
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.JsonWebTokens;
+
 using Azure.Core;
-using Azure.ResourceManager;
-using Azure.ResourceManager.Authorization;
-using Azure.ResourceManager.Authorization.Models;
-using Azure.ResourceManager.KeyVault;
-using Azure.ResourceManager.Resources;
+using Azure.Security.KeyVault.Certificates;
+using Azure.Security.KeyVault.Keys.Cryptography;
+
+using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
 public class KeyVaultCredentialsTokenAcquisitionPlugin
     : FederatedIdentityTokenAcquisitionPlugin, IPlugin
 {
+    static KeyVaultCredentialsTokenAcquisitionPlugin()
+    {
+        _ = typeof(RSA);
+        _ = typeof(Oid);
+        _ = typeof(HashAlgorithmName);
+        _ = typeof(X509Certificate2);
+        _ = typeof(RSACryptoServiceProvider);
+        _ = typeof(TokenCredential);
+        _ = typeof(CertificateClient);
+        _ = typeof(CryptographyClient);
+    }
+
     protected override string AcquireSecondaryAccessToken(
         IServiceProvider serviceProvider,
         string tenantId,
@@ -17,89 +38,225 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
         IEnumerable<string> reqScopes
         )
     {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        ManagedIdentityAzureCredential tokenCredential = new(
-            serviceProvider.Get<IManagedIdentityService>()
+        var context = serviceProvider.Get<IPluginExecutionContext2>();
+        EvaluateKeyVaultDataAccessPermissionsPlugin.ExecuteInternal(serviceProvider);
+        if (!context.OutputParameters.TryGetValue(
+            EvaluateKeyVaultDataAccessPermissionsPlugin.OutputParameterNames.UserHasSufficientPermissions,
+            out bool userHasSufficientPermissions
+            ) || !userHasSufficientPermissions)
+        {
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.Forbidden,
+                message: $"User with Entra Object ID {context.UserAzureActiveDirectoryObjectId} has insufficient permissions to access credentials stored in the referenced Key Vault resource."
+                );
+        }
+
+        var keyVaultDataPermissions = (KeyVaultDataAccessPermisions)(int)context.OutputParameters[
+            EvaluateKeyVaultDataAccessPermissionsPlugin.OutputParameterNames.UserEffectivePermissions
+            ];
+
+        var keyVaultReferenceEntity = (Entity)context.OutputParameters[
+            ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultReference
+            ];
+        var keyVaultUri = keyVaultReferenceEntity.GetAttributeValue<string>(
+            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultUri
             );
-        context.SharedVariables[nameof(TokenCredential)] = tokenCredential;
+        var keyVaultDataName = keyVaultReferenceEntity.GetAttributeValue<string>(
+            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyName
+            );
+        var keyVaultDataType = (KeyVaultReferenceKeyTypeOptionSet)
+            keyVaultReferenceEntity.GetAttributeValue<OptionSetValue>(
+                KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyType
+                ).Value;
 
-        throw new NotImplementedException();
+        ConfidentialClientApplicationBuilder msalBuilder = keyVaultDataType switch
+        {
+            KeyVaultReferenceKeyTypeOptionSet.Secret =>
+                GetMsalClientBuilderUsingClientSecret(
+                    serviceProvider, tenantId, clientId,
+                    keyVaultUri, keyVaultDataName
+                    ),
+            KeyVaultReferenceKeyTypeOptionSet.Certificate or
+            KeyVaultReferenceKeyTypeOptionSet.CertificateWithX5c =>
+                GetMsalClientBuilderUsingCertificatePrivateKey(
+                    serviceProvider, tenantId, clientId,
+                    keyVaultUri, keyVaultDataName
+                    ),
+            _ => GetMsalClientBuilderDefault(serviceProvider, tenantId, clientId),
+        };
+        IConfidentialClientApplication msalApp = msalBuilder.Build();
+        AuthenticationResult msalAuthResult = msalApp
+            .AcquireTokenForClient(reqScopes).ExecuteAsync()
+            .GetAwaiter().GetResult();
+
+        return msalAuthResult.AccessToken;
     }
 
-    private static void InitializeArmClient(
-        IServiceProvider serviceProvider
-        )
-    {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        var tokenCredential = (TokenCredential)context
-            .SharedVariables[nameof(TokenCredential)];
-
-        ArmClientOptions armClientOptions = new();
-
-        ArmClient armClient = new(tokenCredential, default, armClientOptions);
-        context.SharedVariables[nameof(ArmClient)] = armClient;
-    }
-
-    private static string GetKeyVaultName(string keyVaultUri)
-    {
-        string keyVaultHost = new Uri(keyVaultUri).Host;
-        return keyVaultHost[..keyVaultHost.IndexOf('.')];
-    }
-
-    private static async Task DetermineKeyVaultResourceIdentifierAsync(
+    private static ConfidentialClientApplicationBuilder GetMsalClientBuilderDefault(
         IServiceProvider serviceProvider,
-        string keyVaultUrl
+        string tenantId,
+        string clientId
         )
     {
-        const StringComparison cmp = StringComparison.OrdinalIgnoreCase;
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        var armClient = (ArmClient)context.SharedVariables[nameof(ArmClient)];
-        string keyVaultName = GetKeyVaultName(keyVaultUrl);
-        await foreach (SubscriptionResource subscription in armClient.GetSubscriptions().ConfigureAwait(continueOnCapturedContext: false))
-        {
-            await foreach (KeyVaultResource keyVault in subscription.GetKeyVaultsAsync().ConfigureAwait(continueOnCapturedContext: false))
-            {
-                if (keyVault.Data.Name.Equals(keyVaultName, cmp))
-                {
-                    context.SharedVariables[nameof(KeyVaultResource)] = keyVault;
-                    return;
-                }
-            }
-        }
-
-        throw new InvalidPluginExecutionException(
-            httpStatus: PluginHttpStatusCode.NotFound,
-            message: $"Unable to find KeyVault resource from specified URL: {keyVaultUrl}"
-            );
+        Uri msIdpInstance = serviceProvider.Get<IEnvironmentService>()
+            .AzureAuthorityHost;
+        return ConfidentialClientApplicationBuilder.Create(clientId)
+            .WithAuthority(msIdpInstance.ToString(), tenantId);
     }
 
-    private static bool AllowsKeyVaultDataAction(
-        AuthorizationRoleDefinitionResource roleDefinition,
-        IEnumerable<string> requiredDataActions
+    private static ConfidentialClientApplicationBuilder GetMsalClientBuilderUsingClientSecret(
+        IServiceProvider serviceProvider,
+        string tenantId,
+        string clientId,
+        string keyVaultUri,
+        string keyVaultSecretName
         )
     {
-        StringComparer cmp = StringComparer.OrdinalIgnoreCase;
+        var keyVaultClient = serviceProvider.Get<IKeyVaultClient>();
+        keyVaultClient.PreferredAuthType = AuthenticationType.ManagedIdentity;
 
-        IList<RoleDefinitionPermission>? rolePermissions =
-            roleDefinition?.Data?.Permissions;
-        if (rolePermissions is null) return false;
+        var keyVaultSecretValue = keyVaultClient.GetSecret(
+            keyVaultUri,
+            keyVaultSecretName
+            );
 
-        bool isGranted = false;
-        bool isDenied = false;
-        foreach (RoleDefinitionPermission rolePermission in roleDefinition?.Data?.Permissions ?? [])
+        return GetMsalClientBuilderDefault(serviceProvider, tenantId, clientId)
+            .WithClientSecret(keyVaultSecretValue);
+    }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Reliability",
+        "CA2000:Dispose objects before losing scope",
+        Justification = nameof(ConfidentialClientApplicationBuilder.WithCertificate)
+        )]
+    private static ConfidentialClientApplicationBuilder GetMsalClientBuilderUsingCertificatePrivateKey(
+        IServiceProvider serviceProvider,
+        string tenantId,
+        string clientId,
+        string keyVaultUrl,
+        string keyVaultSecretName
+        )
+    {
+        TokenCredential tokenCredential = AzureResourceContextProvider
+            .GetOrCreateTokenCredential(serviceProvider);
+
+        return GetMsalClientBuilderDefault(serviceProvider, tenantId, clientId)
+            .WithClientAssertion(GetClientAssertionAsync);
+
+        async Task<string> GetClientAssertionAsync(AssertionRequestOptions context)
         {
-            isGranted |= ActionListContainsAny(rolePermission.DataActions, requiredDataActions);
-            isDenied |= ActionListContainsAny(rolePermission.NotDataActions, requiredDataActions);
+            KeyVaultCertificate keyVaultCertificateInfo = await
+                GetKeyVaultCertificateAsync(serviceProvider, keyVaultUrl, keyVaultSecretName)
+                .ConfigureAwait(continueOnCapturedContext: false);
+            using SHA256 sha256 = SHA256.Create();
+            string keyVaultCertificateThumbprintS256 = Base64UrlEncoder.Encode(
+                sha256.ComputeHash(keyVaultCertificateInfo.Cer)
+                );
+            CryptographyClientOptions keyVaultCryptoClientOptions = new();
+            KeyResolver keyVaultKeyResolver = new(tokenCredential, keyVaultCryptoClientOptions);
+            CryptographyClient keyVaultCryptoClient = await keyVaultKeyResolver
+                .ResolveAsync(keyVaultCertificateInfo.KeyId)
+                .ConfigureAwait(continueOnCapturedContext: false);
+            using RSAKeyVault keyVaultRsaKey = await keyVaultCryptoClient
+                .CreateRSAAsync()
+                .ConfigureAwait(continueOnCapturedContext: false);
 
-            if (isGranted && isDenied) break;
+            SecurityTokenDescriptor assertionDesc = new()
+            {
+                Audience = context.TokenEndpoint,
+                Issuer = context.ClientID,
+                Subject = new([new(JwtRegisteredClaimNames.Sub, context.ClientID)]),
+                SigningCredentials = new(
+                    new RsaSecurityKey(keyVaultRsaKey),
+                    SecurityAlgorithms.RsaSsaPssSha256
+                    ),
+                AdditionalInnerHeaderClaims = new Dictionary<string, object>(StringComparer.Ordinal)
+                {
+                    { JwtHeaderParameterNames.X5t + "#S256", keyVaultCertificateThumbprintS256 }
+                },
+            };
+            string assertionEncoded = JwtHandler.CreateEncodedJwt(assertionDesc);
+            return assertionEncoded;
         }
-        return isGranted && !isDenied;
+    }
 
-        bool ActionListContainsAny(IList<string> actionsList, IEnumerable<string> comparands)
+    // Loading and using CertificateClient from assembly hosted in plugin sandbox worker environment
+    // fails, retrieve KeyVaultCertificate resource manually using HTTP-client instead.
+    private static async Task<KeyVaultCertificate> GetKeyVaultCertificateAsync(
+        IServiceProvider serviceProvider,
+        string keyVaultUrl,
+        string keyVaultCertificateName
+        )
+    {
+        Type keyVaultJsonSerializationInterfaceType = Type.GetType(
+            "Azure.Security.KeyVault.IJsonDeserializable, Azure.Security.KeyVault.Certificates, PublicKeyToken=92742159e12e44c8",
+            throwOnError: true, ignoreCase: true
+            );
+        var keyVaultAuthCtx = serviceProvider.Get<IAssemblyAuthenticationContext2>();
+        TokenCredential tokenCredential = AzureResourceContextProvider
+            .GetOrCreateTokenCredential(serviceProvider);
+        Uri keyVaultUri = new(keyVaultUrl, UriKind.Absolute);
+        string keyVaultApiVersion = typeof(CertificateClientOptions).InvokeMember(
+            "GetVersionString",
+            BindingFlags.Instance |
+            BindingFlags.Public | BindingFlags.NonPublic |
+            BindingFlags.InvokeMethod,
+            target: new CertificateClientOptions(),
+            args: [],
+            binder: Type.DefaultBinder,
+            culture: System.Globalization.CultureInfo.InvariantCulture
+            ) as string ?? "2025-07-01";
+        string keyVaultCertificateRelativeUrl =
+            $"/certificates/{Uri.EscapeUriString(keyVaultCertificateName)}?api-version={keyVaultApiVersion}";
+        Uri keyVaultCertificateUri = new(keyVaultUri, keyVaultCertificateRelativeUrl);
+        if (!keyVaultAuthCtx.ResolveAuthorityAndResourceFromChallengeUri(
+            keyVaultCertificateUri,
+            out string _,
+            out string keyVaultAuthResource
+            ))
+            keyVaultAuthResource = "https://vault.azure.net";
+        AccessToken keyVaultAccessToken = await tokenCredential.GetTokenAsync(
+            new([$"{keyVaultAuthResource}/.default"]), default
+            ).ConfigureAwait(continueOnCapturedContext: false);
+        using HttpClient httpClient = new();
+        using HttpRequestMessage httpRequ = new(HttpMethod.Get, keyVaultCertificateUri)
         {
-            return actionsList.Any(action => comparands.Contains(action, cmp));
-
-
+            Headers =
+            {
+                Authorization = new("Bearer", keyVaultAccessToken.Token),
+            }
+        };
+        using HttpResponseMessage httpResp = await httpClient
+            .SendAsync(httpRequ, HttpCompletionOption.ResponseHeadersRead)
+            .ConfigureAwait(continueOnCapturedContext: false);
+        try { httpResp.EnsureSuccessStatusCode(); }
+        catch (HttpRequestException httpExcept)
+        {
+            var trace = serviceProvider.Get<ITracingService>();
+            trace.Trace("Failed to retrieve Azure Key Vault Certificate information: {0}", httpExcept);
+            throw new InvalidPluginExecutionException(
+                httpStatus: (PluginHttpStatusCode)httpResp.StatusCode,
+                message: $"Failed to retrieve Azure Key Vault Certificate information: {httpExcept.Message}"
+                );
         }
+        using Stream httpRespStream = await httpResp.Content.ReadAsStreamAsync();
+        using JsonDocument keyVaultCertificateJson = await JsonDocument
+            .ParseAsync(httpRespStream).ConfigureAwait(continueOnCapturedContext: false);
+        var keyVaultCertificate = (KeyVaultCertificate)typeof(KeyVaultCertificate).GetConstructor(
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+            Type.DefaultBinder,
+            types: [typeof(CertificateProperties)],
+            modifiers: default
+            ).Invoke([null]);
+        keyVaultJsonSerializationInterfaceType.InvokeMember(
+            "ReadProperties",
+            BindingFlags.Instance | BindingFlags.Public |
+            BindingFlags.InvokeMethod,
+            target: keyVaultCertificate,
+            args: [keyVaultCertificateJson.RootElement],
+            binder: Type.DefaultBinder,
+            culture: System.Globalization.CultureInfo.InvariantCulture
+            );
+        return keyVaultCertificate;
     }
 }

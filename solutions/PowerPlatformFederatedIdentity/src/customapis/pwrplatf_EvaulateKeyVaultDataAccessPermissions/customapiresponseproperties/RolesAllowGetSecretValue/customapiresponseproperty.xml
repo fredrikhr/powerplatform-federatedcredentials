@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="RolesAllowGetSecretValue">
+  <description default="Roles permitting 'Microsoft.KeyVault/vaults/secrets/getSecret/action'">
+    <label description="Roles permitting 'Microsoft.KeyVault/vaults/secrets/getSecret/action'" languagecode="1033" />
+  </description>
+  <displayname default="Roles allowing reading Secret value">
+    <label description="Roles allowing reading Secret value" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_EvaulateKeyVaultDataAccessPermissions-Out-RolesAllowGetSecretValue</name>
+  <type>4</type>
+</customapiresponseproperty>

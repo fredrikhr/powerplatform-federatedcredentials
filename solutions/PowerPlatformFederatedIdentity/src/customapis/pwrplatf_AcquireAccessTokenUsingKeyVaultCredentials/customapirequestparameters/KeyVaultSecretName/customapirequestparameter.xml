@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="KeyVaultSecretName">
+  <description default="Name of the Secret stored in Azure Key Vault">
+    <label description="Name of the Secret stored in Azure Key Vault" languagecode="1033" />
+  </description>
+  <displayname default="Secret Name">
+    <label description="Secret Name" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-In-KeyVaultSecretName</name>
+  <type>10</type>
+</customapirequestparameter>

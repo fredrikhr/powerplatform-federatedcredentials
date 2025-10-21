@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="TenantId">
+  <description default="Entra ID Tenant ID (aka. Directory ID) or domain name registered for the tenant.">
+    <label description="Entra ID Tenant ID (aka. Directory ID) or domain name registered for the tenant." languagecode="1033" />
+  </description>
+  <displayname default="Tenant">
+    <label description="Tenant" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-In-TenantId</name>
+  <type>10</type>
+</customapirequestparameter>

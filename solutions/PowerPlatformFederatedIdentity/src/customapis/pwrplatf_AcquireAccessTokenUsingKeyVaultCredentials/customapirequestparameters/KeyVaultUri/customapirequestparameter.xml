@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="KeyVaultUri">
+  <description default="URI for the Azure Key Vault storing the secret or certificate">
+    <label description="URI for the Azure Key Vault storing the secret or certificate" languagecode="1033" />
+  </description>
+  <displayname default="Key Vault URI">
+    <label description="Key Vault URI" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-In-KeyVaultUri</name>
+  <type>10</type>
+</customapirequestparameter>

@@ -60,6 +60,21 @@ internal static class PluginDependencyAssemblyLoader
         {
             string filepath;
 
+            GetFilePathsFromThisAssembly(
+                out string? locationDirectoryPath,
+                out string? codeBaseDirectoryPath
+                );
+            if (locationDirectoryPath is not null)
+            {
+                filepath = Path.Combine(locationDirectoryPath, filename);
+                yield return filepath;
+            }
+            if (codeBaseDirectoryPath is not null)
+            {
+                filepath = Path.Combine(codeBaseDirectoryPath, filename);
+                yield return filepath;
+            }
+
             filepath = Path.Combine(Environment.CurrentDirectory, filename);
             yield return filepath;
 
@@ -73,6 +88,48 @@ internal static class PluginDependencyAssemblyLoader
         }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Design",
+        "CA1031: Do not catch general exception types",
+        Justification = nameof(ResolveEventHandler)
+        )]
+    internal static void GetFilePathsFromThisAssembly(
+        out string? locationDirectoryPath,
+        out string? codeBaseDirectoryPath
+        )
+    {
+        locationDirectoryPath = null;
+        codeBaseDirectoryPath = null;
+        Assembly thisAssembly = typeof(PluginDependencyAssemblyLoader).Assembly;
+        try
+        {
+            if (!string.IsNullOrEmpty(thisAssembly.Location) &&
+                File.Exists(thisAssembly.Location))
+            {
+                locationDirectoryPath = Path.GetDirectoryName(thisAssembly.Location);
+            }
+        }
+        catch (Exception pathExcept)
+        {
+            s_trace?.Trace("While determining directory path for location of assembly: {0}", pathExcept);
+            return;
+        }
+
+        try
+        {
+            if (!string.IsNullOrEmpty(thisAssembly.CodeBase) &&
+                File.Exists(thisAssembly.CodeBase))
+            {
+                codeBaseDirectoryPath = Path.GetDirectoryName(thisAssembly.CodeBase);
+            }
+        }
+        catch (Exception pathExcept)
+        {
+            s_trace?.Trace("While determining directory path for code base of assembly: {0}", pathExcept);
+            return;
+        }
+    }
+
     internal static void RegisterTracingService(ITracingService trace)
     {
         s_trace = trace;
@@ -82,4 +139,6 @@ internal static class PluginDependencyAssemblyLoader
     {
         Interlocked.CompareExchange(ref s_trace, null, trace);
     }
+
+    internal static ITracingService? TracingService => s_trace;
 }

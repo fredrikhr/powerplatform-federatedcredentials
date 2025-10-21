@@ -1,0 +1,18 @@
+<customapi uniquename="pwrplatf_EvaulateKeyVaultDataAccessPermissions">
+  <allowedcustomprocessingsteptype>1</allowedcustomprocessingsteptype>
+  <bindingtype>0</bindingtype>
+  <description default="Evaluates the access permissions of the current user for retrieving data from the referenced Key Vault Resource.">
+    <label description="Evaluates the access permissions of the current user for retrieving data from the referenced Key Vault Resource." languagecode="1033" />
+  </description>
+  <displayname default="Evaluate Key Vault Data access permissions">
+    <label description="Evaluate Key Vault Data access permissions" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isfunction>0</isfunction>
+  <isprivate>0</isprivate>
+  <name>Evaluate Key Vault Data access permissions</name>
+  <plugintypeid>
+    <plugintypeexportkey>0F05BE207565AEE884FB8AA995111AC0044C374B798671AF27FB7100DF3AB9E1</plugintypeexportkey>
+  </plugintypeid>
+  <workflowsdkstepenabled>0</workflowsdkstepenabled>
+</customapi>

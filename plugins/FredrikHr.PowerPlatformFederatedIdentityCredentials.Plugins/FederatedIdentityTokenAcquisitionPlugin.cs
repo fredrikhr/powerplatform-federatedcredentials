@@ -9,9 +9,8 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 public class FederatedIdentityTokenAcquisitionPlugin() :
     AccessTokenAcquisitionPluginBase(), IPlugin
 {
-    internal static class InputParameterName
+    internal static class InputParameterNames
     {
-        internal const string ApplicationId = nameof(ApplicationId);
         internal const string ResourceId = nameof(ResourceId);
         internal const string AssertionAudience = nameof(AssertionAudience);
     }
@@ -21,18 +20,25 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         )
     {
         var context = serviceProvider.Get<IPluginExecutionContext6>();
-        Guid reqTenantId = context.TenantId;
+        ResolveUserApplicationIdPlugin.ExecuteInternal(serviceProvider);
+        RetrieveRequestedManagedIdentityPlugin.ExecuteInternal(serviceProvider);
+        var reqManagedIdentity = (Entity)context.OutputParameters[
+            RetrieveRequestedManagedIdentityPlugin.OutputParameterNames.RequestedManagedIdentity
+            ];
+        if (!reqManagedIdentity.TryGetAttributeValue(ManagedIdentityEntityInfo.AttributeLogicalName.TenantId, out Guid reqTenantId) || reqTenantId == Guid.Empty)
+            reqTenantId = context.TenantId;
         string reqTenantString = reqTenantId.ToString();
-        bool hasReqAppId = context.InputParameters.TryGetValue(
-            InputParameterName.ApplicationId, out Guid reqAppId
+        bool hasReqAppId = reqManagedIdentity.TryGetAttributeValue(
+            ManagedIdentityEntityInfo.AttributeLogicalName.ApplicationId, out Guid reqAppId
             ) && reqAppId != Guid.Empty;
-        bool hasUserAppId = TryGetUserApplicationId(serviceProvider, out Guid userAppId) &&
-            userAppId != Guid.Empty;
+        bool hasUserAppId = context.OutputParameters.TryGetValue(
+            ResolveUserApplicationIdPlugin.OutputParameterName.UserApplicationId, out Guid userAppId
+            ) && userAppId != Guid.Empty;
         if (!hasReqAppId)
         {
             reqAppId = hasUserAppId ? userAppId : throw new InvalidPluginExecutionException(
                 httpStatus: PluginHttpStatusCode.BadRequest,
-                message: $"User is not an application user, and input parameter '{InputParameterName.ApplicationId}' was not specified."
+                message: $"User is not an application user, and input parameter '{RetrieveRequestedManagedIdentityPlugin.InputParameterNames.ApplicationId}' was not specified."
                 );
         }
 
@@ -44,46 +50,42 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         {
             throw new InvalidPluginExecutionException(
                 httpStatus: PluginHttpStatusCode.Forbidden,
-                message: $"Entra Object ID {context.UserAzureActiveDirectoryObjectId} is missing privilege {PrivilegeNameImpersonation} for BU {context.BusinessUnitId}."
+                message: $"Entra Object ID {context.UserAzureActiveDirectoryObjectId} is missing privilege {PrivilegeNameImpersonation}."
                 );
         }
 
-        if (context.InputParameterOrDefault<string>(InputParameterName.ResourceId)
+        if (context.InputParameterOrDefault<string>(InputParameterNames.ResourceId)
             is not string reqResourceId
             )
-            reqResourceId = reqAppId.ToString();
-
-        bool hasPluginAppId = false;
-        bool hasPluginTenantId = false;
-        Guid pluginAppId = Guid.Empty;
-        Guid pluginTenantId = context.TenantId;
-        if (GetExecutingPluginManagedIdentityRecord(serviceProvider) is Entity pluginEntity)
         {
-            hasPluginAppId = pluginEntity.TryGetAttributeValue(
-                ManagedIdentityEntityInfo.AttributeLogicalName.ApplicationId,
-                out pluginAppId
-                );
-            hasPluginTenantId = pluginEntity.TryGetAttributeValue(
-                ManagedIdentityEntityInfo.AttributeLogicalName.TenantId,
-                out pluginTenantId
-                );
+            reqResourceId = reqAppId.ToString();
         }
+
+        RetrieveContextManagedIdentityPlugin.ExecuteInternal(serviceProvider);
+        var pluginEntity = (Entity)context.OutputParameters[
+            RetrieveContextManagedIdentityPlugin.OutputParameterNames.PluginAssemblyManagedIdentity
+            ];
+        bool hasPluginAppId = pluginEntity.TryGetAttributeValue(
+            ManagedIdentityEntityInfo.AttributeLogicalName.ApplicationId,
+            out Guid pluginAppId
+            );
+        bool hasPluginTenantId = pluginEntity.TryGetAttributeValue(
+            ManagedIdentityEntityInfo.AttributeLogicalName.TenantId,
+            out Guid pluginTenantId
+            );
 
         IEnumerable<string> reqScopes = [$"{reqResourceId}/.default"];
         bool pluginIsSameAsRequested =
             hasPluginAppId && reqAppId == pluginAppId &&
             (!hasPluginTenantId || pluginTenantId == reqTenantId);
-        if (pluginIsSameAsRequested)
-        {
-            return serviceProvider.Get<IManagedIdentityService>()
-                .AcquireToken(reqScopes);
-        }
-
-        return AcquireSecondaryAccessToken(serviceProvider,
-            reqTenantString,
-            reqAppId.ToString(),
-            reqScopes
-            );
+        return pluginIsSameAsRequested
+            ? serviceProvider.Get<IManagedIdentityService>()
+                .AcquireToken(reqScopes)
+            : AcquireSecondaryAccessToken(serviceProvider,
+                reqTenantString,
+                reqAppId.ToString(),
+                reqScopes
+                );
     }
 
     protected virtual string AcquireSecondaryAccessToken(
@@ -97,7 +99,7 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         var context = serviceProvider.Get<IPluginExecutionContext6>();
         var federatedIdentity = serviceProvider.Get<IManagedIdentityService>();
         if (context.InputParameters.TryGetValue(
-                    InputParameterName.AssertionAudience,
+                    InputParameterNames.AssertionAudience,
                     out string? assertionAudience
                     ) || string.IsNullOrEmpty(assertionAudience))
             assertionAudience = "api://AzureADTokenExchange";

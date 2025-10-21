@@ -77,7 +77,7 @@
       <Version>4.6.0</Version>
     </PackageVersion>
     <PackageVersion Include="Microsoft.Identity.Client">
-      <Version>4.54.1</Version>
+      <Version>4.76.0</Version>
     </PackageVersion>
     <PackageVersion Include="Microsoft.CrmSdk.CoreAssemblies">
       <Version>9.0.2.59</Version>

@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="RolesDenySignWithKey">
+  <description default="Roles denying 'Microsoft.KeyVault/vaults/keys/sign/action'">
+    <label description="Roles denying 'Microsoft.KeyVault/vaults/keys/sign/action'" languagecode="1033" />
+  </description>
+  <displayname default="Roles denying signing with Key">
+    <label description="Roles denying signing with Key" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_EvaulateKeyVaultDataAccessPermissions-Out-RolesDenySignWithKey</name>
+  <type>4</type>
+</customapiresponseproperty>
