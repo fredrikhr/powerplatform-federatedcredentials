@@ -104,12 +104,19 @@ public abstract class AccessTokenAcquisitionPluginBase : PluginBase
             {
                 object?[] jsonArray = new object?[jsonElement.GetArrayLength()];
                 int jsonArrayIdx = 0;
+                bool allItemsString = true;
                 foreach (var jsonArrayElement in jsonElement.EnumerateArray())
                 {
-                    jsonArray[jsonArrayIdx] = GetEntityAttributeValue(jsonArrayElement);
+                    object? jsonArrayItemValue = GetEntityAttributeValue(jsonArrayElement);
+                    jsonArray[jsonArrayIdx] = jsonArrayItemValue;
+                    allItemsString &= jsonArrayItemValue is string ||
+                        jsonArrayItemValue is null;
+
                     jsonArrayIdx++;
                 }
-                return jsonArray;
+                return (allItemsString && jsonArray.Length > 0)
+                    ? Array.ConvertAll(jsonArray, o => o as string)
+                    : jsonArray;
             }
         }
     }
