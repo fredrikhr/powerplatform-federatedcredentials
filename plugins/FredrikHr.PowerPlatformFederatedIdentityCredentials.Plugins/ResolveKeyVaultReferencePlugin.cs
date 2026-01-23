@@ -14,7 +14,9 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
         internal const string KeyVaultReference = nameof(KeyVaultReference);
         internal const string KeyVaultUri = nameof(KeyVaultUri);
         internal const string KeyVaultSecretName = nameof(KeyVaultSecretName);
+        internal const string KeyVaultSecretVersion = nameof(KeyVaultSecretVersion);
         internal const string KeyVaultCertificateName = nameof(KeyVaultCertificateName);
+        internal const string KeyVaultCertificateVersion = nameof(KeyVaultCertificateVersion);
         internal const string KeyVaultResourceIdentifier = nameof(KeyVaultResourceIdentifier);
     }
 
@@ -80,6 +82,14 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
                     keyVaultSecretName;
                 keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyType] =
                     new OptionSetValue((int)KeyVaultReferenceKeyTypeOptionSet.Secret);
+                if (context.InputParameters.TryGetValue(
+                    InputParameterNames.KeyVaultSecretVersion,
+                    out string? keyVaultSecretVersion
+                    ))
+                {
+                    keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVersion] =
+                        keyVaultSecretVersion;
+                }
             }
             if (context.InputParameters.TryGetValue(
                 InputParameterNames.KeyVaultCertificateName,
@@ -90,6 +100,14 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
                     keyVaultCertificateName;
                 keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyType] =
                     new OptionSetValue((int)KeyVaultReferenceKeyTypeOptionSet.Certificate);
+                if (context.InputParameters.TryGetValue(
+                    InputParameterNames.KeyVaultCertificateVersion,
+                    out string? keyVaultCertificateVersion
+                    ))
+                {
+                    keyvaultReference[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVersion] =
+                        keyVaultCertificateVersion;
+                }
             }
             if (context.InputParameters.TryGetValue(
                 InputParameterNames.KeyVaultResourceIdentifier,
@@ -229,6 +247,10 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
             keyVaultReferenceEntity[KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyType];
         var keyVaultObjectType = (KeyVaultReferenceKeyTypeOptionSet)
             keyVaultObjectTypeValue.Value;
+        _ = keyVaultReferenceEntity.TryGetAttributeValue(
+            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVersion,
+            out string? keyVaultObjectVersion
+            );
         string keyVaultObjectInfix = keyVaultObjectType switch
         {
             KeyVaultReferenceKeyTypeOptionSet.Certificate or
@@ -236,7 +258,9 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
             KeyVaultReferenceKeyTypeOptionSet.Secret => "secrets",
             _ => "*",
         };
-        string keyVaultResourceIdString = $"{keyVaultParentId}/{keyVaultObjectInfix}/{keyVaultObjectName}";
+        string keyVaultResourceIdString = string.IsNullOrEmpty(keyVaultObjectVersion)
+            ? $"{keyVaultParentId}/{keyVaultObjectInfix}/{keyVaultObjectName}"
+            : $"{keyVaultParentId}/{keyVaultObjectInfix}/{keyVaultObjectName}/{keyVaultObjectVersion}";
         ResourceIdentifier keyVaultResourceId = ResourceIdentifier.Parse(keyVaultResourceIdString);
         return keyVaultResourceId;
     }

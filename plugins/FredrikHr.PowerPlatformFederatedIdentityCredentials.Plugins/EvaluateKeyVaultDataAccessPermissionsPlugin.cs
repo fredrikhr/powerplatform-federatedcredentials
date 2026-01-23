@@ -13,6 +13,11 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
 public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
 {
+    private static readonly ResourceType KeyVaultSecretResourceType =
+        "Microsoft.KeyVault/vaults/secrets";
+    private static readonly ResourceType KeyVaultCertificateResourceType =
+        "Microsoft.KeyVault/vaults/certificates";
+
     internal static class OutputParameterNames
     {
         internal const string RolesAllowGetSecretValue = nameof(RolesAllowGetSecretValue);
@@ -36,9 +41,10 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
         ArmClient armClient = AzureResourceContextProvider.GetOrCreateArmClient(
             serviceProvider
             );
-        GenericResource keyVaultContentResource = armClient.GetGenericResource(
-            GetKeyVaultDataResourceIdentifier(serviceProvider)
-            );
+        ResourceIdentifier keyVaultContentResourceId =
+            GetKeyVaultDataResourceIdentifier(serviceProvider);
+        GenericResource keyVaultContentResource = armClient
+            .GetGenericResource(keyVaultContentResourceId);
         AuthorizationRoleDefinitionCollection roleDefinitions =
             keyVaultContentResource.GetAuthorizationRoleDefinitions();
         EvaluateRoleDefinitionsAsync(serviceProvider, roleDefinitions)
@@ -57,7 +63,21 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
             out string keyVaultResourceIdString
             ))
         {
-            return ResourceIdentifier.Parse(keyVaultResourceIdString);
+            ResourceIdentifier? keyVaultContentResourceId;
+            for (keyVaultContentResourceId = ResourceIdentifier.Parse(keyVaultResourceIdString);
+                keyVaultContentResourceId is not null &&
+                keyVaultContentResourceId.ResourceType != KeyVaultSecretResourceType &&
+                keyVaultContentResourceId.ResourceType != KeyVaultCertificateResourceType;
+                keyVaultContentResourceId = keyVaultContentResourceId.Parent
+                ) ;
+            if (keyVaultContentResourceId is null)
+            {
+                throw new InvalidPluginExecutionException(
+                    httpStatus: PluginHttpStatusCode.BadRequest,
+                    message: $"Provided KeyVault resource ID '{keyVaultResourceIdString}' is not a valid Resource ID for a KeyVault secret or certificate."
+                    );
+            }
+            return keyVaultContentResourceId;
         }
         else if (!reentrantCall)
         {

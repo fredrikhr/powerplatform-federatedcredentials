@@ -64,6 +64,10 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
         var keyVaultDataName = keyVaultReferenceEntity.GetAttributeValue<string>(
             KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyName
             );
+        _ = keyVaultReferenceEntity.TryGetAttributeValue(
+            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVersion,
+            out string? keyVaultDataVersion
+            );
         var keyVaultDataType = (KeyVaultReferenceKeyTypeOptionSet)
             keyVaultReferenceEntity.GetAttributeValue<OptionSetValue>(
                 KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyType
@@ -80,7 +84,7 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             KeyVaultReferenceKeyTypeOptionSet.CertificateWithX5c =>
                 GetMsalClientBuilderUsingCertificatePrivateKey(
                     serviceProvider, tenantId, clientId,
-                    keyVaultUri, keyVaultDataName
+                    keyVaultUri, keyVaultDataName, keyVaultDataVersion
                     ),
             _ => GetMsalClientBuilderDefault(serviceProvider, tenantId, clientId),
         };
@@ -134,7 +138,8 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
         string tenantId,
         string clientId,
         string keyVaultUrl,
-        string keyVaultSecretName
+        string keyVaultSecretName,
+        string? keyVaultSecretVersion = null
         )
     {
         TokenCredential tokenCredential = AzureResourceContextProvider
@@ -146,7 +151,7 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
         async Task<string> GetClientAssertionAsync(AssertionRequestOptions context)
         {
             KeyVaultCertificate keyVaultCertificateInfo = await
-                GetKeyVaultCertificateAsync(serviceProvider, keyVaultUrl, keyVaultSecretName)
+                GetKeyVaultCertificateAsync(serviceProvider, keyVaultUrl, keyVaultSecretName, keyVaultSecretVersion)
                 .ConfigureAwait(continueOnCapturedContext: false);
             using SHA256 sha256 = SHA256.Create();
             string keyVaultCertificateThumbprintS256 = Base64UrlEncoder.Encode(
@@ -185,7 +190,8 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
     private static async Task<KeyVaultCertificate> GetKeyVaultCertificateAsync(
         IServiceProvider serviceProvider,
         string keyVaultUrl,
-        string keyVaultCertificateName
+        string keyVaultCertificateName,
+        string? keyVaultCertificateVersion = null
         )
     {
         Type keyVaultJsonSerializationInterfaceType = Type.GetType(
@@ -206,8 +212,9 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             binder: Type.DefaultBinder,
             culture: System.Globalization.CultureInfo.InvariantCulture
             ) as string ?? "2025-07-01";
-        string keyVaultCertificateRelativeUrl =
-            $"/certificates/{Uri.EscapeUriString(keyVaultCertificateName)}?api-version={keyVaultApiVersion}";
+        string keyVaultCertificateRelativeUrl = string.IsNullOrWhiteSpace(keyVaultCertificateVersion)
+            ? $"/certificates/{Uri.EscapeUriString(keyVaultCertificateName)}?api-version={keyVaultApiVersion}"
+            : $"/certificates/{Uri.EscapeUriString(keyVaultCertificateName)}/{Uri.EscapeUriString(keyVaultCertificateVersion)}?api-version={keyVaultApiVersion}";
         Uri keyVaultCertificateUri = new(keyVaultUri, keyVaultCertificateRelativeUrl);
         if (!keyVaultAuthCtx.ResolveAuthorityAndResourceFromChallengeUri(
             keyVaultCertificateUri,

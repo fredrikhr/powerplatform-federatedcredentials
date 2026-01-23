@@ -15,6 +15,7 @@ internal static class KeyVaultReferenceEntityInfo
         internal const string Statecode = "statecode";
         internal const string Statuscode = "statuscode";
         internal const string VersionNumber = "versionnumber";
+        internal const string KeyVersion = "keyversion";
         internal const string KeyVaultResourceIdentifier = "resourceidentifier";
     }
 
