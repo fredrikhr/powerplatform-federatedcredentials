@@ -1,0 +1,24 @@
+ImportExportXml:
+  '@version': 9.2.26012.140
+  '@SolutionPackageVersion': 9.2
+  '@languagecode': 1033
+  '@generatedBy': CrmLive
+  '@xmlns:xsi': http://www.w3.org/2001/XMLSchema-instance
+  SolutionManifest:
+    UniqueName: PowerPlatformFederatedIdentityManagedIdentity
+    LocalizedNames:
+      LocalizedName:
+      - '@description': Power Platform Federated Identity Service Managed Identity
+        '@languagecode': 1033
+      - '@description': Power Platform Tjeneste for federert identitet Managed Identity
+        '@languagecode': 1044
+    Descriptions:
+      Description:
+      - '@description': Provides the Manged Identity entity record for the Power Platform Federated Identity Service
+        '@languagecode': 1033
+      - '@description': Definerer Managed Identity oppføringen for Power Platform tjenesten for federert identitet
+        '@languagecode': 1044
+    Version: 1.0.0
+    Managed: 0
+    Publisher:
+      UniqueName: fredrikhr
