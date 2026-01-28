@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': KeyVaultResourceIdentifier
+  description:
+    '@default': Resource Identifier for Azure Resource Manager identifying the referenced resource
+    label:
+      '@description': Resource Identifier for Azure Resource Manager identifying the referenced resource
+      '@languagecode': 1033
+  displayname:
+    '@default': Resource Identifier
+    label:
+      '@description': Resource Identifier
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 0
+  name: pwrplatf_EvaulateKeyVaultDataAccessPermissions-In-KeyVaultResourceIdentifier
+  type: 10

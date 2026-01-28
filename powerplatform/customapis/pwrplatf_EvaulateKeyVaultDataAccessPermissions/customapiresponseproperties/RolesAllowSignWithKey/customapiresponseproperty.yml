@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': RolesAllowSignWithKey
+  description:
+    '@default': Roles permitting 'Microsoft.KeyVault/vaults/keys/sign/action'
+    label:
+      '@description': Roles permitting 'Microsoft.KeyVault/vaults/keys/sign/action'
+      '@languagecode': 1033
+  displayname:
+    '@default': Roles allowing signing with Key
+    label:
+      '@description': Roles allowing signing with Key
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_EvaulateKeyVaultDataAccessPermissions-Out-RolesAllowSignWithKey
+  type: 4

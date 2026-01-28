@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': AccessToken
+  description:
+    '@default': The acquired access token
+    label:
+      '@description': The acquired access token
+      '@languagecode': 1033
+  displayname:
+    '@default': Access Token
+    label:
+      '@description': Access Token
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-Out-AccessToken
+  type: 10

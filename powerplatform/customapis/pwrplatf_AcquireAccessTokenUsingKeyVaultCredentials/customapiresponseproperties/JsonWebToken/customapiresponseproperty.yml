@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': JsonWebToken
+  description:
+    '@default': Decoded JWT data from the acquired access token
+    label:
+      '@description': Decoded JWT data from the acquired access token
+      '@languagecode': 1033
+  displayname:
+    '@default': JWT Decoded
+    label:
+      '@description': JWT Decoded
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-Out-JsonWebToken
+  type: 3

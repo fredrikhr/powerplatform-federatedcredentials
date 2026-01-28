@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': KeyVaultResourceIdentifier
+  description:
+    '@default': Resource Identifier for Azure Resource Manager identifying the resource to use for authentication.
+    label:
+      '@description': Resource Identifier for Azure Resource Manager identifying the resource to use for authentication.
+      '@languagecode': 1033
+  displayname:
+    '@default': Key Vault Resource Identifier
+    label:
+      '@description': Key Vault Resource Identifier
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 1
+  name: pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-In-KeyVaultResourceIdentifier
+  type: 10
