@@ -1,0 +1,16 @@
+customapiresponseproperty:
+  '@uniquename': RequestedManagedIdentity
+  description:
+    '@default': Dynamically created virtual managed identity record
+    label:
+      '@description': Dynamically created virtual managed identity record
+      '@languagecode': 1033
+  displayname:
+    '@default': Managed Identity
+    label:
+      '@description': Managed Identity
+      '@languagecode': 1033
+  iscustomizable: 1
+  logicalentityname: managedidentity
+  name: pwrplatf_AsManagedIdentity-Out-RequestedManagedIdentity
+  type: 3

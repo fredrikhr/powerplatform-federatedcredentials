@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': RolesAllowReadCertificate
+  description:
+    '@default': Roles permitting 'Microsoft.KeyVault/vaults/certificates/read'
+    label:
+      '@description': Roles permitting 'Microsoft.KeyVault/vaults/certificates/read'
+      '@languagecode': 1033
+  displayname:
+    '@default': Roles allowing reading Certificate information
+    label:
+      '@description': Roles allowing reading Certificate information
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_EvaulateKeyVaultDataAccessPermissions-Out-RolesAllowReadCertificate
+  type: 4
