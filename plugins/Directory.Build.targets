@@ -8,4 +8,49 @@
   </PropertyGroup>
   <Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFileName)$(MSBuildThisFileExtension)" />
 
+  <Target
+    Name="CopyNupkgPackOutputToPowerPlatformPluginPackageDirectory"
+    AfterTargets="_PackAsBuildAfterTarget"
+    DependsOnTargets="Pack"
+    Inputs="@(NuGetPackOutput->WithMetadataValue('Extension', '.nupkg'))"
+    Outputs="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\package\$(PackageId).nupkg"
+  >
+    <Copy
+      SourceFiles="@(NuGetPackOutput->WithMetadataValue('Extension', '.nupkg'))"
+      DestinationFiles="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\package\$(PackageId).nupkg"
+    >
+      <Output
+        TaskParameter="CopiedFiles"
+        ItemName="PowerPlatformPluginPackageFile"
+      />
+    </Copy>
+    <Message
+      Importance="high"
+      Text="$(MSBuildProjectName) → @(PowerPlatformPluginPackageFile->'$([MSBuild]::MakeRelative('$(MSBuildThisFileDirectory)..\', '%(PowerPlatformPluginPackageFile.FullPath)'))')"
+    />
+  </Target>
+
+  <Target
+    Name="UpdatePowerPlatformPluginPackageMetadata"
+    AfterTargets="_PackAsBuildAfterTarget"
+    DependsOnTargets="Pack"
+    Condition="Exists('$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\pluginpackage.yml')"
+    Inputs="@(NuGetPackOutput->WithMetadataValue('Extension', '.nuspec'))"
+    Outputs="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\pluginpackage.yml"
+  >
+    <ItemGroup>
+      <PowerPlatformPluginPackageYml Include="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\pluginpackage.yml" />
+    </ItemGroup>
+    <PropertyGroup>
+      <PowerPlatformPluginPackageYmlText>$([System.IO.File]::ReadAllText(%(PowerPlatformPluginPackageYml.FullPath)))</PowerPlatformPluginPackageYmlText>
+      <PowerPlatformPluginPackageYmlNewText>$([System.Text.RegularExpressions.Regex]::Replace($(PowerPlatformPluginPackageYmlText), '(?&lt;=(?:\s|^)version:\s*)\S.*', $(PackageVersion)))</PowerPlatformPluginPackageYmlNewText>
+    </PropertyGroup>
+    <WriteLinesToFile
+      File="@(PowerPlatformPluginPackageYml)"
+      Lines="$(PowerPlatformPluginPackageYmlNewText)"
+      Overwrite="true"
+      Condition="'$(PowerPlatformPluginPackageYmlText)' != '$(PowerPlatformPluginPackageYmlNewText)'"
+    />
+  </Target>
+
 </Project>
