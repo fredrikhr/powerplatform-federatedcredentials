@@ -1,0 +1,4 @@
+SolutionComponents:
+  Component:
+  - '@path': /connectionreferences/frh_pp-fic_dataverse
+  - '@path': /publishers/fredrikhr
