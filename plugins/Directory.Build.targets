@@ -14,11 +14,11 @@
     DependsOnTargets="Pack"
     Condition="'$(Configuration)' == 'Release'"
     Inputs="@(NuGetPackOutput->WithMetadataValue('Extension', '.nupkg'))"
-    Outputs="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\package\$(PackageId).nupkg"
+    Outputs="$(MSBuildThisFileDirectory)..\powerplatform\%(PowerPlatformTargetSolution.Identity)\pluginpackages\$(PackageId)\package\$(PackageId).nupkg"
   >
     <Copy
       SourceFiles="@(NuGetPackOutput->WithMetadataValue('Extension', '.nupkg'))"
-      DestinationFiles="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\package\$(PackageId).nupkg"
+      DestinationFiles="$(MSBuildThisFileDirectory)..\powerplatform\%(PowerPlatformTargetSolution.Identity)\pluginpackages\$(PackageId)\package\$(PackageId).nupkg"
     >
       <Output
         TaskParameter="CopiedFiles"
@@ -35,12 +35,12 @@
     Name="UpdatePowerPlatformPluginPackageMetadata"
     AfterTargets="_PackAsBuildAfterTarget"
     DependsOnTargets="Pack"
-    Condition="'$(Configuration)' == 'Release' and Exists('$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\pluginpackage.yml')"
+    Condition="'$(Configuration)' == 'Release'"
     Inputs="@(NuGetPackOutput->WithMetadataValue('Extension', '.nuspec'))"
-    Outputs="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\pluginpackage.yml"
+    Outputs="$(MSBuildThisFileDirectory)..\powerplatform\%(PowerPlatformTargetSolution.Identity)\pluginpackages\$(PackageId)\pluginpackage.yml"
   >
     <ItemGroup>
-      <PowerPlatformPluginPackageYml Include="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\pluginpackage.yml" />
+      <PowerPlatformPluginPackageYml Include="$(MSBuildThisFileDirectory)..\powerplatform\%(PowerPlatformTargetSolution.Identity)\pluginpackages\$(PackageId)\pluginpackage.yml" />
     </ItemGroup>
     <PropertyGroup>
       <PowerPlatformPluginPackageYmlText>$([System.IO.File]::ReadAllText(%(PowerPlatformPluginPackageYml.FullPath)))</PowerPlatformPluginPackageYmlText>
