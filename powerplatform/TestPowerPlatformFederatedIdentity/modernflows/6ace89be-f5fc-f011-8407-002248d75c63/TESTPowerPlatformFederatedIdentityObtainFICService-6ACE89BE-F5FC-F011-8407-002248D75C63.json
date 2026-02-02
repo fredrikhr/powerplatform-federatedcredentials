@@ -18,13 +18,13 @@
       "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
       "contentVersion": "1.0.0.0",
       "parameters": {
-        "$authentication": {
-          "defaultValue": {},
-          "type": "SecureObject"
-        },
         "$connections": {
           "defaultValue": {},
           "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
         }
       },
       "triggers": {
@@ -46,16 +46,23 @@
       "actions": {
         "FIC_Managed_Identity": {
           "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "a0d76917-ea47-4bf5-9cd8-2839556dbd19"
+          },
           "type": "OpenApiConnection",
           "inputs": {
+            "host": {
+              "connectionName": "dataverse",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
             "parameters": {
               "entityName": "managedidentities",
               "recordId": "1304a7e4-ed28-f011-8c4d-7c1e5226ec1f"
             },
-            "host": {
-              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
-              "operationId": "GetItem",
-              "connectionName": "dataverse"
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
             }
           }
         },
@@ -70,16 +77,20 @@
           },
           "type": "OpenApiConnection",
           "inputs": {
+            "host": {
+              "connectionName": "dataverse",
+              "operationId": "PerformUnboundAction",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
             "parameters": {
               "actionName": "pwrplatf_AcquireServicePrincipalAccessToken",
-              "item/TenantId": "@body('FIC_Managed_Identity')?['tenantid']",
               "item/ApplicationId": "@body('FIC_Managed_Identity')['applicationid']",
-              "item/ResourceId": "https://api.powerplatform.com/"
+              "item/ResourceId": "https://service.flow.microsoft.com/",
+              "item/TenantId": "@body('FIC_Managed_Identity')?['tenantid']"
             },
-            "host": {
-              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
-              "operationId": "PerformUnboundAction",
-              "connectionName": "dataverse"
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
             }
           },
           "runtimeConfiguration": {
@@ -117,18 +128,21 @@
           "type": "Compose",
           "inputs": "@outputs('FIC_Managed_Identity_Authorization')['JsonWebToken']"
         },
-        "Power_Platform_Environment_Details": {
+        "Power_Automate_Environment_Details": {
           "runAfter": {
             "FIC_Managed_Identity_JsonWebToken": [
               "Succeeded"
             ]
           },
+          "metadata": {
+            "operationMetadataId": "832df6f2-0d8c-473d-aada-ca8d532f235e"
+          },
           "type": "Http",
           "inputs": {
-            "uri": "https://api.powerplatform.com/environmentmanagement/environments/@{workflow().tags.environmentName}",
             "method": "GET",
+            "uri": "https://api.flow.microsoft.com/providers/microsoft.Flow/environments/@{workflow().tags.environmentName}",
             "queries": {
-              "api-version": "2022-03-01-preview"
+              "api-version": "2026-01-01"
             },
             "authentication": {
               "type": "Raw",
@@ -138,17 +152,19 @@
         },
         "Power_Automate_Cloud_Flow_Details": {
           "runAfter": {
-            "FIC_Managed_Identity_JsonWebToken": [
+            "Power_Automate_Environment_Details": [
               "Succeeded"
             ]
           },
+          "metadata": {
+            "operationMetadataId": "dac4ef7c-bc8a-4f20-bad3-370471f5b92f"
+          },
           "type": "Http",
           "inputs": {
-            "uri": "https://api.powerplatform.com/powerautomate/environments/@{workflow().tags.environmentName}/cloudFlows",
             "method": "GET",
+            "uri": "https://api.flow.microsoft.com/providers/microsoft.Flow/environments/@{workflow().tags.environmentName}/flows/@{workflow().tags.xrmWorkflowId}",
             "queries": {
-              "api-version": "2022-03-01-preview",
-              "workflowId": "@workflow().tags.xrmWorkflowId"
+              "api-version": "2026-01-01"
             },
             "authentication": {
               "type": "Raw",
@@ -158,7 +174,7 @@
         }
       }
     },
-    "templateName": null
+    "templateName": ""
   },
   "schemaVersion": "1.0.0.0"
 }
