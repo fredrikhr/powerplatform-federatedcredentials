@@ -74,7 +74,7 @@
               "actionName": "pwrplatf_AcquireServicePrincipalAccessToken",
               "item/TenantId": "@body('FIC_Managed_Identity')?['tenantid']",
               "item/ApplicationId": "@body('FIC_Managed_Identity')['applicationid']",
-              "item/ResourceId": "https://service.flow.microsoft.com/"
+              "item/ResourceId": "https://api.powerplatform.com/"
             },
             "host": {
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
@@ -117,21 +117,38 @@
           "type": "Compose",
           "inputs": "@outputs('FIC_Managed_Identity_Authorization')['JsonWebToken']"
         },
-        "Power_Automate_Environment_Details": {
+        "Power_Platform_Environment_Details": {
           "runAfter": {
             "FIC_Managed_Identity_JsonWebToken": [
               "Succeeded"
             ]
           },
-          "metadata": {
-            "operationMetadataId": "ba526997-c287-4ad6-becd-408f18d09ef6"
+          "type": "Http",
+          "inputs": {
+            "uri": "https://api.powerplatform.com/environmentmanagement/environments/@{workflow().tags.environmentName}",
+            "method": "GET",
+            "queries": {
+              "api-version": "2022-03-01-preview"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@{outputs('FIC_Managed_Identity_Authorization')['AuthorizationHeader']}"
+            }
+          }
+        },
+        "Power_Automate_Cloud_Flow_Details": {
+          "runAfter": {
+            "FIC_Managed_Identity_JsonWebToken": [
+              "Succeeded"
+            ]
           },
           "type": "Http",
           "inputs": {
-            "uri": "https://api.flow.microsoft.com/providers/microsoft.Flow/environments/@{workflow().tags.environmentName}",
+            "uri": "https://api.powerplatform.com/powerautomate/environments/@{workflow().tags.environmentName}/cloudFlows",
             "method": "GET",
             "queries": {
-              "api-version": "2026-01-01"
+              "api-version": "2022-03-01-preview",
+              "workflowId": "@workflow().tags.xrmWorkflowId"
             },
             "authentication": {
               "type": "Raw",
