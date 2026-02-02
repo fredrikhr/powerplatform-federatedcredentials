@@ -14,7 +14,7 @@ customapi:
       '@languagecode': 1033
   iscustomizable: 1
   isfunction: 0
-  isprivate: 0
+  isprivate: 1
   name: Retrieve Federated Identity Credentials Managed Identity
   plugintypeid:
     plugintypeexportkey: C8E0B3F97EA62EBF0A56C993AB589D1DD9C566AA6E23CA83C668680AFB2BBB0B

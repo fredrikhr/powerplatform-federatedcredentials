@@ -46,17 +46,15 @@
       "actions": {
         "FIC_Managed_Identity": {
           "runAfter": {},
-          "metadata": {
-            "operationMetadataId": "c5e360fd-f441-451e-b55c-eb69558f70b1"
-          },
           "type": "OpenApiConnection",
           "inputs": {
             "parameters": {
-              "actionName": "pwrplatf_RetrieveFicManagedIdentity"
+              "entityName": "managedidentities",
+              "recordId": "1304a7e4-ed28-f011-8c4d-7c1e5226ec1f"
             },
             "host": {
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
-              "operationId": "PerformUnboundAction",
+              "operationId": "GetItem",
               "connectionName": "dataverse"
             }
           }
