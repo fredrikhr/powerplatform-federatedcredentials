@@ -71,7 +71,7 @@
           "type": "OpenApiConnection",
           "inputs": {
             "parameters": {
-              "actionName": "pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials",
+              "actionName": "pwrplatf_AcquireServicePrincipalAccessToken",
               "item/TenantId": "@body('FIC_Managed_Identity')?['tenantid']",
               "item/ApplicationId": "@body('FIC_Managed_Identity')['applicationid']",
               "item/ResourceId": "https://service.flow.microsoft.com/"

@@ -11,5 +11,5 @@ customapiresponseproperty:
       '@description': JWT Decoded
       '@languagecode': 1033
   iscustomizable: 1
-  name: pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-Out-JsonWebToken
+  name: pwrplatf_AcquireServicePrincipalAccessToken-Out-JsonWebToken
   type: 3

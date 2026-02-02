@@ -11,5 +11,5 @@ customapiresponseproperty:
       '@description': Resource Identifier
       '@languagecode': 1033
   iscustomizable: 1
-  name: pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-Out-KeyVaultResourceIdentifier
+  name: pwrplatf_AcquireServicePrincipalAccessToken-Out-KeyVaultResourceIdentifier
   type: 10

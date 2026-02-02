@@ -11,5 +11,5 @@ customapiresponseproperty:
       '@description': Access Token
       '@languagecode': 1033
   iscustomizable: 1
-  name: pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-Out-AccessToken
+  name: pwrplatf_AcquireServicePrincipalAccessToken-Out-AccessToken
   type: 10

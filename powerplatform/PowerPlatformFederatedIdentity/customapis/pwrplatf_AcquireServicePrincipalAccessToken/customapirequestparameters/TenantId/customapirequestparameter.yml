@@ -12,5 +12,5 @@ customapirequestparameter:
       '@languagecode': 1033
   iscustomizable: 1
   isoptional: 1
-  name: pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-In-TenantId
+  name: pwrplatf_AcquireServicePrincipalAccessToken-In-TenantId
   type: 10

@@ -12,5 +12,5 @@ customapirequestparameter:
       '@languagecode': 1033
   iscustomizable: 1
   isoptional: 1
-  name: pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials-In-KeyVaultCertificateName
+  name: pwrplatf_AcquireServicePrincipalAccessToken-In-KeyVaultCertificateName
   type: 10
