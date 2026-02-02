@@ -12,6 +12,7 @@
     Name="CopyNupkgPackOutputToPowerPlatformPluginPackageDirectory"
     AfterTargets="_PackAsBuildAfterTarget"
     DependsOnTargets="Pack"
+    Condition="'$(Configuration)' == 'Release'"
     Inputs="@(NuGetPackOutput->WithMetadataValue('Extension', '.nupkg'))"
     Outputs="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\package\$(PackageId).nupkg"
   >
@@ -34,7 +35,7 @@
     Name="UpdatePowerPlatformPluginPackageMetadata"
     AfterTargets="_PackAsBuildAfterTarget"
     DependsOnTargets="Pack"
-    Condition="Exists('$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\pluginpackage.yml')"
+    Condition="'$(Configuration)' == 'Release' and Exists('$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\pluginpackage.yml')"
     Inputs="@(NuGetPackOutput->WithMetadataValue('Extension', '.nuspec'))"
     Outputs="$(MSBuildThisFileDirectory)..\powerplatform\pluginpackages\$(PackageId)\pluginpackage.yml"
   >

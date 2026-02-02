@@ -7,7 +7,7 @@ using Azure.ResourceManager.Authorization;
 using Azure.ResourceManager.Authorization.Models;
 using Azure.ResourceManager.Resources;
 
-using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
+using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -91,7 +91,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
             );
     }
 
-    private static KeyVaultReferenceKeyTypeOptionSet GetKeyVaultDataType(
+    private static keytype GetKeyVaultDataType(
         IServiceProvider serviceProvider, bool reentrantCall = false
         )
     {
@@ -99,12 +99,15 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
         if (context.OutputParameters.TryGetValue(
             ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultReference,
             out Entity keyVaultReference
-            ) && keyVaultReference.TryGetAttributeValue(
-                KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyType,
-                out OptionSetValue? keyTypeOptionSetValue
-            ) && keyTypeOptionSetValue is { Value: int keyTypeIntValue })
+            ))
         {
-            return (KeyVaultReferenceKeyTypeOptionSet)keyTypeIntValue;
+            KeyVaultReference kvEntity = keyVaultReference switch
+            {
+                KeyVaultReference e => e,
+                Entity e => e.ToEntity<KeyVaultReference>(),
+                _ => throw new InvalidPluginExecutionException("KeyVaultReference entity not available."),
+            };
+            return kvEntity.KeyType ?? (keytype)(-1);
         }
         else if (!reentrantCall)
         {
@@ -279,8 +282,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
         GenericResource keyVaultResource = armClient.GetGenericResource(
             GetKeyVaultDataResourceIdentifier(serviceProvider)
             );
-        KeyVaultReferenceKeyTypeOptionSet keyVaultDataType =
-            GetKeyVaultDataType(serviceProvider);
+        keytype keyVaultDataType = GetKeyVaultDataType(serviceProvider);
         string assignmentFilter = $"atScope() and assignedTo('{context.UserAzureActiveDirectoryObjectId}')";
         static bool IsGetSecretDataActionMatch(string dataActionTemplate) =>
                 IsDataActionMatch(dataActionTemplate, GetSecretAction);
@@ -316,10 +318,10 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
 
         bool isDenied = keyVaultDataType switch
         {
-            KeyVaultReferenceKeyTypeOptionSet.Secret when
+            keytype.Secret when
             possiblePermissions.HasFlag(KeyVaultDataAccessPermisions.GetSecret) => false,
-            KeyVaultReferenceKeyTypeOptionSet.Certificate or
-            KeyVaultReferenceKeyTypeOptionSet.CertificateWithX5c when
+            keytype.Certificate or
+            keytype.CertificateWithX5c when
             possiblePermissions.HasFlag(KeyVaultDataAccessPermisions.ReadCertificateProperties | KeyVaultDataAccessPermisions.SignWithKey) => false,
             _ => true
         };
@@ -339,7 +341,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
             {
                 switch (keyVaultDataType)
                 {
-                    case KeyVaultReferenceKeyTypeOptionSet.Secret:
+                    case keytype.Secret:
                         roleDefinitions = GetOrCreateEntityCollection(
                             context.OutputParameters,
                             OutputParameterNames.RolesDenyGetSecretValue
@@ -349,8 +351,8 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                             possiblePermissions &= ~KeyVaultDataAccessPermisions.GetSecret;
                         }
                         break;
-                    case KeyVaultReferenceKeyTypeOptionSet.Certificate:
-                    case KeyVaultReferenceKeyTypeOptionSet.CertificateWithX5c:
+                    case keytype.Certificate:
+                    case keytype.CertificateWithX5c:
                         roleDefinitions = GetOrCreateEntityCollection(
                             context.OutputParameters,
                             OutputParameterNames.RolesDenyReadCertificate
@@ -375,7 +377,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
             {
                 switch (keyVaultDataType)
                 {
-                    case KeyVaultReferenceKeyTypeOptionSet.Secret:
+                    case keytype.Secret:
                         if (possiblePermissions.HasFlag(KeyVaultDataAccessPermisions.GetSecret))
                         {
                             roleDefinitions = GetOrCreateEntityCollection(
@@ -388,8 +390,8 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                             }
                         }
                         break;
-                    case KeyVaultReferenceKeyTypeOptionSet.Certificate:
-                    case KeyVaultReferenceKeyTypeOptionSet.CertificateWithX5c:
+                    case keytype.Certificate:
+                    case keytype.CertificateWithX5c:
                         if (possiblePermissions.HasFlag(KeyVaultDataAccessPermisions.ReadCertificateProperties))
                         {
                             roleDefinitions = GetOrCreateEntityCollection(
@@ -419,10 +421,10 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
 
         bool hasSufficientPermissions = keyVaultDataType switch
         {
-            KeyVaultReferenceKeyTypeOptionSet.Secret => effectivePermissions
+            keytype.Secret => effectivePermissions
                 .HasFlag(KeyVaultDataAccessPermisions.GetSecret),
-            KeyVaultReferenceKeyTypeOptionSet.Certificate or
-            KeyVaultReferenceKeyTypeOptionSet.CertificateWithX5c => effectivePermissions
+            keytype.Certificate or
+            keytype.CertificateWithX5c => effectivePermissions
                 .HasFlag(KeyVaultDataAccessPermisions.ReadCertificateProperties | KeyVaultDataAccessPermisions.SignWithKey),
             _ => false,
         };

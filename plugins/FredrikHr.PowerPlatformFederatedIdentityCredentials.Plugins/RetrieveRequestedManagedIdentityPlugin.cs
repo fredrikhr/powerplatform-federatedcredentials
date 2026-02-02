@@ -1,7 +1,7 @@
 using System.Net.Http;
 using System.Text.Json;
 
-using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
+using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -28,50 +28,47 @@ public class RetrieveRequestedManagedIdentityPlugin : PluginBase, IPlugin
     {
         const StringComparison cmp = StringComparison.OrdinalIgnoreCase;
         var context = serviceProvider.Get<IPluginExecutionContext>();
-        Entity? managedIdentity = null;
-        if (ManagedIdentityEntityInfo.EntityLogicalName.Equals(context.PrimaryEntityName, cmp))
+        ManagedIdentity? managedIdentity = null;
+        if (ManagedIdentity.EntityLogicalName.Equals(context.PrimaryEntityName, cmp))
         {
             var dataverseService = serviceProvider.Get<IOrganizationServiceFactory>()
                 .CreateOrganizationService(default);
             managedIdentity = dataverseService.Retrieve(
                 context.PrimaryEntityName,
                 context.PrimaryEntityId,
-                ManagedIdentityEntityInfo.ColumnSet
-                );
+                ManagedIdentity.ColumnSet
+                ).ToEntity<ManagedIdentity>();
         }
 
         if (managedIdentity is null)
         {
-            managedIdentity = new(ManagedIdentityEntityInfo.EntityLogicalName);
+            managedIdentity = new();
             if (context.InputParameters.TryGetValue(InputParameterNames.TenantId, out Guid tenantId))
             {
-                managedIdentity[ManagedIdentityEntityInfo.AttributeLogicalName.TenantId] =
-                    tenantId;
+                managedIdentity.TenantId = tenantId;
             }
             else if (context.InputParameters.TryGetValue(InputParameterNames.TenantId, out string tenantDomainName))
             {
                 if (!Guid.TryParse(tenantDomainName, out tenantId))
                 {
-                    managedIdentity[ManagedIdentityEntityInfo.AttributeLogicalName.TenantDomainName] =
+                    managedIdentity[ManagedIdentity.Fields.TenantDomainName] =
                         tenantDomainName;
 
                     tenantId = ResolveTenantIdFromDomainNameAsync(serviceProvider, tenantDomainName)
                         .GetAwaiter().GetResult();
                 }
 
-                managedIdentity[ManagedIdentityEntityInfo.AttributeLogicalName.TenantId] =
-                    tenantId;
+                managedIdentity.TenantId = tenantId;
             }
 
             if (context.InputParameters.TryGetValue(InputParameterNames.ApplicationId, out Guid applicationId))
             {
-                managedIdentity[ManagedIdentityEntityInfo.AttributeLogicalName.ApplicationId] =
-                    applicationId;
+                managedIdentity.ApplicationId = applicationId;
             }
 
             if (context.InputParameters.TryGetValue(InputParameterNames.Name, out string name))
             {
-                managedIdentity[ManagedIdentityEntityInfo.AttributeLogicalName.Name] = name;
+                managedIdentity.Name = name;
             }
         }
 

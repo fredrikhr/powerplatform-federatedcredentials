@@ -1,6 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 
-using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
+using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 
 using Microsoft.Identity.Client;
 
@@ -22,17 +22,22 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         var context = serviceProvider.Get<IPluginExecutionContext6>();
         ResolveUserApplicationIdPlugin.ExecuteInternal(serviceProvider);
         RetrieveRequestedManagedIdentityPlugin.ExecuteInternal(serviceProvider);
-        var reqManagedIdentity = (Entity)context.OutputParameters[
+        var reqManagedIdentity = context.OutputParameters[
             RetrieveRequestedManagedIdentityPlugin.OutputParameterNames.RequestedManagedIdentity
-            ];
-        if (!reqManagedIdentity.TryGetAttributeValue(ManagedIdentityEntityInfo.AttributeLogicalName.TenantId, out Guid reqTenantId) || reqTenantId == Guid.Empty)
+            ] switch
+        {
+            ManagedIdentity e => e,
+            Entity e => e.ToEntity<ManagedIdentity>(),
+            _ => throw new InvalidPluginExecutionException("Requested ManagedIdentity entity is not available."),
+        };
+        if (reqManagedIdentity.TenantId is not Guid reqTenantId || reqTenantId == Guid.Empty)
             reqTenantId = context.TenantId;
         string reqTenantString = reqTenantId.ToString();
-        bool hasReqAppId = reqManagedIdentity.TryGetAttributeValue(
-            ManagedIdentityEntityInfo.AttributeLogicalName.ApplicationId, out Guid reqAppId
-            ) && reqAppId != Guid.Empty;
+        Guid? reqAppId = reqManagedIdentity.ApplicationId;
+        bool hasReqAppId = (reqAppId ?? Guid.Empty) != Guid.Empty;
         bool hasUserAppId = context.OutputParameters.TryGetValue(
-            ResolveUserApplicationIdPlugin.OutputParameterName.UserApplicationId, out Guid userAppId
+            ResolveUserApplicationIdPlugin.OutputParameterName.UserApplicationId,
+            out Guid userAppId
             ) && userAppId != Guid.Empty;
         if (!hasReqAppId)
         {
@@ -62,17 +67,18 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         }
 
         RetrieveContextManagedIdentityPlugin.ExecuteInternal(serviceProvider);
-        var pluginEntity = (Entity)context.OutputParameters[
+        var pluginEntity = context.OutputParameters[
             RetrieveContextManagedIdentityPlugin.OutputParameterNames.PluginAssemblyManagedIdentity
-            ];
-        bool hasPluginAppId = pluginEntity.TryGetAttributeValue(
-            ManagedIdentityEntityInfo.AttributeLogicalName.ApplicationId,
-            out Guid pluginAppId
-            );
-        bool hasPluginTenantId = pluginEntity.TryGetAttributeValue(
-            ManagedIdentityEntityInfo.AttributeLogicalName.TenantId,
-            out Guid pluginTenantId
-            );
+            ] switch
+        {
+            ManagedIdentity e => e,
+            Entity e => e.ToEntity<ManagedIdentity>(),
+            _ => throw new InvalidPluginExecutionException("Plugin assembly ManagedIdentity entity is not available."),
+        };
+        Guid? pluginAppId = pluginEntity.ApplicationId;
+        Guid? pluginTenantId = pluginEntity.TenantId;
+        bool hasPluginAppId = pluginAppId.HasValue;
+        bool hasPluginTenantId = pluginTenantId.HasValue;
 
         IEnumerable<string> reqScopes = [$"{reqResourceId}/.default"];
         bool pluginIsSameAsRequested =

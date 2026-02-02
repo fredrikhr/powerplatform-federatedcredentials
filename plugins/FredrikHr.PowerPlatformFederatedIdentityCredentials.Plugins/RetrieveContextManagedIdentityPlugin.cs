@@ -1,4 +1,4 @@
-using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
+using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -29,82 +29,57 @@ public class RetrieveContextManagedIdentityPlugin : PluginBase, IPlugin
         var context = serviceProvider.Get<IPluginExecutionContext>();
         var dataverseService = serviceProvider.Get<IOrganizationServiceFactory>()
             .CreateOrganizationService(null);
-        Entity sdkStepEntity = dataverseService.Retrieve(
+        var sdkStepEntity = dataverseService.Retrieve(
             context.OwningExtension?.LogicalName!
-            ?? SdkMessageProcessingStepEntityInfo.EntityLogicalName,
+            ?? SdkMessageProcessingStep.EntityLogicalName,
             context.OwningExtension?.Id ?? Guid.Empty,
-            SdkMessageProcessingStepEntityInfo.ColumnSet
-            );
-        if (
-            !sdkStepEntity.TryGetAttributeValue(
-                SdkMessageProcessingStepEntityInfo.AttributeLogicalName.PluginTypeId,
+            SdkMessageProcessingStep.ColumnSet
+            ).ToEntity<SdkMessageProcessingStep>();
+        if (!sdkStepEntity.TryGetAttributeValue(
+                SdkMessageProcessingStep.Fields.PluginTypeId,
                 out EntityReference? pluginTypeEntityRef
                 ) ||
                 pluginTypeEntityRef is null
             )
         { return null; }
 
-        Entity pluginTypeEntity = dataverseService.Retrieve(
-            PluginTypeEntityInfo.EntityLogicalName,
+        var pluginTypeEntity = dataverseService.Retrieve(
+            PluginType.EntityLogicalName,
             pluginTypeEntityRef.Id,
-            PluginTypeEntityInfo.ColumnSet
-            );
-        if (
-            !pluginTypeEntity.TryGetAttributeValue(
-                PluginTypeEntityInfo.AttributeLogicalName.PluginAssemblyId,
-                out EntityReference? pluginAssemblyEntityRef
-                ) ||
-            pluginAssemblyEntityRef is null
-            )
+            PluginType.ColumnSet
+            ).ToEntity<PluginType>();
+        if (pluginTypeEntity.PluginAssemblyId is not EntityReference pluginAssemblyEntityRef)
         { return null; }
 
-        Entity pluginAssemblyEntity = dataverseService.Retrieve(
-            PluginAssemblyEntityInfo.EntityLogicalName,
+        var pluginAssemblyEntity = dataverseService.Retrieve(
+            PluginAssembly.EntityLogicalName,
             pluginAssemblyEntityRef.Id,
-            PluginAssemblyEntityInfo.ColumnSet
-            );
-        if (
-            pluginAssemblyEntity.TryGetAttributeValue(
-                PluginAssemblyEntityInfo.AttributeLogicalName.ManagedIdentityId,
-                out EntityReference? managedIdentityEntityRef
-                ) &&
-            managedIdentityEntityRef is not null
-            )
+            PluginAssembly.ColumnSet
+            ).ToEntity<PluginAssembly>();
+        if (pluginAssemblyEntity.ManagedIdentityId is EntityReference managedIdentityEntityRef)
         {
             return dataverseService.Retrieve(
-                ManagedIdentityEntityInfo.EntityLogicalName,
+                ManagedIdentity.EntityLogicalName,
                 managedIdentityEntityRef.Id,
-                ManagedIdentityEntityInfo.ColumnSet
+                ManagedIdentity.ColumnSet
                 );
         }
 
-        if (
-            !pluginAssemblyEntity.TryGetAttributeValue(
-                PluginAssemblyEntityInfo.AttributeLogicalName.PackageId,
-                out EntityReference? pluginPackageEntityRef
-                ) ||
-            pluginPackageEntityRef is null
-            )
+        if (pluginAssemblyEntity.PackageId is not EntityReference pluginPackageEntityRef)
         { return null; }
 
-        Entity pluginPackageEntity = dataverseService.Retrieve(
-            PluginPackageEntityInfo.EntityLogicalName,
+        var pluginPackageEntity = dataverseService.Retrieve(
+            PluginPackage.EntityLogicalName,
             pluginPackageEntityRef.Id,
-            PluginPackageEntityInfo.ColumnSet
-            );
+            PluginPackage.ColumnSet
+            ).ToEntity<PluginPackage>();
 #pragma warning disable IDE0046 // Convert to conditional expression
-        if (
-            pluginPackageEntity.TryGetAttributeValue(
-                PluginPackageEntityInfo.AttributeLogicalName.ManagedIdentityId,
-                out managedIdentityEntityRef
-                ) &&
-                managedIdentityEntityRef is not null
-            )
+        if ((managedIdentityEntityRef = pluginPackageEntity.managedidentityid) is not null)
         {
             return dataverseService.Retrieve(
-                ManagedIdentityEntityInfo.EntityLogicalName,
+                ManagedIdentity.EntityLogicalName,
                 managedIdentityEntityRef.Id,
-                ManagedIdentityEntityInfo.ColumnSet
+                ManagedIdentity.ColumnSet
                 );
         }
 #pragma warning restore IDE0046 // Convert to conditional expression

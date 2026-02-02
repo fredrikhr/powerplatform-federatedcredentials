@@ -1,0 +1,23 @@
+﻿{
+  "suppressINotifyPattern": true,
+  "suppressGeneratedCodeAttribute": false,
+  "language": "CS",
+  "namespace": "FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities",
+  "generateSdkMessages": false,
+  "generateGlobalOptionSets": false,
+  "emitFieldsClasses": true,
+  "entityTypesFolder": "Entities.g",
+  "messagesTypesFolder": "Messages.g",
+  "optionSetsTypesFolder": "OptionSets.g",
+  "entityNamesFilter": [
+    "keyvaultreference",
+    "managedidentity",
+    "pluginassembly",
+    "pluginpackage",
+    "plugintype",
+    "sdkmessageprocessingstep",
+    "systemuser"
+  ],
+  "emitEntityETC": false,
+  "emitVirtualAttributes": false
+}

@@ -12,7 +12,7 @@ using Azure.Core;
 using Azure.Security.KeyVault.Certificates;
 using Azure.Security.KeyVault.Keys.Cryptography;
 
-using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
+using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -55,33 +55,31 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             EvaluateKeyVaultDataAccessPermissionsPlugin.OutputParameterNames.UserEffectivePermissions
             ];
 
-        var keyVaultReferenceEntity = (Entity)context.OutputParameters[
+        var keyVaultReferenceEntity = context.OutputParameters[
             ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultReference
-            ];
-        var keyVaultUri = keyVaultReferenceEntity.GetAttributeValue<string>(
-            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVaultUri
-            );
-        var keyVaultDataName = keyVaultReferenceEntity.GetAttributeValue<string>(
-            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyName
-            );
+            ] switch
+        {
+            KeyVaultReference e => e,
+            Entity e => e.ToEntity<KeyVaultReference>(),
+            _ => throw new InvalidPluginExecutionException("KeyVaultReference entity not availble."),
+        };
+        var keyVaultUri = keyVaultReferenceEntity.KeyVaultUri;
+        var keyVaultDataName = keyVaultReferenceEntity.KeyName;
         _ = keyVaultReferenceEntity.TryGetAttributeValue(
-            KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyVersion,
+            KeyVaultReference.Fields.KeyVersion,
             out string? keyVaultDataVersion
             );
-        var keyVaultDataType = (KeyVaultReferenceKeyTypeOptionSet)
-            keyVaultReferenceEntity.GetAttributeValue<OptionSetValue>(
-                KeyVaultReferenceEntityInfo.AttributeLogicalName.KeyType
-                ).Value;
+        var keyVaultDataType = keyVaultReferenceEntity.KeyType;
 
         ConfidentialClientApplicationBuilder msalBuilder = keyVaultDataType switch
         {
-            KeyVaultReferenceKeyTypeOptionSet.Secret =>
+            keytype.Secret =>
                 GetMsalClientBuilderUsingClientSecret(
                     serviceProvider, tenantId, clientId,
                     keyVaultUri, keyVaultDataName
                     ),
-            KeyVaultReferenceKeyTypeOptionSet.Certificate or
-            KeyVaultReferenceKeyTypeOptionSet.CertificateWithX5c =>
+            keytype.Certificate or
+            keytype.CertificateWithX5c =>
                 GetMsalClientBuilderUsingCertificatePrivateKey(
                     serviceProvider, tenantId, clientId,
                     keyVaultUri, keyVaultDataName, keyVaultDataVersion

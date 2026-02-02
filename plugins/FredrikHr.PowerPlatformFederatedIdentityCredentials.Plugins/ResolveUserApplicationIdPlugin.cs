@@ -1,4 +1,4 @@
-using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.EntityInfo;
+using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -22,15 +22,15 @@ public class ResolveUserApplicationIdPlugin : PluginBase, IPlugin
         IOrganizationService dataverseService = serviceProvider
             .Get<IOrganizationServiceFactory>()
             .CreateOrganizationService(default);
-        Entity systemUserEntity = dataverseService.Retrieve(
-            ApplicationSystemUserEntityInfo.EntityLogicalName,
+        var systemUserEntity = dataverseService.Retrieve(
+            SystemUser.EntityLogicalName,
             context.UserId,
-            ApplicationSystemUserEntityInfo.ColumnSet
-            );
-        if (systemUserEntity.TryGetAttributeValue(
-            ApplicationSystemUserEntityInfo.AttributeLogicalName.ApplicationId,
-            out Guid applicationId
-            ) && applicationId != Guid.Empty)
+            SystemUser.ApplicationSystemUserColumnSet
+            ).ToEntity<SystemUser>();
+        if (
+            systemUserEntity.ApplicationId is Guid applicationId &&
+            applicationId != Guid.Empty
+            )
             context.OutputParameters[OutputParameterName.UserApplicationId] =
                 applicationId;
     }
