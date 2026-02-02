@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': TenantId
+  description:
+    '@default': Entra ID Tenant ID (aka. Directory ID) or domain name registered for the tenant.
+    label:
+      '@description': Entra ID Tenant ID (aka. Directory ID) or domain name registered for the tenant.
+      '@languagecode': 1033
+  displayname:
+    '@default': Tenant
+    label:
+      '@description': Tenant
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 1
+  name: pwrplatf_AsManagedIdentity-In-TenantId
+  type: 10

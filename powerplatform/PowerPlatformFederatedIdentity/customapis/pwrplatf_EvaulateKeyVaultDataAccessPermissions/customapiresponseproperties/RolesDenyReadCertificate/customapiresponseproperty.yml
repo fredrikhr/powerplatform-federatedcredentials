@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': RolesDenyReadCertificate
+  description:
+    '@default': Roles denying 'Microsoft.KeyVault/vaults/certificates/read'
+    label:
+      '@description': Roles denying 'Microsoft.KeyVault/vaults/certificates/read'
+      '@languagecode': 1033
+  displayname:
+    '@default': Roles denying reading Certificate information
+    label:
+      '@description': Roles denying reading Certificate information
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_EvaulateKeyVaultDataAccessPermissions-Out-RolesDenyReadCertificate
+  type: 4

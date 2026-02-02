@@ -1,0 +1,21 @@
+customapi:
+  '@uniquename': pwrplatf_GetFicManagedIdentity
+  allowedcustomprocessingsteptype: 0
+  bindingtype: 0
+  description:
+    '@default': Gets the Managed Identity record that is used for Power Platform Federated Credentials authentication
+    label:
+      '@description': Gets the Managed Identity record that is used for Power Platform Federated Credentials authentication
+      '@languagecode': 1033
+  displayname:
+    '@default': Get Federated Identity Credentials Managed Identity
+    label:
+      '@description': Get Federated Identity Credentials Managed Identity
+      '@languagecode': 1033
+  iscustomizable: 1
+  isfunction: 1
+  isprivate: 0
+  name: Get Federated Identity Credentials Managed Identity
+  plugintypeid:
+    plugintypeexportkey: C8E0B3F97EA62EBF0A56C993AB589D1DD9C566AA6E23CA83C668680AFB2BBB0B
+  workflowsdkstepenabled: 0

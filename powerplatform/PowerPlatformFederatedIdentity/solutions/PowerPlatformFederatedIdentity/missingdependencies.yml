@@ -1,0 +1,10 @@
+MissingDependencies:
+  MissingDependency:
+    Required:
+      '@type': ManagedIdentity
+      '@solution': PowerPlatformFederatedIdentityManagedIdentity (1.0.0)
+      '@id': '{1304a7e4-ed28-f011-8c4d-7c1e5226ec1f}'
+    Dependent:
+      '@type': PluginPackage
+      '@displayName': pwrplatf_FederatedIdentityCredentialsPlugins
+      '@id.uniquename': pwrplatf_FederatedIdentityCredentialsPlugins

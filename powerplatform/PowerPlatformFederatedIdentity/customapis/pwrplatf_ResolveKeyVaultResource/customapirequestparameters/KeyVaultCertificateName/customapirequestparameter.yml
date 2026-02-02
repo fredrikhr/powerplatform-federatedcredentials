@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': KeyVaultCertificateName
+  description:
+    '@default': Name of the Certificate stored in Azure Key Vault
+    label:
+      '@description': Name of the Certificate stored in Azure Key Vault
+      '@languagecode': 1033
+  displayname:
+    '@default': Certificate Name
+    label:
+      '@description': Certificate Name
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 1
+  name: pwrplatf_ResolveKeyVaultResource-In-KeyVaultCertificateName
+  type: 10

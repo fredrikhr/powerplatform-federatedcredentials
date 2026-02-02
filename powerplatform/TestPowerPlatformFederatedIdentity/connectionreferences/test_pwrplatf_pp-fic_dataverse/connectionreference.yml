@@ -1,0 +1,8 @@
+connectionreference:
+  '@connectionreferencelogicalname': test_pwrplatf_pp-fic_dataverse
+  connectionreferencedisplayname: TEST | PowerPlatformFederatedIdentity | Dataverse
+  connectorid: /providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps
+  iscustomizable: 1
+  promptingbehavior: 0
+  statecode: 0
+  statuscode: 1

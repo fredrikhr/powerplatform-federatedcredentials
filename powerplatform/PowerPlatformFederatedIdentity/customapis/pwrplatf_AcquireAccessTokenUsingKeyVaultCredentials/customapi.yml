@@ -1,0 +1,21 @@
+customapi:
+  '@uniquename': pwrplatf_AcquireAccessTokenUsingKeyVaultCredentials
+  allowedcustomprocessingsteptype: 0
+  bindingtype: 0
+  description:
+    '@default': Acquires an access token authenticated for the specified service principal
+    label:
+      '@description': Acquires an access token authenticated for the specified service principal
+      '@languagecode': 1033
+  displayname:
+    '@default': Acquire Access Token using Key Vault
+    label:
+      '@description': Acquire Access Token using Key Vault
+      '@languagecode': 1033
+  iscustomizable: 1
+  isfunction: 0
+  isprivate: 0
+  name: Acquire Access Token using Key Vault
+  plugintypeid:
+    plugintypeexportkey: 32764C50E072F3A13A3E0DFBB8935D572D10D07A9C45E62924615F112E564D89
+  workflowsdkstepenabled: 0

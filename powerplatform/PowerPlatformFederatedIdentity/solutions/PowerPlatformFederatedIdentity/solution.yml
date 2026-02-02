@@ -1,0 +1,19 @@
+ImportExportXml:
+  '@version': 9.2.26012.140
+  '@SolutionPackageVersion': 9.2
+  '@languagecode': 1033
+  '@generatedBy': CrmLive
+  '@xmlns:xsi': http://www.w3.org/2001/XMLSchema-instance
+  SolutionManifest:
+    UniqueName: PowerPlatformFederatedIdentity
+    LocalizedNames:
+      LocalizedName:
+      - '@description': Power Platform Federated Identity
+        '@languagecode': 1033
+      - '@description': Power Platform federert identitet
+        '@languagecode': 1044
+    Descriptions:
+    Version: 1.4.0
+    Managed: 0
+    Publisher:
+      UniqueName: fredrikhr
