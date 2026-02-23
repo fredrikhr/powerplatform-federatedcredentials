@@ -76,7 +76,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
             if (context.InputParameters.TryGetValue(
                 InputParameterNames.KeyVaultSecretName,
                 out string keyVaultSecretName
-                ))
+                ) && !string.IsNullOrEmpty(keyVaultSecretName))
             {
                 keyvaultReference.KeyName = keyVaultSecretName;
                 keyvaultReference.KeyType = keytype.Secret;
@@ -92,7 +92,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
             if (context.InputParameters.TryGetValue(
                 InputParameterNames.KeyVaultCertificateName,
                 out string keyVaultCertificateName
-                ))
+                ) && !string.IsNullOrEmpty(keyVaultCertificateName))
             {
                 keyvaultReference.KeyName = keyVaultCertificateName;
                 keyvaultReference.KeyType = keytype.Certificate;
@@ -134,7 +134,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
             keyVaultResourceIdentifier = ResourceIdentifier.Parse(keyVaultResourceIdString!);
         }
 
-        if (string.IsNullOrEmpty(keyVaultUri = keyvaultReference.KeyVaultUri) &&
+        if (string.IsNullOrEmpty(keyvaultReference.KeyVaultUri) &&
             keyVaultResourceIdentifier.Parent?.Name is string keyVaultName)
         {
             keyVaultUri = $"https://{keyVaultName}.vault.azure.net";
@@ -242,9 +242,10 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
             keytype.Secret => "secrets",
             _ => "*",
         };
-        string keyVaultResourceIdString = string.IsNullOrEmpty(keyVaultObjectVersion)
-            ? $"{keyVaultParentId}/{keyVaultObjectInfix}/{keyVaultObjectName}"
-            : $"{keyVaultParentId}/{keyVaultObjectInfix}/{keyVaultObjectName}/{keyVaultObjectVersion}";
+        string keyVaultResourceIdString =
+            $"{keyVaultParentId}/{keyVaultObjectInfix}/{keyVaultObjectName}";
+        if (!string.IsNullOrEmpty(keyVaultObjectVersion))
+            keyVaultResourceIdString += $"/{keyVaultObjectVersion}";
         ResourceIdentifier keyVaultResourceId = ResourceIdentifier.Parse(keyVaultResourceIdString);
         return keyVaultResourceId;
     }
