@@ -144,7 +144,26 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             .GetOrCreateTokenCredential(serviceProvider);
 
         return GetMsalClientBuilderDefault(serviceProvider, tenantId, clientId)
-            .WithClientAssertion(GetClientAssertionAsync);
+            .WithCertificate(GetClientCertifacteWithPrivateKey().GetAwaiter().GetResult())
+            ;
+
+        async Task<X509Certificate2> GetClientCertifacteWithPrivateKey()
+        {
+            KeyVaultCertificate keyVaultCertificateInfo = await
+                GetKeyVaultCertificateAsync(serviceProvider, keyVaultUrl, keyVaultSecretName, keyVaultSecretVersion)
+                .ConfigureAwait(continueOnCapturedContext: false);
+            X509Certificate2 keyVaultCertificate = new(keyVaultCertificateInfo.Cer);
+            CryptographyClientOptions keyVaultCryptoClientOptions = new();
+            KeyResolver keyVaultKeyResolver = new(tokenCredential, keyVaultCryptoClientOptions);
+            CryptographyClient keyVaultCryptoClient = await keyVaultKeyResolver
+                .ResolveAsync(keyVaultCertificateInfo.KeyId)
+                .ConfigureAwait(continueOnCapturedContext: false);
+            RSAKeyVault keyVaultRsaKey = await keyVaultCryptoClient
+                .CreateRSAAsync()
+                .ConfigureAwait(continueOnCapturedContext: false);
+            keyVaultCertificate.PrivateKey = keyVaultRsaKey;
+            return keyVaultCertificate;
+        }
 
         async Task<string> GetClientAssertionAsync(AssertionRequestOptions context)
         {
