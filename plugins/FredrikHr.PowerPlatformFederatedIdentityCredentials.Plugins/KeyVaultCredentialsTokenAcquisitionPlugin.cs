@@ -144,36 +144,28 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             .GetOrCreateTokenCredential(serviceProvider);
 
         return GetMsalClientBuilderDefault(serviceProvider, tenantId, clientId)
-            .WithCertificate(GetClientCertifacteWithPrivateKey().GetAwaiter().GetResult())
+            .WithClientAssertion(GetClientAssertionAsync)
             ;
 
-        async Task<X509Certificate2> GetClientCertifacteWithPrivateKey()
-        {
-            KeyVaultCertificate keyVaultCertificateInfo = await
-                GetKeyVaultCertificateAsync(serviceProvider, keyVaultUrl, keyVaultSecretName, keyVaultSecretVersion)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            X509Certificate2 keyVaultCertificate = new(keyVaultCertificateInfo.Cer);
-            CryptographyClientOptions keyVaultCryptoClientOptions = new();
-            KeyResolver keyVaultKeyResolver = new(tokenCredential, keyVaultCryptoClientOptions);
-            CryptographyClient keyVaultCryptoClient = await keyVaultKeyResolver
-                .ResolveAsync(keyVaultCertificateInfo.KeyId)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            RSAKeyVault keyVaultRsaKey = await keyVaultCryptoClient
-                .CreateRSAAsync()
-                .ConfigureAwait(continueOnCapturedContext: false);
-            keyVaultCertificate.PrivateKey = keyVaultRsaKey;
-            return keyVaultCertificate;
-        }
-
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Security",
+            "CA5350: Do Not Use Weak Cryptographic Algorithms",
+            Justification = nameof(X509Certificate2)
+            )]
         async Task<string> GetClientAssertionAsync(AssertionRequestOptions context)
         {
             KeyVaultCertificate keyVaultCertificateInfo = await
                 GetKeyVaultCertificateAsync(serviceProvider, keyVaultUrl, keyVaultSecretName, keyVaultSecretVersion)
                 .ConfigureAwait(continueOnCapturedContext: false);
-            using SHA256 sha256 = SHA256.Create();
-            string keyVaultCertificateThumbprintS256 = Base64UrlEncoder.Encode(
-                sha256.ComputeHash(keyVaultCertificateInfo.Cer)
+            // X509Certificate2 keyVaultCertificate = new(keyVaultCertificateInfo.Cer);
+            using var sha1 = SHA1.Create();
+            string keyVaultCertificateThumbprint = Base64UrlEncoder.Encode(
+                sha1.ComputeHash(keyVaultCertificateInfo.Cer)
                 );
+            // using SHA256 sha256 = SHA256.Create();
+            // string keyVaultCertificateThumbprintS256 = Base64UrlEncoder.Encode(
+            //     sha256.ComputeHash(keyVaultCertificateInfo.Cer)
+            //     );
             CryptographyClientOptions keyVaultCryptoClientOptions = new();
             KeyResolver keyVaultKeyResolver = new(tokenCredential, keyVaultCryptoClientOptions);
             CryptographyClient keyVaultCryptoClient = await keyVaultKeyResolver
@@ -182,23 +174,35 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             using RSAKeyVault keyVaultRsaKey = await keyVaultCryptoClient
                 .CreateRSAAsync()
                 .ConfigureAwait(continueOnCapturedContext: false);
-
-            SecurityTokenDescriptor assertionDesc = new()
+            SigningCredentials keyVaultSignCreds = new(
+                new RsaSecurityKey(keyVaultRsaKey),
+                SecurityAlgorithms.RsaSha256
+                );
+            DateTime assertionIssuedAt = DateTime.UtcNow;
+            System.IdentityModel.Tokens.Jwt.JwtHeader assertionHeader = new(keyVaultSignCreds)
             {
-                Audience = context.TokenEndpoint,
-                Issuer = context.ClientID,
-                Subject = new([new(JwtRegisteredClaimNames.Sub, context.ClientID)]),
-                SigningCredentials = new(
-                    new RsaSecurityKey(keyVaultRsaKey),
-                    SecurityAlgorithms.RsaSsaPssSha256
-                    ),
-                AdditionalInnerHeaderClaims = new Dictionary<string, object>(StringComparer.Ordinal)
-                {
-                    { JwtHeaderParameterNames.X5t + "#S256", keyVaultCertificateThumbprintS256 }
-                },
+                { JwtHeaderParameterNames.X5t, keyVaultCertificateThumbprint },
             };
-            string assertionEncoded = JwtHandler.CreateEncodedJwt(assertionDesc);
-            return assertionEncoded;
+            System.IdentityModel.Tokens.Jwt.JwtPayload assertionPayload = new(
+                issuer: context.ClientID,
+                audience: context.TokenEndpoint,
+                notBefore: assertionIssuedAt,
+                expires: assertionIssuedAt.AddMinutes(2),
+                issuedAt: assertionIssuedAt,
+                claims: [
+                    new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new(JwtRegisteredClaimNames.Sub, context.ClientID)
+                ]);
+            string assertionSignInput = $"{assertionHeader.Base64UrlEncode()}.{assertionPayload.Base64UrlEncode()}";
+            string assertionSignature = JwtTokenUtilities.CreateEncodedSignature(
+                assertionSignInput,
+                keyVaultSignCreds
+                );
+            serviceProvider.Get<ITracingService>()?.Trace(
+                "Client Credentials assertion: {0}",
+                assertionSignInput
+                );
+            return $"{assertionSignInput}.{assertionSignature}";
         }
     }
 
