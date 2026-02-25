@@ -13,7 +13,7 @@ ImportExportXml:
       - '@description': Power Platform federert identitet
         '@languagecode': 1044
     Descriptions:
-    Version: 1.4.3
+    Version: 1.5.0
     Managed: 0
     Publisher:
       UniqueName: fredrikhr

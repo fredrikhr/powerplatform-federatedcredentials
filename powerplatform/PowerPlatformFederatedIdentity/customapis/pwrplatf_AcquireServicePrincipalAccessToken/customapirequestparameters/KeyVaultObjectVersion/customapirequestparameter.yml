@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': KeyVaultObjectVersion
+  description:
+    '@default': Version identifier of the Secret or Certificate stored in Azure Key Vault. By default resolves to current.
+    label:
+      '@description': Version identifier of the Secret or Certificate stored in Azure Key Vault. By default resolves to current.
+      '@languagecode': 1033
+  displayname:
+    '@default': Object Version
+    label:
+      '@description': Object Version
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 1
+  name: pwrplatf_AcquireServicePrincipalAccessToken-In-KeyVaultObjectVersion
+  type: 10

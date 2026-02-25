@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': KeyVaultObjectType
+  description:
+    '@default': "Key Vault Object Type. 0: Secret; 1: Certificate; 2: CertWithX5C"
+    label:
+      '@description': "Key Vault Object Type. 0: Secret; 1: Certificate; 2: CertWithX5C"
+      '@languagecode': 1033
+  displayname:
+    '@default': Object Type
+    label:
+      '@description': Object Type
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 0
+  name: pwrplatf_ResolveKeyVaultResource-In-KeyVaultObjectType
+  type: 9

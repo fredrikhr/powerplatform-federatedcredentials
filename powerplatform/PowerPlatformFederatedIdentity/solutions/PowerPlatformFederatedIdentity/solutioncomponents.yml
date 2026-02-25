@@ -2,11 +2,11 @@ SolutionComponents:
   Component:
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/ApplicationId
-  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultCertificateName
-  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultCertificateVersion
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/AssertionJwtAlgorithm
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectName
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectType
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectVersion
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultResourceIdentifier
-  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultSecretName
-  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultSecretVersion
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultUri
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/ResourceId
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/TenantId
@@ -40,10 +40,9 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_GetFicManagedIdentity
   - '@path': /customapis/pwrplatf_GetFicManagedIdentity/customapiresponseproperties/PluginAssemblyManagedIdentity
   - '@path': /customapis/pwrplatf_ResolveKeyVaultResource
-  - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultCertificateName
-  - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultCertificateVersion
-  - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultSecretName
-  - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultSecretVersion
+  - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultObjectName
+  - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultObjectType
+  - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultObjectVersion
   - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultUri
   - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapiresponseproperties/KeyVaultReference
   - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapiresponseproperties/KeyVaultResourceIdentifier
