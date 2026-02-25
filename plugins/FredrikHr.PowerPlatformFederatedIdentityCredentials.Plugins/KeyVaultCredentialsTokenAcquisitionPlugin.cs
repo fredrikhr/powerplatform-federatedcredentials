@@ -19,6 +19,11 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 public class KeyVaultCredentialsTokenAcquisitionPlugin
     : FederatedIdentityTokenAcquisitionPlugin, IPlugin
 {
+    internal static new class InputParameterNames
+    {
+        internal const string AssertionJwtAlgorithm = nameof(AssertionJwtAlgorithm);
+    }
+
     static KeyVaultCredentialsTokenAcquisitionPlugin()
     {
         _ = typeof(RSA);
@@ -82,7 +87,8 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             keytype.CertificateWithX5c =>
                 GetMsalClientBuilderUsingCertificatePrivateKey(
                     serviceProvider, tenantId, clientId,
-                    keyVaultUri, keyVaultDataName, keyVaultDataVersion
+                    keyVaultUri, keyVaultDataName, keyVaultDataVersion,
+                    sendX5c: keyVaultDataType == keytype.CertificateWithX5c
                     ),
             _ => GetMsalClientBuilderDefault(serviceProvider, tenantId, clientId),
         };
@@ -137,7 +143,9 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
         string clientId,
         string keyVaultUrl,
         string keyVaultSecretName,
-        string? keyVaultSecretVersion = null
+        string? keyVaultSecretVersion = null,
+        string? assertionJwtAlgorithm = null,
+        bool sendX5c = false
         )
     {
         TokenCredential tokenCredential = AzureResourceContextProvider
@@ -157,15 +165,14 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             KeyVaultCertificate keyVaultCertificateInfo = await
                 GetKeyVaultCertificateAsync(serviceProvider, keyVaultUrl, keyVaultSecretName, keyVaultSecretVersion)
                 .ConfigureAwait(continueOnCapturedContext: false);
-            // X509Certificate2 keyVaultCertificate = new(keyVaultCertificateInfo.Cer);
             using var sha1 = SHA1.Create();
             string keyVaultCertificateThumbprint = Base64UrlEncoder.Encode(
                 sha1.ComputeHash(keyVaultCertificateInfo.Cer)
                 );
-            // using SHA256 sha256 = SHA256.Create();
-            // string keyVaultCertificateThumbprintS256 = Base64UrlEncoder.Encode(
-            //     sha256.ComputeHash(keyVaultCertificateInfo.Cer)
-            //     );
+            using var sha256 = SHA256.Create();
+            string keyVaultCertificateThumbprintS256 = Base64UrlEncoder.Encode(
+                sha256.ComputeHash(keyVaultCertificateInfo.Cer)
+                );
             CryptographyClientOptions keyVaultCryptoClientOptions = new();
             KeyResolver keyVaultKeyResolver = new(tokenCredential, keyVaultCryptoClientOptions);
             CryptographyClient keyVaultCryptoClient = await keyVaultKeyResolver
@@ -176,13 +183,19 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
                 .ConfigureAwait(continueOnCapturedContext: false);
             SigningCredentials keyVaultSignCreds = new(
                 new RsaSecurityKey(keyVaultRsaKey),
-                SecurityAlgorithms.RsaSha256
+                assertionJwtAlgorithm ?? SecurityAlgorithms.RsaSsaPssSha256
                 );
             DateTime assertionIssuedAt = DateTime.UtcNow;
             System.IdentityModel.Tokens.Jwt.JwtHeader assertionHeader = new(keyVaultSignCreds)
             {
                 { JwtHeaderParameterNames.X5t, keyVaultCertificateThumbprint },
+                { $"{JwtHeaderParameterNames.X5t}#S256", keyVaultCertificateThumbprintS256 },
             };
+            if (sendX5c)
+            {
+                assertionHeader[JwtHeaderParameterNames.X5c] = Base64UrlEncoder
+                    .Encode(keyVaultCertificateInfo.Cer);
+            }
             System.IdentityModel.Tokens.Jwt.JwtPayload assertionPayload = new(
                 issuer: context.ClientID,
                 audience: context.TokenEndpoint,

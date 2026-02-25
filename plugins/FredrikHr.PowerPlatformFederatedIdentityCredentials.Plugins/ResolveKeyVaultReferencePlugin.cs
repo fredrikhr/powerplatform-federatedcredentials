@@ -13,10 +13,9 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
     {
         internal const string KeyVaultReference = nameof(KeyVaultReference);
         internal const string KeyVaultUri = nameof(KeyVaultUri);
-        internal const string KeyVaultSecretName = nameof(KeyVaultSecretName);
-        internal const string KeyVaultSecretVersion = nameof(KeyVaultSecretVersion);
-        internal const string KeyVaultCertificateName = nameof(KeyVaultCertificateName);
-        internal const string KeyVaultCertificateVersion = nameof(KeyVaultCertificateVersion);
+        internal const string KeyVaultObjectType = nameof(KeyVaultObjectType);
+        internal const string KeyVaultObjectName = nameof(KeyVaultObjectName);
+        internal const string KeyVaultObjectVersion = nameof(KeyVaultObjectVersion);
         internal const string KeyVaultResourceIdentifier = nameof(KeyVaultResourceIdentifier);
     }
 
@@ -38,6 +37,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
         KeyVaultReference? keyvaultReference;
         string? keyVaultResourceIdString = null;
         string? keyVaultUri;
+        keytype keyVaultObjectType = (keytype)(-1);
         if (KeyVaultReference.EntityLogicalName.Equals(context.PrimaryEntityName, cmp))
         {
             keyvaultReference = RetrieveEntityByEntityId(
@@ -73,36 +73,61 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
             {
                 keyvaultReference.KeyVaultUri = keyVaultUri;
             }
-            if (context.InputParameters.TryGetValue(
-                InputParameterNames.KeyVaultSecretName,
-                out string keyVaultSecretName
-                ) && !string.IsNullOrEmpty(keyVaultSecretName))
+            if ((context.InputParameters.TryGetValue(
+                InputParameterNames.KeyVaultObjectType,
+                out OptionSetValue keyVaultObjectTypeOptionSetValue
+                ) && keyVaultObjectTypeOptionSetValue
+                is { Value: int keyVaultObjectTypeIntValue }) ||
+                context.InputParameters.TryGetValue(
+                InputParameterNames.KeyVaultObjectType,
+                out keyVaultObjectTypeIntValue
+                ))
             {
-                keyvaultReference.KeyName = keyVaultSecretName;
-                keyvaultReference.KeyType = keytype.Secret;
-                if (context.InputParameters.TryGetValue(
-                    InputParameterNames.KeyVaultSecretVersion,
-                    out string? keyVaultSecretVersion
-                    ))
+                keyVaultObjectType = (keytype)keyVaultObjectTypeIntValue switch
                 {
-                    keyvaultReference[KeyVaultReference.Fields.KeyVersion] =
-                        keyVaultSecretVersion;
-                }
+                    keytype.Secret => keytype.Secret,
+                    keytype.Certificate => keytype.Certificate,
+                    keytype.CertificateWithX5c => keytype.CertificateWithX5c,
+                    _ => throw new InvalidPluginExecutionException(
+                        message: $"Invalid input parameter {InputParameterNames.KeyVaultObjectType}: {keyVaultObjectTypeIntValue} is not a valid Key Vault Object Type.",
+                        httpStatus: PluginHttpStatusCode.BadRequest
+                        ),
+                };
+                keyvaultReference.KeyType = keyVaultObjectType;
+            }
+            else if (context.InputParameters.TryGetValue(
+                InputParameterNames.KeyVaultObjectType,
+                out string keyVaultObjectTypeStringValue
+                ) && Enum.TryParse(
+                keyVaultObjectTypeStringValue,
+                ignoreCase: true,
+                out keyVaultObjectType
+                ))
+            {
+                keyvaultReference.KeyType = keyVaultObjectType switch
+                {
+                    keytype.Secret or
+                    keytype.Certificate or
+                    keytype.CertificateWithX5c => keyVaultObjectType,
+                    _ => throw new InvalidPluginExecutionException(
+                        message: $"Invalid input parameter {InputParameterNames.KeyVaultObjectType}: '{keyVaultObjectTypeStringValue}' is not a valid Key Vault Object Type.",
+                        httpStatus: PluginHttpStatusCode.BadRequest
+                        ),
+                };
             }
             if (context.InputParameters.TryGetValue(
-                InputParameterNames.KeyVaultCertificateName,
-                out string keyVaultCertificateName
-                ) && !string.IsNullOrEmpty(keyVaultCertificateName))
+                InputParameterNames.KeyVaultObjectName,
+                out string keyVaultObjectName
+                ) && !string.IsNullOrEmpty(keyVaultObjectName))
             {
-                keyvaultReference.KeyName = keyVaultCertificateName;
-                keyvaultReference.KeyType = keytype.Certificate;
+                keyvaultReference.KeyName = keyVaultObjectName;
                 if (context.InputParameters.TryGetValue(
-                    InputParameterNames.KeyVaultCertificateVersion,
-                    out string? keyVaultCertificateVersion
+                    InputParameterNames.KeyVaultObjectVersion,
+                    out string? keyVaultObjectVersion
                     ))
                 {
                     keyvaultReference[KeyVaultReference.Fields.KeyVersion] =
-                        keyVaultCertificateVersion;
+                        keyVaultObjectVersion;
                 }
             }
             if (context.InputParameters.TryGetValue(
@@ -152,7 +177,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
                     keytype.Secret,
                 _ => (keytype)(-1),
             };
-            keyvaultReference.KeyType = keyType;
+            keyvaultReference.KeyType ??= keyType;
         }
 
         context.OutputParameters[OutputParameterNames.KeyVaultReference] =
