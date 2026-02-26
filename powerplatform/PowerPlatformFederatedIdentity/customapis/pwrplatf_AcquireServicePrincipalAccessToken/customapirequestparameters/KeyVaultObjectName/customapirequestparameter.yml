@@ -11,6 +11,6 @@ customapirequestparameter:
       '@description': Name
       '@languagecode': 1033
   iscustomizable: 1
-  isoptional: 0
+  isoptional: 1
   name: pwrplatf_AcquireServicePrincipalAccessToken-In-KeyVaultObjectName
   type: 10
