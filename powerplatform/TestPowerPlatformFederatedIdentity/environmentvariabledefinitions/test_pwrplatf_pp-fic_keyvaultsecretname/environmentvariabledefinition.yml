@@ -1,0 +1,17 @@
+environmentvariabledefinition:
+  '@schemaname': test_pwrplatf_pp-fic_keyvaultsecretname
+  description:
+    '@default': Object Name of a Key Vault Secret containing the Client secret for Service Principal Access Token Acquisition
+    label:
+      '@description': Object Name of a Key Vault Secret containing the Client secret for Service Principal Access Token Acquisition
+      '@languagecode': 1033
+  displayname:
+    '@default': TEST | PowerPlatformFederatedIdentity | Key Vault Secret Name
+    label:
+      '@description': TEST | PowerPlatformFederatedIdentity | Key Vault Secret Name
+      '@languagecode': 1033
+  introducedversion: 0.0.0
+  iscustomizable: 1
+  isrequired: 0
+  secretstore: 0
+  type: 100000000
