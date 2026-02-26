@@ -1,1 +1,28 @@
-MissingDependencies: 
+MissingDependencies:
+  MissingDependency:
+  - Required:
+      '@type': 1
+      '@schemaName': managedidentity
+      '@displayName': Managed Identity
+      '@solution': ManagedIdentityExtensions (1.0.14.0)
+      package:
+        '@appName': ManagedIdentityApp Package
+        '@version': 1.0.0.0
+        '#text': ManagedIdentityApp_Anchor (1.0.0.0)
+    Dependent:
+      '@type': 29
+      '@displayName': TEST | PowerPlatformFederatedIdentity | Update Managed Identity
+      '@id': '{69111b18-2b6a-4e2f-8419-0b5b8ee9b285}'
+  - Required:
+      '@type': 1
+      '@schemaName': managedidentity
+      '@displayName': Managed Identity
+      '@solution': ManagedIdentityExtensions (1.0.14.0)
+      package:
+        '@appName': ManagedIdentityApp Package
+        '@version': 1.0.0.0
+        '#text': ManagedIdentityApp_Anchor (1.0.0.0)
+    Dependent:
+      '@type': 29
+      '@displayName': TEST | PowerPlatformFederatedIdentity | Obtain FIC Service Access Token
+      '@id': '{6ace89be-f5fc-f011-8407-002248d75c63}'
