@@ -82,7 +82,7 @@
               "entityName": "managedidentities",
               "recordId": "1304a7e4-ed28-f011-8c4d-7c1e5226ec1f",
               "item/name": "@if(greater(length(trim(coalesce(triggerBody()?['name'], ''))), 0), trim(triggerBody()['name']), body('FIC_Original_Managed_Identity')['name'])",
-              "item/tenantid": "@null",
+              "item/tenantid": "@triggerOutputs()['headers']?['x-ms-tenant-id']",
               "item/applicationid": "@triggerBody()['applicationId']"
             },
             "host": {
