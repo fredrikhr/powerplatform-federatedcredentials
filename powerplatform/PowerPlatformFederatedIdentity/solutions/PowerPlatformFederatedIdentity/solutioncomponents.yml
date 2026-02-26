@@ -1,5 +1,18 @@
 SolutionComponents:
   Component:
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/ApplicationId
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/AssertionJwtAlgorithm
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectName
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectType
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectVersion
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultResourceIdentifier
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultUri
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/ResourceId
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/TenantId
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapiresponseproperties/AccessToken
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapiresponseproperties/JsonWebToken
+  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapiresponseproperties/KeyVaultResourceIdentifier
   - '@path': /customapis/pwrplatf_AsManagedIdentity
   - '@path': /customapis/pwrplatf_AsManagedIdentity/customapirequestparameters/ApplicationId
   - '@path': /customapis/pwrplatf_AsManagedIdentity/customapirequestparameters/Name
