@@ -1,9 +1,9 @@
 customapirequestparameter:
   '@uniquename': KeyVaultObjectType
   description:
-    '@default': "Key Vault Object Type. 0: Secret; 1: Certificate; 2: CertWithX5C"
+    '@default': 'Key Vault Object Type. 0: Secret; 1: Certificate; 2: CertWithX5C'
     label:
-      '@description': "Key Vault Object Type. 0: Secret; 1: Certificate; 2: CertWithX5C"
+      '@description': 'Key Vault Object Type. 0: Secret; 1: Certificate; 2: CertWithX5C'
       '@languagecode': 1033
   displayname:
     '@default': Object Type
