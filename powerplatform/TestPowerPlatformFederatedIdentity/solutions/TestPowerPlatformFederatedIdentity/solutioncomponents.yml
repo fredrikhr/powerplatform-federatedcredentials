@@ -3,6 +3,7 @@ SolutionComponents:
   - '@path': /connectionreferences/test_pwrplatf_pp-fic_dataverse
   - '@path': /environmentvariabledefinitions/test_pwrplatf_pp-fic_appid
   - '@path': /environmentvariabledefinitions/test_pwrplatf_pp-fic_keyvaultsecretname
+  - '@path': /environmentvariabledefinitions/test_pwrplatf_pp-fic_keyvaulturi
   - '@path': /modernflows/69111b18-2b6a-4e2f-8419-0b5b8ee9b285
   - '@path': /modernflows/6ace89be-f5fc-f011-8407-002248d75c63
   - '@path': /publishers/fredrikhr
