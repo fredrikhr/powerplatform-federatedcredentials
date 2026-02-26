@@ -207,13 +207,99 @@
           "type": "Http",
           "inputs": {
             "method": "GET",
-            "uri": "https://api.flow.microsoft.com/providers/microsoft.Flow/environments/@{workflow()['tags']['environmentName']}",
+            "uri": "@{body('Power_Automate_Environment_Details_(Secret)')['properties']['runtimeEndpoints']['microsoft.Flow']}/providers/microsoft.Flow/environments/@{workflow()['tags']['environmentName']}",
             "queries": {
               "api-version": "2026-01-01"
             },
             "authentication": {
               "type": "Raw",
               "value": "@outputs('Power_Automate_Authorization_Header_(Secret_Resource_ID)')"
+            }
+          }
+        },
+        "Dataverse_Authorization_Grant_(Secret)": {
+          "runAfter": {
+            "Power_Automate_Environment_Details_(Secret_Resource_ID)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "297a8139-4833-4f29-b07c-a26c6b9b940e"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "dataverse",
+              "operationId": "PerformUnboundAction",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "actionName": "pwrplatf_AcquireServicePrincipalAccessToken",
+              "item/ApplicationId": "@parameters('TEST | PowerPlatformFederatedIdentity | App ID (test_pwrplatf_pp-fic_appid)')",
+              "item/ResourceId": "https://@{uriHost(body('Power_Automate_Environment_Details_(Secret_Resource_ID)')['properties']['linkedEnvironmentMetadata']['instanceUrl'])}",
+              "item/KeyVaultResourceIdentifier": "@outputs('Key_Vault_Secret_Resource_ID')",
+              "item/KeyVaultObjectType": 0
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          },
+          "runtimeConfiguration": {
+            "secureData": {
+              "properties": [
+                "outputs"
+              ]
+            }
+          }
+        },
+        "Dataverse_Authorization_Header_(Secret)": {
+          "runAfter": {
+            "Dataverse_Authorization_Grant_(Secret)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "58a611bf-5840-474b-957e-b1ca3a8d2d38"
+          },
+          "type": "Compose",
+          "inputs": "Bearer @{body('Dataverse_Authorization_Grant_(Secret)')['AccessToken']}"
+        },
+        "Dataverse_Authorization_Grant_(Secret,_App-Self)": {
+          "runAfter": {
+            "Dataverse_Authorization_Header_(Secret)": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "0a911e16-f6b7-4c6e-a35c-21c62fc41ae1"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "POST",
+            "uri": "@{body('Power_Automate_Environment_Details_(Secret_Resource_ID)')['properties']['linkedEnvironmentMetadata']['instanceApiUrl']}/api/data/v@{body('Power_Automate_Environment_Details_(Secret_Resource_ID)')['properties']['linkedEnvironmentMetadata']['version']}/pwrplatf_AcquireServicePrincipalAccessToken",
+            "headers": {
+              "Accept": "application/json",
+              "OData-Version": "4.0",
+              "OData-MaxVersion": "4.01",
+              "Content-Type": "application/json; charset=utf-8",
+              "Prefer": "odata.include-annotations=*"
+            },
+            "body": {
+              "ResourceId": "https://@{uriHost(body('Power_Automate_Environment_Details_(Secret_Resource_ID)')['properties']['linkedEnvironmentMetadata']['instanceUrl'])}",
+              "KeyVaultResourceIdentifier": "@outputs('Key_Vault_Secret_Resource_ID')",
+              "KeyVaultObjectType": 0
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@outputs('Dataverse_Authorization_Header_(Secret)')"
+            }
+          },
+          "runtimeConfiguration": {
+            "secureData": {
+              "properties": [
+                "outputs"
+              ]
             }
           }
         }
