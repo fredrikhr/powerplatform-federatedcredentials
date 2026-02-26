@@ -1,0 +1,88 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "impersonation": {
+          "source": "invoker"
+        },
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "test_pwrplatf_pp-fic_dataverse"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        },
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "TEST | PowerPlatformFederatedIdentity | App ID (test_pwrplatf_pp-fic_appid)": {
+          "defaultValue": "6a7576eb-e377-4b0e-995b-f79de45e8d59",
+          "type": "String",
+          "metadata": {
+            "schemaName": "test_pwrplatf_pp-fic_appid",
+            "description": "App ID (aka. Client ID) for testing Federated Credentials Service Principal Access Token Acquisition"
+          }
+        },
+        "TEST | PowerPlatformFederatedIdentity | Key Vault URI (test_pwrplatf_pp-fic_keyvaulturi)": {
+          "defaultValue": "https://frh-01.vault.azure.net/",
+          "type": "String",
+          "metadata": {
+            "schemaName": "test_pwrplatf_pp-fic_keyvaulturi",
+            "description": "Key Vault URI containing credentials for Service Principal Access Token Acquisition"
+          }
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "de0f55c8-5f53-441f-a660-9f06d6bc27e7"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          }
+        }
+      },
+      "actions": {
+        "Power_Automate_Authorization_Grant": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "a77dd7bc-a83e-42b1-9ff9-629b9faca017"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "parameters": {
+              "actionName": "pwrplatf_AcquireServicePrincipalAccessToken",
+              "item/ApplicationId": "@parameters('TEST | PowerPlatformFederatedIdentity | App ID (test_pwrplatf_pp-fic_appid)')",
+              "item/ResourceId": "https://service.flow.microsoft.com/",
+              "item/KeyVaultUri": "@parameters('TEST | PowerPlatformFederatedIdentity | Key Vault URI (test_pwrplatf_pp-fic_keyvaulturi)')"
+            },
+            "host": {
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps",
+              "operationId": "PerformUnboundAction",
+              "connectionName": "shared_commondataserviceforapps"
+            }
+          }
+        }
+      }
+    },
+    "templateName": null
+  },
+  "schemaVersion": "1.0.0.0"
+}
