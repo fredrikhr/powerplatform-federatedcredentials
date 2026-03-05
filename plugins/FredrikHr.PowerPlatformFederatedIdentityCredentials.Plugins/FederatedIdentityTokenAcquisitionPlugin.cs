@@ -1,8 +1,8 @@
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Identity.Client;
+
+using Microsoft.IdentityModel.JsonWebTokens;
 
 using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
-
-using Microsoft.Identity.Client;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -132,7 +132,7 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
             string assertionSubject = "<unknown>";
             if (context.SharedVariables.TryGetValue(clientAssertionName, out string assertion))
             {
-                JwtSecurityToken assertionJwt = JwtHandler.ReadJwtToken(assertion);
+                JsonWebToken assertionJwt = JwtHandler.ReadJsonWebToken(assertion);
                 assertionIssuer = assertionJwt.Issuer;
                 assertionSubject = assertionJwt.Subject;
             }

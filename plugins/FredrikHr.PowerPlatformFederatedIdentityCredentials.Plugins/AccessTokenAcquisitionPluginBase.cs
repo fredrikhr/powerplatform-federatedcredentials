@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.Crm.Sdk.Messages;
 
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -14,7 +15,8 @@ public abstract class AccessTokenAcquisitionPluginBase : PluginBase
         internal const string JsonWebToken = nameof(JsonWebToken);
     }
 
-    protected static readonly JwtSecurityTokenHandler JwtHandler = new();
+    protected static readonly JwtSecurityTokenHandler JwtRawHandler = new();
+    protected static readonly JsonWebTokenHandler JwtHandler = new();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Design",
@@ -41,13 +43,13 @@ public abstract class AccessTokenAcquisitionPluginBase : PluginBase
         }
     }
 
-    private static Entity? GetJwtEntity(string? accessToken)
+    internal static Entity? GetJwtEntity(string? accessToken)
     {
         if (accessToken is null) return null;
         Entity jwtEntity = new();
         try
         {
-            var jwt = JwtHandler.ReadJwtToken(accessToken);
+            var jwt = JwtRawHandler.ReadJwtToken(accessToken);
             jwtEntity[nameof(jwt.Header)] = JwtDictionaryToEntity(jwt.Header);
             jwtEntity[nameof(jwt.Payload)] = JwtDictionaryToEntity(jwt.Payload);
             jwtEntity["Signature"] = jwt.RawSignature;
@@ -123,10 +125,10 @@ public abstract class AccessTokenAcquisitionPluginBase : PluginBase
 
     protected abstract string AcquireAccessToken(IServiceProvider serviceProvider);
 
-    protected const string PrivilegeNameImpersonation = "prvActOnBehalfOfAnotherUser";
+    internal const string PrivilegeNameImpersonation = "prvActOnBehalfOfAnotherUser";
     private static readonly string[] PrivilegeNamesImpersonation = [PrivilegeNameImpersonation];
 
-    protected static bool CheckUserHasImpersonatePrivilege(IServiceProvider serviceProvider)
+    internal static bool CheckUserHasImpersonatePrivilege(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.Get<IPluginExecutionContext2>();
         IOrganizationService dataverseService = serviceProvider

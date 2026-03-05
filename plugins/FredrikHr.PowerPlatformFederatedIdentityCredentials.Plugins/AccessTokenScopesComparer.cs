@@ -6,12 +6,7 @@ internal sealed class AccessTokenScopesComparer() : IEqualityComparer<string[]>
 
     public bool Equals(string[] x, string[] y)
     {
-        return (x, y) switch
-        {
-            ({ Length: int xLen }, { Length: int yLen })
-            when xLen == yLen => x.SequenceEqual(y, StringComparer.OrdinalIgnoreCase),
-            _ => false,
-        };
+        return x.SequenceEqual(y, StringComparer.OrdinalIgnoreCase);
     }
 
     public int GetHashCode(string[] obj)

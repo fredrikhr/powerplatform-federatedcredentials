@@ -59,6 +59,9 @@
     <PackageVersion Include="Microsoft.Identity.Client">
       <Version>4.76.0</Version>
     </PackageVersion>
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens">
+      <Version>8.14.0</Version>
+    </PackageVersion>
     <PackageVersion Include="System.ClientModel">
       <Version>1.1.0</Version>
     </PackageVersion>

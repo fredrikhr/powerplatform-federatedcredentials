@@ -1,7 +1,8 @@
 using System.Collections.Concurrent;
-using System.IdentityModel.Tokens.Jwt;
 
 using Azure.Core;
+
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -9,7 +10,7 @@ internal sealed class ManagedIdentityAzureCredential(
     IManagedIdentityService managedIdentityService
     ) : TokenCredential
 {
-    private static readonly JwtSecurityTokenHandler JwtHandler = new();
+    private static readonly JsonWebTokenHandler JwtHandler = new();
     private readonly ConcurrentDictionary<string[], string> _accessTokens =
         new(AccessTokenScopesComparer.Instance);
 
@@ -49,7 +50,7 @@ internal sealed class ManagedIdentityAzureCredential(
         DateTimeOffset expiration;
         try
         {
-            JwtSecurityToken jwt = JwtHandler.ReadJwtToken(accessToken);
+            JsonWebToken jwt = JwtHandler.ReadJsonWebToken(accessToken);
             expiration = new(jwt.ValidTo);
         }
         catch
