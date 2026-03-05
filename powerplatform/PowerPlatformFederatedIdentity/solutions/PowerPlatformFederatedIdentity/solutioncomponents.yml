@@ -37,6 +37,7 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapirequestparameters/Name
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapirequestparameters/TenantId
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapiresponseproperties/RequestedManagedIdentity
+  - '@path': /customapis/pwrplatf_GetAuthorizationUrl
   - '@path': /customapis/pwrplatf_GetFicManagedIdentity
   - '@path': /customapis/pwrplatf_GetFicManagedIdentity/customapiresponseproperties/PluginAssemblyManagedIdentity
   - '@path': /customapis/pwrplatf_ResolveKeyVaultResource

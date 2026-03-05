@@ -1,0 +1,21 @@
+customapi:
+  '@uniquename': pwrplatf_GetAuthorizationUrl
+  allowedcustomprocessingsteptype: 0
+  bindingtype: 0
+  description:
+    '@default': Get the URL for authorization endpoint to which a user should be redirected to authorize
+    label:
+      '@description': Get the URL for authorization endpoint to which a user should be redirected to authorize
+      '@languagecode': 1033
+  displayname:
+    '@default': Get User Authorization URL
+    label:
+      '@description': Get User Authorization URL
+      '@languagecode': 1033
+  iscustomizable: 1
+  isfunction: 1
+  isprivate: 0
+  name: Get User Authorization URL
+  plugintypeid:
+    plugintypeexportkey: E0E2E340FA11B59D2D2C71524AFC57D7D29C68B01FA83B4287415241A9E1AE3B
+  workflowsdkstepenabled: 0
