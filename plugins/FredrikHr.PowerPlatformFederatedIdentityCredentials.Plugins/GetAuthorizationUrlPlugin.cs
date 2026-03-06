@@ -1,10 +1,6 @@
-using System.Security.Cryptography.X509Certificates;
-
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-
-using Azure.Security.KeyVault.Certificates;
 
 using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 
@@ -26,14 +22,14 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         internal const string LoginHint = nameof(LoginHint);
         internal const string Prompt = nameof(Prompt);
         internal const string Scopes = nameof(Scopes);
-        internal const string CommonRedirectUrl = nameof(CommonRedirectUrl);
-        internal const string OneTimeRedirectUrl = nameof(OneTimeRedirectUrl);
+        internal const string PkceS256CodeChallenge = nameof(PkceS256CodeChallenge);
+        internal const string CommonRedirectUri = nameof(CommonRedirectUri);
+        internal const string OneTimeRedirectUri = nameof(OneTimeRedirectUri);
     }
 
     internal static class OutputParameterNames
     {
         internal const string AuthorizationRequestUrl = nameof(AuthorizationRequestUrl);
-        internal const string PkceCodeVerifier = nameof(PkceCodeVerifier);
     }
 
     private static readonly JsonWebTokenHandler JwtHandler =  new();
@@ -42,7 +38,6 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
     {
         var context = serviceProvider.Get<IPluginExecutionContext6>();
         ParameterCollection inputs = context.InputParameters;
-        var authorityInfo = serviceProvider.Get<IEnvironmentService>();
         ResolveUserApplicationIdPlugin.ExecuteInternal(serviceProvider);
         RetrieveRequestedManagedIdentityPlugin.ExecuteInternal(serviceProvider);
         var reqManagedIdentity = context.OutputParameters[
@@ -91,13 +86,24 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
             InputParameterNames.Scopes
             );
         if (!inputs.TryGetValue(
-            InputParameterNames.OneTimeRedirectUrl,
-            out string oneTimeRedirectUrl) ||
-            string.IsNullOrEmpty(oneTimeRedirectUrl))
+            InputParameterNames.OneTimeRedirectUri,
+            out string oneTimeRedirectUri) ||
+            string.IsNullOrEmpty(oneTimeRedirectUri))
         {
             throw new InvalidPluginExecutionException(
                 httpStatus: PluginHttpStatusCode.BadRequest,
-                message: ""
+                message: $"Missing or empty required parameter: {InputParameterNames.OneTimeRedirectUri}"
+                );
+        }
+        if (!inputs.TryGetValue(
+            InputParameterNames.PkceS256CodeChallenge,
+            out string pkceCodeChallenge) ||
+            string.IsNullOrEmpty(pkceCodeChallenge)
+            )
+        {
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: $"Missing or empty required parameter: {InputParameterNames.PkceS256CodeChallenge}"
                 );
         }
 
@@ -117,7 +123,7 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         {
             Claims = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase)
             {
-                { JwtClaimNames.OneTimeRedirectUri, oneTimeRedirectUrl },
+                { JwtClaimNames.OneTimeRedirectUri, oneTimeRedirectUri },
             },
             AdditionalHeaderClaims = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase),
             EncryptingCredentials = keyVaultEncryptCreds,
@@ -136,11 +142,11 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
                 break;
         }
         if (inputs.TryGetValue(
-            InputParameterNames.CommonRedirectUrl,
-            out string? commonRedirectUrl) &&
-            !string.IsNullOrEmpty(commonRedirectUrl))
+            InputParameterNames.CommonRedirectUri,
+            out string? commonRedirectUri) &&
+            !string.IsNullOrEmpty(commonRedirectUri))
         {
-            msalBuilder = msalBuilder.WithRedirectUri(commonRedirectUrl);
+            msalBuilder = msalBuilder.WithRedirectUri(commonRedirectUri);
         }
 
         string stateQueryParam = JwtHandler.CreateToken(stateJwtDesc);
@@ -148,11 +154,12 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         {
             { "state", stateQueryParam },
             { "response_mode", "form_post" },
+            { "code_challenge", pkceCodeChallenge },
+            { "code_challenge_method", "S256" },
         };
 
         IConfidentialClientApplication msalClient = msalBuilder.Build();
         var msalAuthReqBuilder = msalClient.GetAuthorizationRequestUrl(scopes)
-            .WithPkce(out string msalPkceVerifier)
             .WithExtraQueryParameters(msalExtraParams)
             ;
         if (inputs.TryGetValue(
@@ -169,17 +176,19 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
             !string.IsNullOrEmpty(promptBehavior))
         {
             msalAuthReqBuilder =
-                nameof(Prompt.SelectAccount).Equals(promptBehavior, OrdInv)
+                "select_account".Equals(promptBehavior, OrdInv)
                 ? msalAuthReqBuilder.WithPrompt(Prompt.SelectAccount)
-                : nameof(Prompt.ForceLogin).Equals(promptBehavior, OrdInv)
+                : "login".Equals(promptBehavior, OrdInv)
                 ? msalAuthReqBuilder.WithPrompt(Prompt.ForceLogin)
-                : nameof(Prompt.NoPrompt).Equals(promptBehavior, OrdInv)
+                : "no_prompt".Equals(promptBehavior, OrdInv)
                 ? msalAuthReqBuilder.WithPrompt(Prompt.NoPrompt)
-                : nameof(Prompt.Consent).Equals(promptBehavior, OrdInv)
+                : "consent".Equals(promptBehavior, OrdInv)
                 ? msalAuthReqBuilder.WithPrompt(Prompt.Consent)
-                : nameof(Prompt.Never).Equals(promptBehavior, OrdInv)
+                : "attempt_none".Equals(promptBehavior, OrdInv)
                 ? msalAuthReqBuilder.WithPrompt(Prompt.Never)
-                : nameof(Prompt.Create).Equals(promptBehavior, OrdInv)
+                : "none".Equals(promptBehavior, OrdInv)
+                ? msalAuthReqBuilder.WithPrompt(Prompt.Never)
+                : "create".Equals(promptBehavior, OrdInv)
                 ? msalAuthReqBuilder.WithPrompt(Prompt.Create)
                 : msalAuthReqBuilder; // Don't do anything if not recognized.
         }
@@ -189,6 +198,5 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         ParameterCollection outputs = context.OutputParameters;
         outputs[OutputParameterNames.AuthorizationRequestUrl] =
             msalAuthReqUri.ToString();
-        outputs[OutputParameterNames.PkceCodeVerifier] = msalPkceVerifier;
     }
 }

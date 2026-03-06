@@ -57,11 +57,11 @@ public abstract class PluginBase : IPlugin
         {
             string => true,
             null => true,
-            not null when variable.GetType().IsPrimitive => true,
             Entity or EntityCollection => true,
             Guid => true,
             OptionSetValue or OptionSetValueCollection => true,
             string[] or IEnumerable<string> => true,
+            not null when variable.GetType().IsPrimitive => true,
             _ => false,
         };
     }
