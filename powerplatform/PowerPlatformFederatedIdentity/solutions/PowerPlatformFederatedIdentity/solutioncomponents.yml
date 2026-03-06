@@ -32,12 +32,27 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_EvaulateKeyVaultDataAccessPermissions/customapiresponseproperties/UserEffectivePermissions
   - '@path': /customapis/pwrplatf_EvaulateKeyVaultDataAccessPermissions/customapiresponseproperties/UserEffectivePermissionsDisplayName
   - '@path': /customapis/pwrplatf_EvaulateKeyVaultDataAccessPermissions/customapiresponseproperties/UserHasSufficientPermissions
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/ApplicationId
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/CommonRedirectUri
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultObjectName
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultObjectType
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultObjectVersion
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultResourceIdentifier
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultUri
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/LoginHint
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/OneTimeRedirectUri
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/PkceS256CodeChallenge
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/Prompt
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/Scopes
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/TenantId
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapiresponseproperties/AuthorizationRequestUrl
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapiresponseproperties/KeyVaultResourceIdentifier
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapirequestparameters/ApplicationId
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapirequestparameters/Name
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapirequestparameters/TenantId
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapiresponseproperties/RequestedManagedIdentity
-  - '@path': /customapis/pwrplatf_GetAuthorizationUrl
   - '@path': /customapis/pwrplatf_GetFicManagedIdentity
   - '@path': /customapis/pwrplatf_GetFicManagedIdentity/customapiresponseproperties/PluginAssemblyManagedIdentity
   - '@path': /customapis/pwrplatf_ResolveKeyVaultResource
