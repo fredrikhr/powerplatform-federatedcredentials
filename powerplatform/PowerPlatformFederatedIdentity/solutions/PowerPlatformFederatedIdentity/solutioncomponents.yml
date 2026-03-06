@@ -48,6 +48,10 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/TenantId
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapiresponseproperties/AuthorizationRequestUrl
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapiresponseproperties/KeyVaultResourceIdentifier
+  - '@path': /customapis/pwrplatf_GeneratePkceParameters
+  - '@path': /customapis/pwrplatf_GeneratePkceParameters/customapiresponseproperties/PkceCodeChallenge
+  - '@path': /customapis/pwrplatf_GeneratePkceParameters/customapiresponseproperties/PkceCodeChallengeMethod
+  - '@path': /customapis/pwrplatf_GeneratePkceParameters/customapiresponseproperties/PkceCodeVerifier
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapirequestparameters/ApplicationId
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapirequestparameters/Name
