@@ -22,6 +22,7 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         internal const string LoginHint = nameof(LoginHint);
         internal const string Prompt = nameof(Prompt);
         internal const string Scopes = nameof(Scopes);
+        internal const string ResponseMode = nameof(ResponseMode);
         internal const string PkceS256CodeChallenge = nameof(PkceS256CodeChallenge);
         internal const string CommonRedirectUri = nameof(CommonRedirectUri);
         internal const string OneTimeRedirectUri = nameof(OneTimeRedirectUri);
@@ -153,10 +154,16 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         Dictionary<string, string> msalExtraParams = new(StringComparer.OrdinalIgnoreCase)
         {
             { "state", stateQueryParam },
-            { "response_mode", "form_post" },
             { "code_challenge", pkceCodeChallenge },
             { "code_challenge_method", "S256" },
         };
+        if (inputs.TryGetValue(
+            InputParameterNames.ResponseMode,
+            out string responseMode) &&
+            !string.IsNullOrEmpty(responseMode))
+        {
+            msalExtraParams["response_mode"] = responseMode;
+        }
 
         IConfidentialClientApplication msalClient = msalBuilder.Build();
         var msalAuthReqBuilder = msalClient.GetAuthorizationRequestUrl(scopes)
