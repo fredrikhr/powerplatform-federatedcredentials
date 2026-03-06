@@ -1,7 +1,10 @@
 {
   "properties": {
     "connectionReferences": {
-      "shared_commondataserviceforapps": {
+      "dataverse": {
+        "impersonation": {
+          "source": "invoker"
+        },
         "runtimeSource": "embedded",
         "connection": {
           "connectionReferenceLogicalName": "test_pwrplatf_pp-fic_dataverse"
@@ -49,7 +52,7 @@
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
-              "connectionName": "shared_commondataserviceforapps",
+              "connectionName": "dataverse",
               "operationId": "PerformUnboundAction",
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
             },
