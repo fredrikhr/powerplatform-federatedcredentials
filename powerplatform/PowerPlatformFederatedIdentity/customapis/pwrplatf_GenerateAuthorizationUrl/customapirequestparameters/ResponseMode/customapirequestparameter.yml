@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': ResponseMode
+  description:
+    '@default': 'Specifies how the identity platform should return the authorization code to the redirect URI. Supports: query, fragment and form_post'
+    label:
+      '@description': 'Specifies how the identity platform should return the authorization code to the redirect URI. Supports: query, fragment and form_post'
+      '@languagecode': 1033
+  displayname:
+    '@default': Response Mode
+    label:
+      '@description': Response Mode
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 1
+  name: pwrplatf_GenerateAuthorizationUrl-In-ResponseMode
+  type: 10

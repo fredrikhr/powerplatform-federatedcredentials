@@ -44,6 +44,7 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/OneTimeRedirectUri
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/PkceS256CodeChallenge
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/Prompt
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/ResponseMode
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/Scopes
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/TenantId
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapiresponseproperties/AuthorizationRequestUrl
