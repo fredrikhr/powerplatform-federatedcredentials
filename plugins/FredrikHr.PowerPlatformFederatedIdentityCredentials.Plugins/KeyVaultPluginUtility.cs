@@ -321,7 +321,6 @@ internal static class KeyVaultPluginUtility
     internal static Func<AssertionRequestOptions, Task<string>> GetKeyVaultCertificateAssertionProvider(
         KeyVaultCertificate keyVaultCertificateInfo,
         RsaSecurityKey keyVaultRsaKey,
-        string? assertionJwtAlgorithm = null,
         bool sendX5c = false
         )
     {
@@ -335,7 +334,7 @@ internal static class KeyVaultPluginUtility
             );
         SigningCredentials keyVaultSignCreds = new(
         keyVaultRsaKey,
-        assertionJwtAlgorithm ?? SecurityAlgorithms.RsaSsaPssSha256
+        SecurityAlgorithms.RsaSsaPssSha256
         );
         System.IdentityModel.Tokens.Jwt.JwtHeader assertionHeader = new(keyVaultSignCreds)
         {

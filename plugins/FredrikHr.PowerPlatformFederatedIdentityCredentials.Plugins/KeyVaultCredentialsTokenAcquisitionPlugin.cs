@@ -14,11 +14,6 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 public class KeyVaultCredentialsTokenAcquisitionPlugin
     : FederatedIdentityTokenAcquisitionPlugin, IPlugin
 {
-    internal static new class InputParameterNames
-    {
-        internal const string AssertionJwtAlgorithm = nameof(AssertionJwtAlgorithm);
-    }
-
     static KeyVaultCredentialsTokenAcquisitionPlugin()
     {
         _ = typeof(RSA);

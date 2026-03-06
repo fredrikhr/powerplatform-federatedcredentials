@@ -2,7 +2,6 @@ SolutionComponents:
   Component:
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/ApplicationId
-  - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/AssertionJwtAlgorithm
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectName
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectType
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectVersion
