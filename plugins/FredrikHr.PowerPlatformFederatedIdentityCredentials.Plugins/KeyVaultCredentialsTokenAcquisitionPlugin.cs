@@ -30,9 +30,10 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
         IServiceProvider serviceProvider,
         string tenantId,
         string clientId,
-        IEnumerable<string> reqScopes
+        string resourceId
         )
     {
+        IEnumerable<string> msalScopes = [$"{resourceId}/.default"];
         var context = serviceProvider.Get<IPluginExecutionContext2>();
         EvaluateKeyVaultDataAccessPermissionsPlugin.ExecuteInternal(serviceProvider);
         if (!context.OutputParameters.TryGetValue(
@@ -75,7 +76,7 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             );
         IConfidentialClientApplication msalApp = msalBuilder.Build();
         AuthenticationResult msalAuthResult = msalApp
-            .AcquireTokenForClient(reqScopes).ExecuteAsync()
+            .AcquireTokenForClient(msalScopes).ExecuteAsync()
             .GetAwaiter().GetResult();
 
         return msalAuthResult.AccessToken;

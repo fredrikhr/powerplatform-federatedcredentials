@@ -7,13 +7,18 @@ using Microsoft.IdentityModel.JsonWebTokens;
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
 internal sealed class ManagedIdentityAzureCredential(
-    IManagedIdentityService managedIdentityService,
+    IEnvironmentService azureAuthorityInfo,
+    IAssemblyAuthenticationContext pluginAuthProvider,
     ITracingService? trace
     ) : TokenCredential
 {
     private static readonly JsonWebTokenHandler JwtHandler = new();
     private readonly ConcurrentDictionary<string[], string> _accessTokens =
         new(AccessTokenScopesComparer.Instance);
+    private static readonly ReadOnlyMemory<char> UriSchemeChars = "://".AsMemory();
+
+    private readonly string _authorityInstanceUrl = azureAuthorityInfo.
+        AzureAuthorityHost.ToString();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Design",
@@ -32,10 +37,20 @@ internal sealed class ManagedIdentityAzureCredential(
                 return accessTokenRecord;
         }
 
+        string? firstScope = requestContext.Scopes?.FirstOrDefault();
+        if (string.IsNullOrEmpty(firstScope))
+            firstScope = "00000007-0000-0000-c000-000000000000/.default";
+        int slashIdx = firstScope!.LastIndexOf('/');
+        string resource = slashIdx > 2 &&
+            !firstScope.AsSpan(slashIdx - 2, 3).SequenceEqual(UriSchemeChars.Span)
+            ? firstScope[..slashIdx]
+            : firstScope;
         try
         {
-            accessToken = managedIdentityService.AcquireToken(
-                requestContext.Scopes
+            accessToken = pluginAuthProvider.AcquireToken(
+                _authorityInstanceUrl,
+                resource,
+                AuthenticationType.ManagedIdentity
                 );
         }
         catch (Exception acquireTokenExcept)
@@ -45,7 +60,7 @@ internal sealed class ManagedIdentityAzureCredential(
                 acquireTokenExcept
                 );
         }
-        _accessTokens[requestContext.Scopes] = accessToken;
+        _accessTokens[requestContext.Scopes ?? []] = accessToken;
         return CreateAccessTokenRecord(accessToken);
     }
 

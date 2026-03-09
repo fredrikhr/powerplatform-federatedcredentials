@@ -80,30 +80,43 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         bool hasPluginAppId = pluginAppId.HasValue;
         bool hasPluginTenantId = pluginTenantId.HasValue;
 
-        IEnumerable<string> reqScopes = [$"{reqResourceId}/.default"];
         bool pluginIsSameAsRequested =
             hasPluginAppId && reqAppId == pluginAppId &&
             (!hasPluginTenantId || pluginTenantId == reqTenantId);
         return pluginIsSameAsRequested
-            ? serviceProvider.Get<IManagedIdentityService>()
-                .AcquireToken(reqScopes)
+            ? AcquirePrimaryAccessToken(serviceProvider, reqResourceId)
             : AcquireSecondaryAccessToken(serviceProvider,
                 reqTenantString,
                 reqAppId.ToString(),
-                reqScopes
+                reqResourceId
                 );
+    }
+
+    private static string AcquirePrimaryAccessToken(
+        IServiceProvider serviceProvider,
+        string resourceId
+        )
+    {
+        var authInfo = serviceProvider.Get<IEnvironmentService>();
+        var pluginAuthContext = serviceProvider.Get<IAssemblyAuthenticationContext>();
+        return pluginAuthContext.AcquireToken(
+            authInfo.AzureAuthorityHost.ToString(),
+            resourceId,
+            AuthenticationType.ManagedIdentity
+            );
     }
 
     protected virtual string AcquireSecondaryAccessToken(
         IServiceProvider serviceProvider,
         string tenantId,
         string clientId,
-        IEnumerable<string> reqScopes
+        string resourceId
         )
     {
+        IEnumerable<string> msalScopes = [$"{resourceId}/.default"];
         const string clientAssertionName = "ClientAssertion";
         var context = serviceProvider.Get<IPluginExecutionContext6>();
-        var federatedIdentity = serviceProvider.Get<IManagedIdentityService>();
+        var federatedIdentity = serviceProvider.Get<IAssemblyAuthenticationContext>();
         if (context.InputParameters.TryGetValue(
                     InputParameterNames.AssertionAudience,
                     out string? assertionAudience
@@ -111,10 +124,11 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
             assertionAudience = "api://AzureADTokenExchange";
 
         var azureEnvironmentInfo = serviceProvider.Get<IEnvironmentService>();
+        string authorityInstanceUrl = azureEnvironmentInfo.AzureAuthorityHost.ToString();
         IConfidentialClientApplication msalClient = ConfidentialClientApplicationBuilder
             .Create(clientId)
             .WithAuthority(
-                azureEnvironmentInfo.AzureAuthorityHost.ToString(),
+                authorityInstanceUrl,
                 tenantId
             )
             .WithClientAssertion(GetMsalClientAssertionAsync)
@@ -122,7 +136,7 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         try
         {
             AuthenticationResult msalResult = msalClient
-                .AcquireTokenForClient(reqScopes)
+                .AcquireTokenForClient(msalScopes)
                 .ExecuteAsync().GetAwaiter().GetResult();
             return msalResult.AccessToken;
         }
@@ -150,7 +164,9 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         Task<string> GetMsalClientAssertionAsync(AssertionRequestOptions msalRequest)
         {
             string assertion = federatedIdentity.AcquireToken(
-                [$"{assertionAudience}/.default"]
+                authorityInstanceUrl,
+                resourceId,
+                AuthenticationType.ManagedIdentity
                 );
             context.SharedVariables[clientAssertionName] = assertion;
             return Task.FromResult(assertion);
