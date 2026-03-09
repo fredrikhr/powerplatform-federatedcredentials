@@ -26,7 +26,7 @@ public abstract class PluginBase : IPlugin
     {
         var trace = serviceProvider.Get<ITracingService>();
         PluginDependencyAssemblyLoader.RegisterTracingService(trace);
-        ProxyTypesAssemblyRegistrar.EnsureProxyTypesRegistered(trace);
+        ProxyTypesAssemblyRegistrar.EnsureProxyTypesRegistered();
         try
         {
             ExecuteCore(serviceProvider);

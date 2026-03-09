@@ -16,18 +16,18 @@ internal static class ProxyTypesAssemblyRegistrar
     private static readonly Lock SyncLock = new();
     private static bool IsRegistered;
 
-    internal static void EnsureProxyTypesRegistered(ITracingService trace)
+    internal static void EnsureProxyTypesRegistered()
     {
         lock (SyncLock)
         {
             if (IsRegistered) return;
 
-            PerformProxyTypeRegistration(trace);
+            PerformProxyTypeRegistration();
             IsRegistered = true;
         }
     }
 
-    private static void PerformProxyTypeRegistration(ITracingService trace)
+    private static void PerformProxyTypeRegistration()
     {
         Type knownTypesResolverType = Type.GetType(
             KnownTypesResolverTypeName,
@@ -61,13 +61,6 @@ internal static class ProxyTypesAssemblyRegistrar
         foreach (Type derivedEntityType in derivedEntityTypes)
         {
             resolvedTypes[derivedEntityType.Name] = entityXmlTuple;
-            trace.Trace(
-                "{0}.ResolvedTypes[{1}] = ({2}, {3})",
-                knownTypesResolverType.Name,
-                derivedEntityType.Name,
-                entityXmlTuple.Item1,
-                entityXmlTuple.Item2
-                );
         }
     }
 }
