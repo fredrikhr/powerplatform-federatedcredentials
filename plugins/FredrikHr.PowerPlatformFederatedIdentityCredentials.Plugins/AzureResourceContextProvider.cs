@@ -17,11 +17,7 @@ internal static class AzureResourceContextProvider
             return tokenCredential;
         }
 
-        tokenCredential = new ManagedIdentityAzureCredential(
-            serviceProvider.Get<IEnvironmentService>(),
-            serviceProvider.Get<IAssemblyAuthenticationContext>(),
-            serviceProvider.Get<ITracingService>()
-            );
+        tokenCredential = new ManagedIdentityAzureCredential(serviceProvider);
         context.SharedVariables[nameof(TokenCredential)] = tokenCredential;
         return tokenCredential;
     }

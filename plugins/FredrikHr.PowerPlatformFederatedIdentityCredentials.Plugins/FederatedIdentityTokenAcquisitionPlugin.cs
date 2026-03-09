@@ -84,7 +84,10 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
             hasPluginAppId && reqAppId == pluginAppId &&
             (!hasPluginTenantId || pluginTenantId == reqTenantId);
         return pluginIsSameAsRequested
-            ? AcquirePrimaryAccessToken(serviceProvider, reqResourceId)
+            ? AcquirePrimaryAccessToken(serviceProvider,
+                pluginTenantId ?? context.TenantId,
+                reqResourceId
+                )
             : AcquireSecondaryAccessToken(serviceProvider,
                 reqTenantString,
                 reqAppId.ToString(),
@@ -94,13 +97,14 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
 
     private static string AcquirePrimaryAccessToken(
         IServiceProvider serviceProvider,
+        Guid authorityTenantId,
         string resourceId
         )
     {
         var authInfo = serviceProvider.Get<IEnvironmentService>();
         var pluginAuthContext = serviceProvider.Get<IAssemblyAuthenticationContext>();
         return pluginAuthContext.AcquireToken(
-            authInfo.AzureAuthorityHost.ToString(),
+            $"{authInfo.AzureAuthorityHost}/{authorityTenantId}/v2.0",
             resourceId,
             AuthenticationType.ManagedIdentity
             );
