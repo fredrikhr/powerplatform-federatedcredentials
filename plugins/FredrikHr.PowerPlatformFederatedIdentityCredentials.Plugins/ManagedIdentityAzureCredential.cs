@@ -7,13 +7,19 @@ using Microsoft.IdentityModel.JsonWebTokens;
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
 internal sealed class ManagedIdentityAzureCredential(
-    IManagedIdentityService managedIdentityService
+    IManagedIdentityService managedIdentityService,
+    ITracingService? trace
     ) : TokenCredential
 {
     private static readonly JsonWebTokenHandler JwtHandler = new();
     private readonly ConcurrentDictionary<string[], string> _accessTokens =
         new(AccessTokenScopesComparer.Instance);
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Design",
+        "CA1031: Do not catch general exception types",
+        Justification = nameof(ITracingService)
+        )]
     public override AccessToken GetToken(
         TokenRequestContext requestContext,
         CancellationToken cancellationToken
@@ -26,9 +32,19 @@ internal sealed class ManagedIdentityAzureCredential(
                 return accessTokenRecord;
         }
 
-        accessToken = managedIdentityService.AcquireToken(
-            requestContext.Scopes
-            );
+        try
+        {
+            accessToken = managedIdentityService.AcquireToken(
+                requestContext.Scopes
+                );
+        }
+        catch (Exception acquireTokenExcept)
+        {
+            trace?.Trace(
+                "Error while acquiring access token when using Azure SDK TokenCredential: {0}",
+                acquireTokenExcept
+                );
+        }
         _accessTokens[requestContext.Scopes] = accessToken;
         return CreateAccessTokenRecord(accessToken);
     }
