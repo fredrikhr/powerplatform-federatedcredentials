@@ -333,9 +333,9 @@ internal static class KeyVaultPluginUtility
             sha256.ComputeHash(keyVaultCertificateInfo.Cer)
             );
         SigningCredentials keyVaultSignCreds = new(
-        keyVaultRsaKey,
-        SecurityAlgorithms.RsaSsaPssSha256
-        );
+            keyVaultRsaKey,
+            SecurityAlgorithms.RsaSsaPssSha256
+            );
         System.IdentityModel.Tokens.Jwt.JwtHeader assertionHeader = new(keyVaultSignCreds)
         {
             { JwtHeaderParameterNames.X5t, keyVaultCertificateThumbprint },
