@@ -1,0 +1,21 @@
+customapi:
+  '@uniquename': pwrplatf_AcquireAccessTokenForManagedIdentity
+  allowedcustomprocessingsteptype: 0
+  bindingtype: 0
+  description:
+    '@default': Acquires an access token for the specified Managed Identity record
+    label:
+      '@description': Acquires an access token for the specified Managed Identity record
+      '@languagecode': 1033
+  displayname:
+    '@default': Acquire Access Token for Managed Identity
+    label:
+      '@description': Acquire Access Token for Managed Identity
+      '@languagecode': 1033
+  iscustomizable: 1
+  isfunction: 0
+  isprivate: 0
+  name: Acquire Access Token for Managed Identity
+  plugintypeid:
+    plugintypeexportkey: B325B7C7B9E4C2CE232FCEFB118EF2EAE616A80C3D774F124690791BD604FBF0
+  workflowsdkstepenabled: 0

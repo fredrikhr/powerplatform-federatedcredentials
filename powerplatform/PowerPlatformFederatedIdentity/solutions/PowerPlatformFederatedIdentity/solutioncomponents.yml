@@ -1,5 +1,9 @@
 SolutionComponents:
   Component:
+  - '@path': /customapis/pwrplatf_AcquireAccessTokenForManagedIdentity
+  - '@path': /customapis/pwrplatf_AcquireAccessTokenForManagedIdentity/customapirequestparameters/ManagedIdentityId
+  - '@path': /customapis/pwrplatf_AcquireAccessTokenForManagedIdentity/customapiresponseproperties/AccessToken
+  - '@path': /customapis/pwrplatf_AcquireAccessTokenForManagedIdentity/customapiresponseproperties/JsonWebToken
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/ApplicationId
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapirequestparameters/KeyVaultObjectName
