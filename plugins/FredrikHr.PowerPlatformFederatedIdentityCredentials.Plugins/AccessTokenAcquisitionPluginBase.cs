@@ -1,7 +1,5 @@
 using System.Text.Json;
 
-using Microsoft.Crm.Sdk.Messages;
-
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.JsonWebTokens;
 
@@ -23,12 +21,12 @@ public abstract class AccessTokenAcquisitionPluginBase : PluginBase
         "CA1031: Do not catch general exception types",
         Justification = nameof(ITracingService)
         )]
-    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    protected override void ExecuteCore(PluginContext context)
     {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        var outputs = context.OutputParameters;
+        _ = context ?? throw new ArgumentNullException(nameof(context));
+        var outputs = context.Outputs;
 
-        string accessToken = AcquireAccessToken(serviceProvider);;
+        string accessToken = AcquireAccessToken(context);
 
         outputs[OutputParameterNames.AccessToken] = accessToken;
 
@@ -38,6 +36,7 @@ public abstract class AccessTokenAcquisitionPluginBase : PluginBase
         }
         catch (Exception except)
         {
+            IServiceProvider serviceProvider = context.ServiceProvider;
             var trace = serviceProvider.Get<ITracingService>();
             TraceException(trace, except);
         }
@@ -123,24 +122,5 @@ public abstract class AccessTokenAcquisitionPluginBase : PluginBase
         }
     }
 
-    protected abstract string AcquireAccessToken(IServiceProvider serviceProvider);
-
-    internal const string PrivilegeNameImpersonation = "prvActOnBehalfOfAnotherUser";
-    private static readonly string[] PrivilegeNamesImpersonation = [PrivilegeNameImpersonation];
-
-    internal static bool CheckUserHasImpersonatePrivilege(IServiceProvider serviceProvider)
-    {
-        var context = serviceProvider.Get<IPluginExecutionContext2>();
-        IOrganizationService dataverseService = serviceProvider
-            .Get<IOrganizationServiceFactory>()
-            .CreateOrganizationService(null);
-        RetrieveAadUserSetOfPrivilegesByNamesRequest dataverseRequest = new()
-        {
-            DirectoryObjectId = context.UserAzureActiveDirectoryObjectId,
-            PrivilegeNames = PrivilegeNamesImpersonation,
-        };
-        var dataverseResponse = (RetrieveAadUserSetOfPrivilegesByNamesResponse)
-            dataverseService.Execute(dataverseRequest);
-        return (dataverseResponse.RolePrivileges?.Length ?? 0) > 0;
-    }
+    protected abstract string AcquireAccessToken(PluginContext pluginContext);
 }

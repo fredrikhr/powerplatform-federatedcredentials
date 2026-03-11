@@ -9,6 +9,7 @@ public class RetrieveRequestedManagedIdentityPlugin : PluginBase, IPlugin
 {
     internal static class InputParameterNames
     {
+        internal const string ManagedIdentityId = nameof(ManagedIdentityId);
         internal const string TenantId = nameof(TenantId);
         internal const string ApplicationId = nameof(ApplicationId);
         internal const string Name = nameof(Name);
@@ -19,23 +20,49 @@ public class RetrieveRequestedManagedIdentityPlugin : PluginBase, IPlugin
         internal const string RequestedManagedIdentity = nameof(RequestedManagedIdentity);
     }
 
-    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    protected override void ExecuteCore(PluginContext context)
     {
-        ExecuteInternal(serviceProvider);
+        _ = context ?? throw new ArgumentNullException(nameof(context));
+        context.Outputs[OutputParameterNames.RequestedManagedIdentity] =
+            context.RequestedManagedIdentity;
     }
 
-    internal static void ExecuteInternal(IServiceProvider serviceProvider)
+    internal static void ExecuteInternal(
+        PluginContext pluginContext,
+        ParameterCollection? outputs = null
+        )
     {
+        outputs ??= pluginContext.Outputs;
         const StringComparison cmp = StringComparison.OrdinalIgnoreCase;
-        var context = serviceProvider.Get<IPluginExecutionContext>();
+        IServiceProvider serviceProvider = pluginContext.ServiceProvider;
+        IPluginExecutionContext context = pluginContext.ExecutionContext;
         ManagedIdentity? managedIdentity = null;
         if (ManagedIdentity.EntityLogicalName.Equals(context.PrimaryEntityName, cmp))
         {
-            var dataverseService = serviceProvider.Get<IOrganizationServiceFactory>()
-                .CreateOrganizationService(default);
+            var dataverseService = pluginContext.DefaultDataverseClient;
             managedIdentity = dataverseService.Retrieve(
                 context.PrimaryEntityName,
                 context.PrimaryEntityId,
+                ManagedIdentity.ColumnSet
+                ).ToEntity<ManagedIdentity>();
+        }
+        if (((pluginContext.Inputs.TryGetValue(
+            InputParameterNames.ManagedIdentityId,
+            out string? managedIdentityIdString
+            ) && Guid.TryParse(
+                managedIdentityIdString,
+                out Guid managedIdentityId)
+            ) ||
+            pluginContext.Inputs.TryGetValue(
+            InputParameterNames.ManagedIdentityId,
+            out managedIdentityId)) &&
+            managedIdentityId != Guid.Empty
+            )
+        {
+            var dataverseService = pluginContext.DefaultDataverseClient;
+            managedIdentity = dataverseService.Retrieve(
+                ManagedIdentity.EntityLogicalName,
+                managedIdentityId,
                 ManagedIdentity.ColumnSet
                 ).ToEntity<ManagedIdentity>();
         }
@@ -43,11 +70,11 @@ public class RetrieveRequestedManagedIdentityPlugin : PluginBase, IPlugin
         if (managedIdentity is null)
         {
             managedIdentity = new();
-            if (context.InputParameters.TryGetValue(InputParameterNames.TenantId, out Guid tenantId))
+            if (pluginContext.Inputs.TryGetValue(InputParameterNames.TenantId, out Guid tenantId))
             {
                 managedIdentity.TenantId = tenantId;
             }
-            else if (context.InputParameters.TryGetValue(InputParameterNames.TenantId, out string tenantDomainName))
+            else if (pluginContext.Inputs.TryGetValue(InputParameterNames.TenantId, out string tenantDomainName))
             {
                 if (!Guid.TryParse(tenantDomainName, out tenantId))
                 {
@@ -61,18 +88,18 @@ public class RetrieveRequestedManagedIdentityPlugin : PluginBase, IPlugin
                 managedIdentity.TenantId = tenantId;
             }
 
-            if (context.InputParameters.TryGetValue(InputParameterNames.ApplicationId, out Guid applicationId))
+            if (pluginContext.Inputs.TryGetValue(InputParameterNames.ApplicationId, out Guid applicationId))
             {
                 managedIdentity.ApplicationId = applicationId;
             }
 
-            if (context.InputParameters.TryGetValue(InputParameterNames.Name, out string name))
+            if (pluginContext.Inputs.TryGetValue(InputParameterNames.Name, out string name))
             {
                 managedIdentity.Name = name;
             }
         }
 
-        context.OutputParameters[OutputParameterNames.RequestedManagedIdentity] =
+        outputs[OutputParameterNames.RequestedManagedIdentity] =
             managedIdentity;
     }
 

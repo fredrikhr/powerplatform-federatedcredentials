@@ -33,19 +33,18 @@ public sealed class PluginPackageManagedIdentityPlugin
     internal static class InputParameterNames
     {
         internal const string ManagedIdentityId = nameof(ManagedIdentityId);
+        internal const string Scopes = nameof(Scopes);
     }
 
-    protected override string AcquireAccessToken(
-        IServiceProvider serviceProvider
-        )
+    protected override string AcquireAccessToken(PluginContext pluginContext)
     {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        ParameterCollection inputs = context.InputParameters;
+        IPluginExecutionContext execContext = pluginContext.ExecutionContext;
+        ParameterCollection inputs = pluginContext.Inputs;
 
         string managedIdentityId;
-        if (ManagedIdentity.EntityLogicalName.Equals(context.PrimaryEntityName, Cmp))
+        if (ManagedIdentity.EntityLogicalName.Equals(execContext.PrimaryEntityName, Cmp))
         {
-            managedIdentityId = context.PrimaryEntityId.ToString();
+            managedIdentityId = execContext.PrimaryEntityId.ToString();
         }
         else if (inputs.TryGetValue(
             "Target",
@@ -73,6 +72,37 @@ public sealed class PluginPackageManagedIdentityPlugin
                 );
         }
 
+        if (!inputs.TryGetValue(
+            InputParameterNames.Scopes,
+            out string[] scopes) ||
+            scopes is not { Length: > 0 }
+            )
+        {
+            scopes = ["00000007-0000-0000-c000-000000000000/.default"];
+        }
+
+        Guid managedIdentityEntityId = Guid.Parse(managedIdentityId);
+        IOrganizationService dataverseClient = pluginContext.DefaultDataverseClient;
+        ManagedIdentity managedIdentityEntity = dataverseClient.Retrieve(
+            ManagedIdentity.EntityLogicalName,
+            managedIdentityEntityId,
+            ManagedIdentity.ColumnSet
+            ).ToEntity<ManagedIdentity>();
+        bool userIsSameAsRequested = pluginContext.UserApplicationId.HasValue &&
+            pluginContext.UserApplicationId == managedIdentityEntity.ApplicationId &&
+            (
+                !managedIdentityEntity.TenantId.HasValue ||
+                pluginContext.ExecutionContext.TenantId == managedIdentityEntity.TenantId
+            );
+        if (!userIsSameAsRequested && !pluginContext.UserHasImpersonationPrivilege)
+        {
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.Forbidden,
+                message: $"Entra Object ID {pluginContext.ExecutionContext.UserAzureActiveDirectoryObjectId} is missing privilege {PluginContext.PrivilegeNameImpersonation}."
+                );
+        }
+
+        IServiceProvider serviceProvider = pluginContext.ServiceProvider;
         var fcs = serviceProvider.Get<IFeatureControlService>();
         dynamic sandboxCallbackSvc = fcs.GetType().InvokeMember(
             "_sandboxCallbackService",
@@ -87,6 +117,9 @@ public sealed class PluginPackageManagedIdentityPlugin
         {
             dynamic request = Activator.CreateInstance(ExecuteRequestTypeRef);
             request.ManagedIdentityId = managedIdentityId;
+            IList<string> requestScopes = (IList<string>)request.Scopes;
+            foreach (string requestedScope in scopes)
+            { requestScopes.Add(requestedScope); }
             response.PluginPackageManagedIdentityServiceProviderAcquireTokenRequest = request;
             return Enum.Parse(
                 RequestDataOneofCaseTypeRef,

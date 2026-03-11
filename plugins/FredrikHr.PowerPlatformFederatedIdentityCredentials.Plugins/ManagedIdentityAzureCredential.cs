@@ -4,45 +4,20 @@ using Microsoft.IdentityModel.JsonWebTokens;
 
 using Azure.Core;
 
-using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
-
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
-internal sealed class ManagedIdentityAzureCredential : TokenCredential
+internal sealed class ManagedIdentityAzureCredential(
+    IServiceProvider serviceProvider
+    ) : TokenCredential()
 {
     private static readonly JsonWebTokenHandler JwtHandler = new();
     private readonly ConcurrentDictionary<string[], string> _accessTokens =
         new(AccessTokenScopesComparer.Instance);
-    private static readonly ReadOnlyMemory<char> UriSchemeChars = "://".AsMemory();
 
-    private readonly IAssemblyAuthenticationContext _pluginAuthContext;
-    private readonly ITracingService _trace;
-    private readonly string _idpAuthority;
-
-    private static Guid GetPluginTenantId(IServiceProvider serviceProvider, bool reentrantCall = false)
-    {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        return context.OutputParameters.TryGetValue(
-            RetrieveContextManagedIdentityPlugin.OutputParameterNames.PluginAssemblyManagedIdentity,
-            out ManagedIdentity? pluginIdentityEntity) &&
-            pluginIdentityEntity is not null
-            ? pluginIdentityEntity.TenantId.GetValueOrDefault()
-            : reentrantCall
-            ? default
-            : GetPluginTenantId(serviceProvider, reentrantCall: true);
-    }
-
-    public ManagedIdentityAzureCredential(IServiceProvider serviceProvider) : base()
-    {
-        _pluginAuthContext = serviceProvider.Get<IAssemblyAuthenticationContext>();
-        _trace = serviceProvider.Get<ITracingService>();
-
-        Guid pluginTenantId = GetPluginTenantId(serviceProvider);
-        if (pluginTenantId == Guid.Empty) pluginTenantId = serviceProvider
-            .Get<IPluginExecutionContext6>().TenantId;
-        var authInstanceInfo = serviceProvider.Get<IEnvironmentService>();
-        _idpAuthority = $"{authInstanceInfo.AzureAuthorityHost}/{pluginTenantId}/v2.0";
-    }
+    private readonly IManagedIdentityService _managedIdentity =
+        serviceProvider.Get<IManagedIdentityService>();
+    private readonly ITracingService _trace =
+        serviceProvider.Get<ITracingService>();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Design",
@@ -61,20 +36,10 @@ internal sealed class ManagedIdentityAzureCredential : TokenCredential
                 return accessTokenRecord;
         }
 
-        string? firstScope = requestContext.Scopes?.FirstOrDefault();
-        if (string.IsNullOrEmpty(firstScope))
-            firstScope = "00000007-0000-0000-c000-000000000000/.default";
-        int slashIdx = firstScope!.LastIndexOf('/');
-        string resource = slashIdx > 2 &&
-            !firstScope.AsSpan(slashIdx - 2, 3).SequenceEqual(UriSchemeChars.Span)
-            ? firstScope[..slashIdx]
-            : firstScope;
         try
         {
-            accessToken = _pluginAuthContext.AcquireToken(
-                _idpAuthority,
-                resource,
-                AuthenticationType.ManagedIdentity
+            accessToken = _managedIdentity.AcquireToken(
+                requestContext.Scopes
                 );
         }
         catch (Exception acquireTokenExcept)

@@ -3,13 +3,14 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 public class OnBehalfOfTokenAcquisitionPlugin
     : AccessTokenAcquisitionPluginBase, IPlugin
 {
-    protected override string AcquireAccessToken(IServiceProvider serviceProvider)
+    protected override string AcquireAccessToken(PluginContext pluginContext)
     {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
+        _ = pluginContext ?? throw new ArgumentNullException(nameof(pluginContext));
+        var scopes = pluginContext.ExecutionContext
+            .InputParameterOrDefault<string[]>("Scopes");
 
-        var scopes = context.InputParameterOrDefault<string[]>("Scopes");
-
-        var tokenAcquirer = serviceProvider.Get<IOnBehalfOfTokenService>();
+        var tokenAcquirer = pluginContext.ServiceProvider
+            .Get<IOnBehalfOfTokenService>();
         return tokenAcquirer.AcquireToken(scopes);
     }
 }

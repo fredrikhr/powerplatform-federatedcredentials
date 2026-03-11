@@ -25,27 +25,32 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
         internal const string KeyVaultResourceIdentifier = nameof(KeyVaultResourceIdentifier);
     }
 
-    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    protected override void ExecuteCore(PluginContext context)
     {
-        ExecuteInternal(serviceProvider);
+        _ = context ?? throw new ArgumentNullException(nameof(context));
+        ExecuteInternal(context, context.Outputs);
     }
 
-    internal static void ExecuteInternal(IServiceProvider serviceProvider)
+    internal static void ExecuteInternal(
+        PluginContext context,
+        ParameterCollection? outputs = null
+        )
     {
+        outputs ??= context.Outputs;
+        ParameterCollection inputs = context.Inputs;
+        IPluginExecutionContext execContext = context.ExecutionContext;
         const StringComparison cmp = StringComparison.OrdinalIgnoreCase;
-        var context = serviceProvider.Get<IPluginExecutionContext>();
         KeyVaultReference? keyvaultReference;
         string? keyVaultResourceIdString = null;
         string? keyVaultUri;
-        keytype keyVaultObjectType = (keytype)(-1);
-        if (KeyVaultReference.EntityLogicalName.Equals(context.PrimaryEntityName, cmp))
+        if (KeyVaultReference.EntityLogicalName.Equals(execContext.PrimaryEntityName, cmp))
         {
             keyvaultReference = RetrieveEntityByEntityId(
-                serviceProvider,
-                context.PrimaryEntityId
+                context,
+                execContext.PrimaryEntityId
                 ).ToEntity<KeyVaultReference>();
         }
-        else if (context.InputParameters.TryGetValue(
+        else if (inputs.TryGetValue(
             InputParameterNames.KeyVaultReference,
             out Entity? keyVaultReferenceInputEntity
             ) && keyVaultReferenceInputEntity is not null)
@@ -53,32 +58,33 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
             keyvaultReference = keyVaultReferenceInputEntity
                 .ToEntity<KeyVaultReference>();
         }
-        else if (context.InputParameters.TryGetValue(
+        else if (inputs.TryGetValue(
             InputParameterNames.KeyVaultReference,
             out EntityReference keyVaultReferenceEntityReference
             ))
         {
             keyvaultReference = RetrieveEntityByEntityId(
-                serviceProvider,
+                context,
                 keyVaultReferenceEntityReference.Id
                 );
         }
         else
         {
             keyvaultReference = new();
-            if (context.InputParameters.TryGetValue(
+            if (inputs.TryGetValue(
                 InputParameterNames.KeyVaultUri,
                 out keyVaultUri
                 ))
             {
                 keyvaultReference.KeyVaultUri = keyVaultUri;
             }
-            if ((context.InputParameters.TryGetValue(
+            keytype keyVaultObjectType;
+            if ((inputs.TryGetValue(
                 InputParameterNames.KeyVaultObjectType,
                 out OptionSetValue keyVaultObjectTypeOptionSetValue
                 ) && keyVaultObjectTypeOptionSetValue
                 is { Value: int keyVaultObjectTypeIntValue }) ||
-                context.InputParameters.TryGetValue(
+                inputs.TryGetValue(
                 InputParameterNames.KeyVaultObjectType,
                 out keyVaultObjectTypeIntValue
                 ))
@@ -95,7 +101,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
                 };
                 keyvaultReference.KeyType = keyVaultObjectType;
             }
-            else if (context.InputParameters.TryGetValue(
+            else if (inputs.TryGetValue(
                 InputParameterNames.KeyVaultObjectType,
                 out string keyVaultObjectTypeStringValue
                 ) && Enum.TryParse(
@@ -115,13 +121,13 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
                         ),
                 };
             }
-            if (context.InputParameters.TryGetValue(
+            if (inputs.TryGetValue(
                 InputParameterNames.KeyVaultObjectName,
                 out string keyVaultObjectName
                 ) && !string.IsNullOrEmpty(keyVaultObjectName))
             {
                 keyvaultReference.KeyName = keyVaultObjectName;
-                if (context.InputParameters.TryGetValue(
+                if (inputs.TryGetValue(
                     InputParameterNames.KeyVaultObjectVersion,
                     out string? keyVaultObjectVersion
                     ))
@@ -130,7 +136,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
                         keyVaultObjectVersion;
                 }
             }
-            if (context.InputParameters.TryGetValue(
+            if (inputs.TryGetValue(
                 InputParameterNames.KeyVaultResourceIdentifier,
                 out keyVaultResourceIdString
                 ))
@@ -148,7 +154,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
                 ) || string.IsNullOrEmpty(keyVaultResourceIdString)))
         {
             keyVaultResourceIdentifier = ResolveKeyVaultResourceIdentifier(
-                serviceProvider,
+                context,
                 keyvaultReference
                 ).GetAwaiter().GetResult();
             keyvaultReference[KeyVaultReference.Fields.KeyVaultResourceIdentifier] =
@@ -180,19 +186,17 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
             keyvaultReference.KeyType ??= keyType;
         }
 
-        context.OutputParameters[OutputParameterNames.KeyVaultReference] =
+        outputs[OutputParameterNames.KeyVaultReference] =
             keyvaultReference;
-        context.OutputParameters[OutputParameterNames.KeyVaultResourceIdentifier] =
+        outputs[OutputParameterNames.KeyVaultResourceIdentifier] =
             keyvaultReference[KeyVaultReference.Fields.KeyVaultResourceIdentifier];
 
         static KeyVaultReference RetrieveEntityByEntityId(
-            IServiceProvider serviceProvider,
+            PluginContext context,
             Guid entityId
             )
         {
-            IOrganizationService dataverseService = serviceProvider
-                .Get<IOrganizationServiceFactory>()
-                .CreateOrganizationService(null);
+            IOrganizationService dataverseService = context.DefaultDataverseClient;
             return dataverseService.Retrieve(
                 KeyVaultReference.EntityLogicalName,
                 entityId,
@@ -208,7 +212,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
     }
 
     private static async Task<ResourceIdentifier> ResolveKeyVaultResourceIdentifier(
-        IServiceProvider serviceProvider,
+        PluginContext context,
         KeyVaultReference entity
         )
     {
@@ -222,9 +226,7 @@ public class ResolveKeyVaultReferencePlugin : PluginBase, IPlugin
                 );
         }
         string keyVaultName = GetKeyVaultName(keyVaultUrl!);
-        ArmClient armClient = AzureResourceContextProvider.GetOrCreateArmClient(
-            serviceProvider
-            );
+        ArmClient armClient = context.AzureResourceManagerClient;
         await foreach (SubscriptionResource subscription in armClient
             .GetSubscriptions().ConfigureAwait(continueOnCapturedContext: false))
         {
