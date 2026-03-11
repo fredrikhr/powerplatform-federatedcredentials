@@ -20,9 +20,9 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
         "CA1031: Do not catch general exception types",
         Justification = nameof(ITracingService)
         )]
-    protected override string AcquireAccessToken(IServiceProvider serviceProvider)
+    protected override string AcquireAccessToken(PluginContext pluginContext)
     {
-        var context = serviceProvider.Get<IPluginExecutionContext6>();
+        IPluginExecutionContext6 context = pluginContext.ExecutionContext;
         ParameterCollection inputs = context.InputParameters;
         ParameterCollection outputs = context.OutputParameters;
         ParameterCollection sharedVars = context.SharedVariables;
@@ -58,7 +58,7 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
             }
             catch (Exception jweReadExcept)
             {
-                serviceProvider.Get<ITracingService>()?.Trace(
+                pluginContext.ServiceProvider.Get<ITracingService>()?.Trace(
                     "While reading JWE specified in parameter '{0}': {1}",
                     InputParameterNames.MsalV3Cache,
                     jweReadExcept
@@ -66,25 +66,23 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
             }
         }
 
-        ResolveUserApplicationIdPlugin.ExecuteInternal(serviceProvider);
-        RetrieveRequestedManagedIdentityPlugin.ExecuteInternal(serviceProvider);
-        var reqManagedIdentity = outputs[
-            RetrieveRequestedManagedIdentityPlugin.OutputParameterNames.RequestedManagedIdentity
-            ] switch
+        if (
+            pluginContext.RequestedManagedIdentity
+            is not ManagedIdentity reqManagedIdentity
+            )
         {
-            ManagedIdentity e => e,
-            Entity e => e.ToEntity<ManagedIdentity>(),
-            _ => throw new InvalidPluginExecutionException("Requested ManagedIdentity entity is not available."),
-        };
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: "Requested ManagedIdentity entity is not available."
+                );
+        }
         if (reqManagedIdentity.TenantId is not Guid reqTenantId || reqTenantId == Guid.Empty)
-            reqTenantId = context.TenantId;
+            reqTenantId = pluginContext.ExecutionContext.TenantId;
         string reqTenantString = reqTenantId.ToString();
         Guid? reqAppId = reqManagedIdentity.ApplicationId;
         bool hasReqAppId = (reqAppId ?? Guid.Empty) != Guid.Empty;
-        bool hasUserAppId = outputs.TryGetValue(
-            ResolveUserApplicationIdPlugin.OutputParameterName.UserApplicationId,
-            out Guid userAppId
-            ) && userAppId != Guid.Empty;
+        Guid? userAppId = pluginContext.UserApplicationId;
+        bool hasUserAppId = userAppId.HasValue && userAppId != Guid.Empty;
         if (!hasReqAppId)
         {
             reqAppId = hasUserAppId ? userAppId : throw new InvalidPluginExecutionException(
@@ -94,8 +92,8 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
         }
         string clientId = reqAppId.GetValueOrDefault().ToString();
 
-        EvaluateKeyVaultDataAccessPermissionsPlugin.ExecuteInternal(serviceProvider);
-        if (!outputs.TryGetValue(
+        EvaluateKeyVaultDataAccessPermissionsPlugin.ExecuteInternal(pluginContext, sharedVars);
+        if (!sharedVars.TryGetValue(
             EvaluateKeyVaultDataAccessPermissionsPlugin.OutputParameterNames.UserHasSufficientPermissions,
             out bool userHasSufficientPermissions
             ) || !userHasSufficientPermissions)
@@ -106,14 +104,15 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
                 );
         }
 
-        var keyVaultReferenceEntity = outputs[
-            ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultReference
-            ] switch
+        if (pluginContext.ResolvedKeyVaultReferenceEntity
+            is not KeyVaultReference keyVaultReferenceEntity
+            )
         {
-            KeyVaultReference e => e,
-            Entity e => e.ToEntity<KeyVaultReference>(),
-            _ => throw new InvalidPluginExecutionException("KeyVaultReference entity not availble."),
-        };
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: "KeyVaultReference entity not availble."
+                );
+        }
         var keyVaultUri = keyVaultReferenceEntity.KeyVaultUri;
         var keyVaultDataName = keyVaultReferenceEntity.KeyName;
         _ = keyVaultReferenceEntity.TryGetAttributeValue(
@@ -123,8 +122,7 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
         var keyVaultDataType = keyVaultReferenceEntity.KeyType;
 
         var msalBuilder = MsalPluginUtility.CreateMsalAppBuilder(
-            serviceProvider,
-            reqTenantString,
+            pluginContext, reqTenantString,
             clientId,
             keyVaultUri,
             keyVaultDataType ?? (keytype)(-1),
@@ -140,7 +138,7 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
             msalv3cacheJwe,
             keyVaultSecurityKey,
             sharedVars,
-            serviceProvider.Get<ITracingService>()
+            pluginContext.ServiceProvider.Get<ITracingService>()
             );
 
         IAccount? msalAccount;
@@ -151,7 +149,7 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
         }
         catch (Exception msalAuthAccountExcept)
         {
-            serviceProvider.Get<ITracingService>()?.Trace(
+            pluginContext.ServiceProvider.Get<ITracingService>()?.Trace(
                 "Failed to retrieve MSAL cached account with identifier '{0}': {1}",
                 msalAccountId,
                 msalAuthAccountExcept
@@ -181,7 +179,7 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
         }
         catch (Exception msalAuthExcept)
         {
-            serviceProvider.Get<ITracingService>()?.Trace(
+            pluginContext.ServiceProvider.Get<ITracingService>()?.Trace(
                 "MSAL silent authentication failed: {0}",
                 msalAuthExcept
                 );
@@ -192,8 +190,7 @@ public sealed class KeyVaultCredentialsSilentTokenAcquisitionPlugin()
         }
 
         MsalPluginUtility.EnsureUserPrivilegeForAuthResult(
-            serviceProvider,
-            msalAuthResult
+            pluginContext, msalAuthResult
             );
 
         MsalPluginUtility.SetOutputParametersFromMsalAuthResult(

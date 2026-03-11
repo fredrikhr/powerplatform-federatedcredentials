@@ -29,7 +29,7 @@ public abstract class PluginBase : IPlugin
         ProxyTypesAssemblyRegistrar.EnsureProxyTypesRegistered();
         try
         {
-            ExecuteCore(serviceProvider);
+            ExecuteCore(new(serviceProvider));
         }
         catch (Exception except)
         when (except is not InvalidPluginExecutionException)
@@ -66,5 +66,5 @@ public abstract class PluginBase : IPlugin
         };
     }
 
-    protected abstract void ExecuteCore(IServiceProvider serviceProvider);
+    protected abstract void ExecuteCore(PluginContext context);
 }

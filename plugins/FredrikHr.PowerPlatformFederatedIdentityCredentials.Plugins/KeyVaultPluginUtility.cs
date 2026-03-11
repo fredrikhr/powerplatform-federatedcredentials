@@ -2,16 +2,16 @@ using System.Net.Http;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 using Azure.Core;
 using Azure.Security.KeyVault.Certificates;
-using System.Security.Cryptography.X509Certificates;
 using Azure.Security.KeyVault.Keys.Cryptography;
-using Microsoft.Identity.Client;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -61,48 +61,43 @@ internal static class KeyVaultPluginUtility
     }
 
     internal static async Task<(KeyVaultCertificate certInfo, RsaSecurityKey rsaKey)> GetKeyVaultPrivateRsaSecurityKeyAsync(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         string keyVaultUrl,
         string keyVaultCertificateName,
         string? keyVaultCertificateVersion = null
         )
     {
         KeyVaultCertificate keyVaultCertificateInfo = await GetKeyVaultCertificateAsync(
-            serviceProvider,
-            keyVaultUrl,
+            pluginContext, keyVaultUrl,
             keyVaultCertificateName,
             keyVaultCertificateVersion
             ).ConfigureAwait(continueOnCapturedContext: false);
         RsaSecurityKey keyVaultRsaKey = await GetKeyVaultPrivateRsaSecurityKeyAsync(
-            serviceProvider,
-            keyVaultCertificateInfo
+            pluginContext, keyVaultCertificateInfo
             );
         return (keyVaultCertificateInfo, keyVaultRsaKey);
     }
 
     internal static async Task<(KeyVaultCertificate certInfo, RsaSecurityKey rsaKey)> GetKeyVaultPrivateRsaSecurityKeyAsync(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         Uri keyVaultCertificateUri
         )
     {
         KeyVaultCertificate keyVaultCertificateInfo = await GetKeyVaultCertificateAsync(
-            serviceProvider,
-            keyVaultCertificateUri
+            pluginContext, keyVaultCertificateUri
             ).ConfigureAwait(continueOnCapturedContext: false);
         RsaSecurityKey keyVaultRsaKey = await GetKeyVaultPrivateRsaSecurityKeyAsync(
-            serviceProvider,
-            keyVaultCertificateInfo
+            pluginContext, keyVaultCertificateInfo
             );
         return (keyVaultCertificateInfo, keyVaultRsaKey);
     }
 
     internal static async Task<RsaSecurityKey> GetKeyVaultPrivateRsaSecurityKeyAsync(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         KeyVaultCertificate keyVaultCertificateInfo
         )
     {
-        TokenCredential tokenCredential = AzureResourceContextProvider
-            .GetOrCreateTokenCredential(serviceProvider);
+        TokenCredential tokenCredential = pluginContext.AzureTokenCredential;
         CryptographyClientOptions keyVaultCryptoClientOptions = new();
         KeyResolver keyVaultKeyResolver = new(tokenCredential, keyVaultCryptoClientOptions);
         CryptographyClient keyVaultCryptoClient = await keyVaultKeyResolver
@@ -116,7 +111,7 @@ internal static class KeyVaultPluginUtility
     }
 
     internal static Task<KeyVaultCertificate> GetKeyVaultCertificateAsync(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         string keyVaultUrl,
         string keyVaultCertificateName,
         string? keyVaultCertificateVersion = null
@@ -128,15 +123,14 @@ internal static class KeyVaultPluginUtility
             : $"/certificates/{Uri.EscapeUriString(keyVaultCertificateName)}/{Uri.EscapeUriString(keyVaultCertificateVersion)}";
         Uri keyVaultCertificateUri = new(keyVaultUri, keyVaultCertificateRelativeUrl);
         return GetKeyVaultCertificateAsync(
-            serviceProvider,
-            keyVaultCertificateUri
+            pluginContext, keyVaultCertificateUri
             );
     }
 
     // Loading and using CertificateClient from assembly hosted in plugin sandbox worker environment
     // fails, retrieve KeyVaultCertificate resource manually using HTTP-client instead.
     internal static async Task<KeyVaultCertificate> GetKeyVaultCertificateAsync(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         Uri keyVaultCertificateUri
         )
     {
@@ -144,9 +138,9 @@ internal static class KeyVaultPluginUtility
             "Azure.Security.KeyVault.IJsonDeserializable, Azure.Security.KeyVault.Certificates, PublicKeyToken=92742159e12e44c8",
             throwOnError: true, ignoreCase: true
             );
-        var keyVaultAuthCtx = serviceProvider.Get<IAssemblyAuthenticationContext2>();
-        TokenCredential tokenCredential = AzureResourceContextProvider
-            .GetOrCreateTokenCredential(serviceProvider);
+        var keyVaultAuthCtx = pluginContext.ServiceProvider
+            .Get<IAssemblyAuthenticationContext2>();
+        TokenCredential tokenCredential = pluginContext.AzureTokenCredential;
 
         string keyVaultApiVersion = typeof(CertificateClientOptions).InvokeMember(
             "GetVersionString",
@@ -183,7 +177,7 @@ internal static class KeyVaultPluginUtility
         try { httpResp.EnsureSuccessStatusCode(); }
         catch (HttpRequestException httpExcept)
         {
-            var trace = serviceProvider.Get<ITracingService>();
+            var trace = pluginContext.ServiceProvider.Get<ITracingService>();
             trace.Trace("Failed to retrieve Azure Key Vault Certificate information: {0}", httpExcept);
             throw new InvalidPluginExecutionException(
                 httpStatus: (PluginHttpStatusCode)httpResp.StatusCode,
@@ -212,7 +206,7 @@ internal static class KeyVaultPluginUtility
     }
 
     internal static Func<AssertionRequestOptions, Task<string>> GetKeyVaultCertificateAssertionProvider(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         string keyVaultUrl,
         string keyVaultCertificateName,
         string? keyVaultCertificateVersion = null,
@@ -222,8 +216,7 @@ internal static class KeyVaultPluginUtility
     {
         Task<(KeyVaultCertificate info, SigningCredentials signCreds, string assertionHeaderEncoded)> keyVaultCertificateStaticTask =
             GetClientAssertionStaticData(
-                serviceProvider,
-                keyVaultUrl,
+                pluginContext, keyVaultUrl,
                 keyVaultCertificateName,
                 keyVaultCertificateVersion,
                 assertionJwtAlgorithm,
@@ -260,8 +253,9 @@ internal static class KeyVaultPluginUtility
             "CA5350: Do Not Use Weak Cryptographic Algorithms",
             Justification = nameof(X509Certificate2)
             )]
-        static async Task<(KeyVaultCertificate info, SigningCredentials signCreds, string assertionHeaderEncoded)> GetClientAssertionStaticData(
-            IServiceProvider serviceProvider,
+        static async Task<(KeyVaultCertificate info, SigningCredentials signCreds, string assertionHeaderEncoded)>
+        GetClientAssertionStaticData(
+            PluginContext pluginContext,
             string keyVaultUrl,
             string keyVaultCertificateName,
             string? keyVaultCertificateVersion = null,
@@ -269,17 +263,13 @@ internal static class KeyVaultPluginUtility
             bool sendX5c = false
             )
         {
-            TokenCredential tokenCredential = AzureResourceContextProvider
-                .GetOrCreateTokenCredential(serviceProvider);
+            TokenCredential tokenCredential = pluginContext.AzureTokenCredential;
             KeyVaultCertificate keyVaultCertificateInfo = await GetKeyVaultCertificateAsync(
-                serviceProvider,
-                keyVaultUrl,
-                keyVaultCertificateName,
+                pluginContext, keyVaultUrl, keyVaultCertificateName,
                 keyVaultCertificateVersion
                 ).ConfigureAwait(continueOnCapturedContext: false);
             Task<RsaSecurityKey> keyVaultRsaKeyTask = GetKeyVaultPrivateRsaSecurityKeyAsync(
-                serviceProvider,
-                keyVaultCertificateInfo
+                pluginContext, keyVaultCertificateInfo
                 );
             using var sha1 = SHA1.Create();
             string keyVaultCertificateThumbprint = Base64UrlEncoder.Encode(

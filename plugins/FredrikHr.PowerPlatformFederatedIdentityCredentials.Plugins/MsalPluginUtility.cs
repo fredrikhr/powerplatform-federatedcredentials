@@ -40,19 +40,20 @@ internal static class MsalPluginUtility
     private static readonly JsonWebTokenHandler JwtHandler = new();
 
     internal static ConfidentialClientApplicationBuilder GetMsalClientBuilderDefault(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         string tenantId,
         string clientId
         )
     {
-        Uri msIdpInstance = serviceProvider.Get<IEnvironmentService>()
+        Uri msIdpInstance = pluginContext.ServiceProvider
+            .Get<IEnvironmentService>()
             .AzureAuthorityHost;
         return ConfidentialClientApplicationBuilder.Create(clientId)
             .WithAuthority(msIdpInstance.ToString(), tenantId);
     }
 
     internal static ConfidentialClientApplicationBuilder CreateMsalAppBuilder(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         string tenantId,
         string clientId,
         string keyVaultUri,
@@ -67,7 +68,7 @@ internal static class MsalPluginUtility
         switch (keyVaultDataType)
         {
             case keytype.Secret:
-                var keyVaultSecretClient = serviceProvider.Get<IKeyVaultClient>();
+                var keyVaultSecretClient = pluginContext.ServiceProvider.Get<IKeyVaultClient>();
                 string keyVaultSecretValue = keyVaultSecretClient.GetSecret(
                     keyVaultUri,
                     keyVaultDataName
@@ -84,8 +85,7 @@ internal static class MsalPluginUtility
                     enc: SecurityAlgorithms.Aes128CbcHmacSha256
                     );
                 msalBuilder = GetMsalClientBuilderDefault(
-                    serviceProvider,
-                    tenantId,
+                    pluginContext, tenantId,
                     clientId
                     ).WithClientSecret(keyVaultSecretValue);
                 break;
@@ -95,9 +95,7 @@ internal static class MsalPluginUtility
                 KeyVaultCertificate keyVaultCertificateInfo;
                 RsaSecurityKey keyVaultRsaKey;
                 (keyVaultCertificateInfo, keyVaultRsaKey) = KeyVaultPluginUtility.GetKeyVaultPrivateRsaSecurityKeyAsync(
-                    serviceProvider,
-                    keyVaultUri,
-                    keyVaultDataName,
+                    pluginContext, keyVaultUri, keyVaultDataName,
                     keyVaultDataVersion
                     ).GetAwaiter().GetResult();
                 keyVaultRsaKey.KeyId = keyVaultCertificateInfo.KeyId.ToString();
@@ -113,8 +111,7 @@ internal static class MsalPluginUtility
                     sendX5c: keyVaultDataType == keytype.CertificateWithX5c
                     );
                 msalBuilder = GetMsalClientBuilderDefault(
-                    serviceProvider,
-                    tenantId,
+                    pluginContext, tenantId,
                     clientId
                     ).WithClientAssertion(keyVaultAssertionProvider);
                 break;
@@ -223,22 +220,22 @@ internal static class MsalPluginUtility
     }
 
     internal static void EnsureUserPrivilegeForAuthResult(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         AuthenticationResult authResult
         )
     {
-        var context = serviceProvider.Get<IPluginExecutionContext6>();
+        var context = pluginContext.ExecutionContext;
         if (!Guid.TryParse(authResult.TenantId, out Guid msalAuthTenantId) ||
             context.TenantId != msalAuthTenantId ||
             !Guid.TryParse(authResult.UniqueId, out Guid msalAuthUserId) ||
             context.UserAzureActiveDirectoryObjectId != msalAuthUserId
             )
         {
-            if (!AccessTokenAcquisitionPluginBase.CheckUserHasImpersonatePrivilege(serviceProvider))
+            if (!pluginContext.UserHasImpersonationPrivilege)
             {
                 throw new InvalidPluginExecutionException(
                     httpStatus: PluginHttpStatusCode.Forbidden,
-                    message: $"An access token was successfully obtained, but the access token authenticates a different user (or the authenticated user is unknown) and the calling user does not have the {AccessTokenAcquisitionPluginBase.PrivilegeNameImpersonation} privilege."
+                    message: $"An access token was successfully obtained, but the access token authenticates a different user (or the authenticated user is unknown) and the calling user does not have the {PluginContext.PrivilegeNameImpersonation} privilege."
                     );
             }
         }

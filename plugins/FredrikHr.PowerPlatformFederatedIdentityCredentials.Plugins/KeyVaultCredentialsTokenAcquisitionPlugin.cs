@@ -27,16 +27,20 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
     }
 
     protected override string AcquireSecondaryAccessToken(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         string tenantId,
         string clientId,
-        string resourceId
+        IEnumerable<string> scopes
         )
     {
-        IEnumerable<string> msalScopes = [$"{resourceId}/.default"];
-        var context = serviceProvider.Get<IPluginExecutionContext2>();
-        EvaluateKeyVaultDataAccessPermissionsPlugin.ExecuteInternal(serviceProvider);
-        if (!context.OutputParameters.TryGetValue(
+        _ = pluginContext ?? throw new ArgumentNullException(nameof(pluginContext));
+        IPluginExecutionContext2 context = pluginContext.ExecutionContext;
+        ParameterCollection keyVaultAccessEvalOutputs = [];
+        EvaluateKeyVaultDataAccessPermissionsPlugin.ExecuteInternal(
+            pluginContext,
+            keyVaultAccessEvalOutputs
+            );
+        if (!keyVaultAccessEvalOutputs.TryGetValue(
             EvaluateKeyVaultDataAccessPermissionsPlugin.OutputParameterNames.UserHasSufficientPermissions,
             out bool userHasSufficientPermissions
             ) || !userHasSufficientPermissions)
@@ -47,14 +51,15 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
                 );
         }
 
-        var keyVaultReferenceEntity = context.OutputParameters[
-            ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultReference
-            ] switch
+        if (pluginContext.ResolvedKeyVaultReferenceEntity
+            is not KeyVaultReference keyVaultReferenceEntity
+            )
         {
-            KeyVaultReference e => e,
-            Entity e => e.ToEntity<KeyVaultReference>(),
-            _ => throw new InvalidPluginExecutionException("KeyVaultReference entity not availble."),
-        };
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: "KeyVaultReference entity not availble."
+                );
+        }
         var keyVaultUri = keyVaultReferenceEntity.KeyVaultUri;
         var keyVaultDataName = keyVaultReferenceEntity.KeyName;
         _ = keyVaultReferenceEntity.TryGetAttributeValue(
@@ -64,8 +69,7 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
         var keyVaultDataType = keyVaultReferenceEntity.KeyType;
 
         ConfidentialClientApplicationBuilder msalBuilder = MsalPluginUtility.CreateMsalAppBuilder(
-            serviceProvider,
-            tenantId,
+            pluginContext, tenantId,
             clientId,
             keyVaultUri,
             keyVaultDataType ?? (keytype)(-1),
@@ -76,7 +80,7 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             );
         IConfidentialClientApplication msalApp = msalBuilder.Build();
         AuthenticationResult msalAuthResult = msalApp
-            .AcquireTokenForClient(msalScopes).ExecuteAsync()
+            .AcquireTokenForClient(scopes).ExecuteAsync()
             .GetAwaiter().GetResult();
 
         return msalAuthResult.AccessToken;

@@ -15,30 +15,27 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         internal const string AssertionAudience = nameof(AssertionAudience);
     }
 
-    protected override string AcquireAccessToken(
-        IServiceProvider serviceProvider
-        )
+    protected override string AcquireAccessToken(PluginContext pluginContext)
     {
-        var context = serviceProvider.Get<IPluginExecutionContext6>();
-        ResolveUserApplicationIdPlugin.ExecuteInternal(serviceProvider);
-        RetrieveRequestedManagedIdentityPlugin.ExecuteInternal(serviceProvider);
-        var reqManagedIdentity = context.OutputParameters[
-            RetrieveRequestedManagedIdentityPlugin.OutputParameterNames.RequestedManagedIdentity
-            ] switch
+        _ = pluginContext ?? throw new ArgumentNullException(nameof(pluginContext));
+        var context = pluginContext.ExecutionContext;
+        if (
+            pluginContext.RequestedManagedIdentity
+            is not ManagedIdentity reqManagedIdentity
+            )
         {
-            ManagedIdentity e => e,
-            Entity e => e.ToEntity<ManagedIdentity>(),
-            _ => throw new InvalidPluginExecutionException("Requested ManagedIdentity entity is not available."),
-        };
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: "Requested ManagedIdentity entity is not available."
+                );
+        }
         if (reqManagedIdentity.TenantId is not Guid reqTenantId || reqTenantId == Guid.Empty)
             reqTenantId = context.TenantId;
         string reqTenantString = reqTenantId.ToString();
         Guid? reqAppId = reqManagedIdentity.ApplicationId;
         bool hasReqAppId = (reqAppId ?? Guid.Empty) != Guid.Empty;
-        bool hasUserAppId = context.OutputParameters.TryGetValue(
-            ResolveUserApplicationIdPlugin.OutputParameterName.UserApplicationId,
-            out Guid userAppId
-            ) && userAppId != Guid.Empty;
+        Guid? userAppId = pluginContext.UserApplicationId;
+        bool hasUserAppId = userAppId.HasValue && userAppId != Guid.Empty;
         if (!hasReqAppId)
         {
             reqAppId = hasUserAppId ? userAppId : throw new InvalidPluginExecutionException(
@@ -50,12 +47,12 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         bool userIsSameAsRequested = hasUserAppId && reqAppId == userAppId;
         if (
             !userIsSameAsRequested &&
-            !CheckUserHasImpersonatePrivilege(serviceProvider)
+            !pluginContext.UserHasImpersonationPrivilege
             )
         {
             throw new InvalidPluginExecutionException(
                 httpStatus: PluginHttpStatusCode.Forbidden,
-                message: $"Entra Object ID {context.UserAzureActiveDirectoryObjectId} is missing privilege {PrivilegeNameImpersonation}."
+                message: $"Entra Object ID {context.UserAzureActiveDirectoryObjectId} is missing privilege {PluginContext.PrivilegeNameImpersonation}."
                 );
         }
 
@@ -66,15 +63,15 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
             reqResourceId = reqAppId.ToString();
         }
 
-        RetrieveContextManagedIdentityPlugin.ExecuteInternal(serviceProvider);
-        var pluginEntity = context.OutputParameters[
-            RetrieveContextManagedIdentityPlugin.OutputParameterNames.PluginAssemblyManagedIdentity
-            ] switch
+        if (
+            pluginContext.PluginManagedIdentity
+            is not ManagedIdentity pluginEntity
+            )
         {
-            ManagedIdentity e => e,
-            Entity e => e.ToEntity<ManagedIdentity>(),
-            _ => throw new InvalidPluginExecutionException("Plugin assembly ManagedIdentity entity is not available."),
-        };
+            throw new InvalidPluginExecutionException(
+                "Plugin assembly ManagedIdentity entity is not available."
+                );
+        }
         Guid? pluginAppId = pluginEntity.ApplicationId;
         Guid? pluginTenantId = pluginEntity.TenantId;
         bool hasPluginAppId = pluginAppId.HasValue;
@@ -83,51 +80,60 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         bool pluginIsSameAsRequested =
             hasPluginAppId && reqAppId == pluginAppId &&
             (!hasPluginTenantId || pluginTenantId == reqTenantId);
+        IEnumerable<string> reqScopes = [$"{reqResourceId}/.default"];
         return pluginIsSameAsRequested
-            ? AcquirePrimaryAccessToken(serviceProvider,
-                pluginTenantId ?? context.TenantId,
-                reqResourceId
-                )
-            : AcquireSecondaryAccessToken(serviceProvider,
+            ? AcquirePrimaryAccessToken(pluginContext, reqScopes)
+            : AcquireSecondaryAccessToken(
+                pluginContext,
                 reqTenantString,
                 reqAppId.ToString(),
-                reqResourceId
+                reqScopes
                 );
     }
 
     private static string AcquirePrimaryAccessToken(
-        IServiceProvider serviceProvider,
-        Guid authorityTenantId,
-        string resourceId
+        PluginContext pluginContext,
+        IEnumerable<string> scopes
         )
     {
-        var authInfo = serviceProvider.Get<IEnvironmentService>();
-        var pluginAuthContext = serviceProvider.Get<IAssemblyAuthenticationContext>();
-        return pluginAuthContext.AcquireToken(
-            $"{authInfo.AzureAuthorityHost}/{authorityTenantId}/v2.0",
-            resourceId,
-            AuthenticationType.ManagedIdentity
-            );
+        return pluginContext.ServiceProvider.Get<IManagedIdentityService>()
+            .AcquireToken(scopes);
     }
 
     protected virtual string AcquireSecondaryAccessToken(
-        IServiceProvider serviceProvider,
+        PluginContext pluginContext,
         string tenantId,
         string clientId,
-        string resourceId
+        IEnumerable<string> scopes
         )
     {
-        IEnumerable<string> msalScopes = [$"{resourceId}/.default"];
-        const string clientAssertionName = "ClientAssertion";
-        var context = serviceProvider.Get<IPluginExecutionContext6>();
-        var federatedIdentity = serviceProvider.Get<IAssemblyAuthenticationContext>();
-        if (context.InputParameters.TryGetValue(
-                    InputParameterNames.AssertionAudience,
-                    out string? assertionAudience
-                    ) || string.IsNullOrEmpty(assertionAudience))
-            assertionAudience = "api://AzureADTokenExchange";
+        _ = pluginContext ?? throw new ArgumentNullException(nameof(pluginContext));
 
-        var azureEnvironmentInfo = serviceProvider.Get<IEnvironmentService>();
+        if (pluginContext.RequestedManagedIdentity
+            is { ManagedIdentityId: Guid reqManagedIdentityEntityId } &&
+            reqManagedIdentityEntityId != Guid.Empty
+            )
+        {
+            PluginPackageManagedIdentityService pluginManagedIdentity =
+                new(pluginContext.ServiceProvider);
+            return pluginManagedIdentity.AcquireToken(
+                reqManagedIdentityEntityId,
+                scopes
+                );
+        }
+
+        const string clientAssertionName = "ClientAssertion";
+        var federatedIdentity = pluginContext.ServiceProvider
+            .Get<IManagedIdentityService>();
+        if (pluginContext.Inputs.TryGetValue(
+            InputParameterNames.AssertionAudience,
+            out string? assertionAudience
+            ) || string.IsNullOrEmpty(assertionAudience)
+            )
+        { assertionAudience = "api://AzureADTokenExchange"; }
+
+        var azureEnvironmentInfo = pluginContext.ServiceProvider
+            .Get<IEnvironmentService>();
         string authorityInstanceUrl = azureEnvironmentInfo.AzureAuthorityHost.ToString();
         IConfidentialClientApplication msalClient = ConfidentialClientApplicationBuilder
             .Create(clientId)
@@ -140,7 +146,7 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         try
         {
             AuthenticationResult msalResult = msalClient
-                .AcquireTokenForClient(msalScopes)
+                .AcquireTokenForClient(scopes)
                 .ExecuteAsync().GetAwaiter().GetResult();
             return msalResult.AccessToken;
         }
@@ -148,7 +154,9 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
         {
             string assertionIssuer = "<unknown>";
             string assertionSubject = "<unknown>";
-            if (context.SharedVariables.TryGetValue(clientAssertionName, out string assertion))
+            if (pluginContext.ExecutionContext.SharedVariables
+                .TryGetValue(clientAssertionName, out string assertion)
+                )
             {
                 JsonWebToken assertionJwt = JwtHandler.ReadJsonWebToken(assertion);
                 assertionIssuer = assertionJwt.Issuer;
@@ -167,12 +175,9 @@ public class FederatedIdentityTokenAcquisitionPlugin() :
 
         Task<string> GetMsalClientAssertionAsync(AssertionRequestOptions msalRequest)
         {
-            string assertion = federatedIdentity.AcquireToken(
-                authorityInstanceUrl,
-                resourceId,
-                AuthenticationType.ManagedIdentity
-                );
-            context.SharedVariables[clientAssertionName] = assertion;
+            string assertion = federatedIdentity.AcquireToken(scopes);
+            pluginContext.ExecutionContext
+                .SharedVariables[clientAssertionName] = assertion;
             return Task.FromResult(assertion);
         }
     }

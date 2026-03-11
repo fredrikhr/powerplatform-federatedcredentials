@@ -31,120 +31,78 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
         internal const string UserEffectivePermissionsDisplayName = nameof(UserEffectivePermissionsDisplayName);
     }
 
-    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    protected override void ExecuteCore(PluginContext context)
     {
-        ExecuteInternal(serviceProvider);
+        _ = context ?? throw new ArgumentNullException(nameof(context));
+        ExecuteInternal(context, context.Outputs);
     }
 
-    internal static void ExecuteInternal(IServiceProvider serviceProvider)
+    internal static void ExecuteInternal(
+        PluginContext context,
+        ParameterCollection? outputs = null
+        )
     {
-        ArmClient armClient = AzureResourceContextProvider.GetOrCreateArmClient(
-            serviceProvider
-            );
+        outputs ??= context.Outputs;
+        ArmClient armClient = context.AzureResourceManagerClient;
         ResourceIdentifier keyVaultContentResourceId =
-            GetKeyVaultDataResourceIdentifier(serviceProvider);
+            GetKeyVaultDataResourceIdentifier(context);
         GenericResource keyVaultContentResource = armClient
             .GetGenericResource(keyVaultContentResourceId);
         AuthorizationRoleDefinitionCollection roleDefinitions =
             keyVaultContentResource.GetAuthorizationRoleDefinitions();
-        EvaluateRoleDefinitionsAsync(serviceProvider, roleDefinitions)
+        EvaluateRoleDefinitionsAsync(roleDefinitions, outputs)
             .GetAwaiter().GetResult();
-        EvaluateAccessPermissions(serviceProvider)
-            .GetAwaiter().GetResult();
+        EvaluateAccessPermissions(
+            context,
+            context.ResolvedKeyVaultReferenceEntity,
+            keyVaultContentResource,
+            outputs
+            ).GetAwaiter().GetResult();
     }
 
     private static ResourceIdentifier GetKeyVaultDataResourceIdentifier(
-        IServiceProvider serviceProvider, bool reentrantCall = false
+        PluginContext context
         )
     {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        if (context.OutputParameters.TryGetValue(
-            ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultResourceIdentifier,
-            out string keyVaultResourceIdString
-            ))
-        {
-            ResourceIdentifier? keyVaultContentResourceId;
-            for (keyVaultContentResourceId = ResourceIdentifier.Parse(keyVaultResourceIdString);
+        ResourceIdentifier? keyVaultContentResourceId;
+        for (keyVaultContentResourceId = context.ResolvedKeyVaultReferenceResourceId;
                 keyVaultContentResourceId is not null &&
                 keyVaultContentResourceId.ResourceType != KeyVaultSecretResourceType &&
                 keyVaultContentResourceId.ResourceType != KeyVaultCertificateResourceType;
                 keyVaultContentResourceId = keyVaultContentResourceId.Parent
                 ) ;
-            if (keyVaultContentResourceId is null)
-            {
-                throw new InvalidPluginExecutionException(
-                    httpStatus: PluginHttpStatusCode.BadRequest,
-                    message: $"Provided KeyVault resource ID '{keyVaultResourceIdString}' is not a valid Resource ID for a KeyVault secret or certificate."
-                    );
-            }
-            return keyVaultContentResourceId;
-        }
-        else if (!reentrantCall)
-        {
-            ResolveKeyVaultReferencePlugin.ExecuteInternal(serviceProvider);
-            return GetKeyVaultDataResourceIdentifier(serviceProvider, reentrantCall: true);
-        }
-
-        throw new InvalidPluginExecutionException(
-            httpStatus: PluginHttpStatusCode.NotFound,
-            message: "Unable to resolve Key Vault reference input parameters to an Azure Resource Manager Resource Identifier."
-            );
-    }
-
-    private static keytype GetKeyVaultDataType(
-        IServiceProvider serviceProvider, bool reentrantCall = false
-        )
-    {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        if (context.OutputParameters.TryGetValue(
-            ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultReference,
-            out Entity keyVaultReference
-            ))
-        {
-            KeyVaultReference kvEntity = keyVaultReference switch
-            {
-                KeyVaultReference e => e,
-                Entity e => e.ToEntity<KeyVaultReference>(),
-                _ => throw new InvalidPluginExecutionException("KeyVaultReference entity not available."),
-            };
-            return kvEntity.KeyType ?? (keytype)(-1);
-        }
-        else if (!reentrantCall)
-        {
-            ResolveKeyVaultReferencePlugin.ExecuteInternal(serviceProvider);
-            return GetKeyVaultDataType(serviceProvider, reentrantCall: true);
-        }
-
-        throw new InvalidPluginExecutionException(
-            httpStatus: PluginHttpStatusCode.NotFound,
-            message: "Unable to resolve Key Vault reference input parameters."
-            );
+        return keyVaultContentResourceId is not null
+            ? keyVaultContentResourceId
+            : throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: $"Provided KeyVault resource ID '{keyVaultContentResourceId}' is not a valid Resource ID for a KeyVault secret or certificate."
+                );
     }
 
     private static async Task EvaluateRoleDefinitionsAsync(
-        IServiceProvider serviceProvider,
-        AuthorizationRoleDefinitionCollection roleDefinitions
+        AuthorizationRoleDefinitionCollection roleDefinitions,
+        ParameterCollection outputs
         )
     {
         AsyncPageable<AuthorizationRoleDefinitionResource> builtInRoleDefinitions =
             roleDefinitions.GetAllAsync(filter: "type eq 'BuiltInRole'");
-        await EvaluateRoleDefinitionsAsync(serviceProvider, builtInRoleDefinitions)
+        await EvaluateRoleDefinitionsAsync(builtInRoleDefinitions, outputs)
             .ConfigureAwait(continueOnCapturedContext: false);
         AsyncPageable<AuthorizationRoleDefinitionResource> customRoleDefinitions =
             roleDefinitions.GetAllAsync(filter: "type eq 'CustomRole'");
-        await EvaluateRoleDefinitionsAsync(serviceProvider, customRoleDefinitions)
+        await EvaluateRoleDefinitionsAsync(customRoleDefinitions, outputs)
             .ConfigureAwait(continueOnCapturedContext: false);
     }
 
     private static async Task EvaluateRoleDefinitionsAsync(
-        IServiceProvider serviceProvider,
-        AsyncPageable<AuthorizationRoleDefinitionResource> roleDefinitions
+        AsyncPageable<AuthorizationRoleDefinitionResource> roleDefinitions,
+        ParameterCollection outputs
         )
     {
         await foreach (AuthorizationRoleDefinitionResource roleDefinition in
             roleDefinitions.ConfigureAwait(continueOnCapturedContext: false))
         {
-            EvaluateRoleDefinition(serviceProvider, roleDefinition);
+            EvaluateRoleDefinition(roleDefinition, outputs);
         }
     }
 
@@ -156,12 +114,10 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
     private const string SignWithKeyAction = "Microsoft.KeyVault/vaults/keys/sign/action";
 
     private static void EvaluateRoleDefinition(
-        IServiceProvider serviceProvider,
-        AuthorizationRoleDefinitionResource roleDefinition
+        AuthorizationRoleDefinitionResource roleDefinition,
+        ParameterCollection outputs
         )
     {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-
         bool anyDenied = false;
         foreach (RoleDefinitionPermission rolePermission in roleDefinition.Data.Permissions)
         {
@@ -171,7 +127,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                 {
                     anyDenied = true;
                     EntityCollection entities = GetOrCreateEntityCollection(
-                        context.OutputParameters,
+                        outputs,
                         OutputParameterNames.RolesDenyGetSecretValue
                         );
                     entities.Entities.Add(ToOutputEntity(roleDefinition));
@@ -180,7 +136,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                 {
                     anyDenied = true;
                     EntityCollection entities = GetOrCreateEntityCollection(
-                        context.OutputParameters,
+                        outputs,
                         OutputParameterNames.RolesDenyReadCertificate
                         );
                     entities.Entities.Add(ToOutputEntity(roleDefinition));
@@ -189,7 +145,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                 {
                     anyDenied = true;
                     EntityCollection entities = GetOrCreateEntityCollection(
-                        context.OutputParameters,
+                        outputs,
                         OutputParameterNames.RolesDenySignWithKey
                         );
                     entities.Entities.Add(ToOutputEntity(roleDefinition));
@@ -202,7 +158,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                 {
                     anyDenied = true;
                     EntityCollection entities = GetOrCreateEntityCollection(
-                        context.OutputParameters,
+                        outputs,
                         OutputParameterNames.RolesAllowGetSecretValue
                         );
                     entities.Entities.Add(ToOutputEntity(roleDefinition));
@@ -211,7 +167,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                 {
                     anyDenied = true;
                     EntityCollection entities = GetOrCreateEntityCollection(
-                        context.OutputParameters,
+                        outputs,
                         OutputParameterNames.RolesAllowReadCertificate
                         );
                     entities.Entities.Add(ToOutputEntity(roleDefinition));
@@ -220,7 +176,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                 {
                     anyDenied = true;
                     EntityCollection entities = GetOrCreateEntityCollection(
-                        context.OutputParameters,
+                        outputs,
                         OutputParameterNames.RolesAllowSignWithKey
                         );
                     entities.Entities.Add(ToOutputEntity(roleDefinition));
@@ -267,23 +223,23 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
     }
 
     private static async Task EvaluateAccessPermissions(
-        IServiceProvider serviceProvider
+        PluginContext context,
+        KeyVaultReference? keyVaultReferenceEntity,
+        GenericResource keyVaultResource,
+        ParameterCollection? outputs = null
         )
     {
-        var context = serviceProvider.Get<IPluginExecutionContext2>();
+        outputs ??= context.Outputs;
         KeyVaultDataAccessPermisions possiblePermissions =
             KeyVaultDataAccessPermisions.GetSecret |
             KeyVaultDataAccessPermisions.ReadCertificateProperties |
             KeyVaultDataAccessPermisions.SignWithKey;
         KeyVaultDataAccessPermisions effectivePermissions =
             KeyVaultDataAccessPermisions.None;
-        ArmClient armClient = AzureResourceContextProvider
-            .GetOrCreateArmClient(serviceProvider);
-        GenericResource keyVaultResource = armClient.GetGenericResource(
-            GetKeyVaultDataResourceIdentifier(serviceProvider)
-            );
-        keytype keyVaultDataType = GetKeyVaultDataType(serviceProvider);
-        string assignmentFilter = $"atScope() and assignedTo('{context.UserAzureActiveDirectoryObjectId}')";
+        ArmClient armClient = context.AzureResourceManagerClient;
+        keytype keyVaultDataType = keyVaultReferenceEntity?.KeyType
+            ?? (keytype)(-1);
+        string assignmentFilter = $"atScope() and assignedTo('{context.ExecutionContext.UserAzureActiveDirectoryObjectId}')";
         static bool IsGetSecretDataActionMatch(string dataActionTemplate) =>
                 IsDataActionMatch(dataActionTemplate, GetSecretAction);
         static bool IsReadCertificateDataActionMatch(string dataActionTemplate) =>
@@ -343,7 +299,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                 {
                     case keytype.Secret:
                         roleDefinitions = GetOrCreateEntityCollection(
-                            context.OutputParameters,
+                            outputs,
                             OutputParameterNames.RolesDenyGetSecretValue
                             );
                         if (ContainsRoleDefinition(roleDefinitions, roleAssignment.Data.RoleDefinitionId))
@@ -354,7 +310,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                     case keytype.Certificate:
                     case keytype.CertificateWithX5c:
                         roleDefinitions = GetOrCreateEntityCollection(
-                            context.OutputParameters,
+                            outputs,
                             OutputParameterNames.RolesDenyReadCertificate
                             );
                         if (ContainsRoleDefinition(roleDefinitions, roleAssignment.Data.RoleDefinitionId))
@@ -362,7 +318,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                             possiblePermissions &= ~KeyVaultDataAccessPermisions.ReadCertificateProperties;
                         }
                         roleDefinitions = GetOrCreateEntityCollection(
-                            context.OutputParameters,
+                            outputs,
                             OutputParameterNames.RolesDenySignWithKey
                             );
                         if (ContainsRoleDefinition(roleDefinitions, roleAssignment.Data.RoleDefinitionId))
@@ -381,7 +337,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                         if (possiblePermissions.HasFlag(KeyVaultDataAccessPermisions.GetSecret))
                         {
                             roleDefinitions = GetOrCreateEntityCollection(
-                                context.OutputParameters,
+                                outputs,
                                 OutputParameterNames.RolesAllowGetSecretValue
                                 );
                             if (ContainsRoleDefinition(roleDefinitions, roleAssignment.Data.RoleDefinitionId))
@@ -395,7 +351,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                         if (possiblePermissions.HasFlag(KeyVaultDataAccessPermisions.ReadCertificateProperties))
                         {
                             roleDefinitions = GetOrCreateEntityCollection(
-                                context.OutputParameters,
+                                outputs,
                                 OutputParameterNames.RolesAllowReadCertificate
                                 );
                             if (ContainsRoleDefinition(roleDefinitions, roleAssignment.Data.RoleDefinitionId))
@@ -406,7 +362,7 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
                         if (possiblePermissions.HasFlag(KeyVaultDataAccessPermisions.SignWithKey))
                         {
                             roleDefinitions = GetOrCreateEntityCollection(
-                                context.OutputParameters,
+                                outputs,
                                 OutputParameterNames.RolesAllowSignWithKey
                                 );
                             if (ContainsRoleDefinition(roleDefinitions, roleAssignment.Data.RoleDefinitionId))
@@ -429,11 +385,11 @@ public class EvaluateKeyVaultDataAccessPermissionsPlugin : PluginBase, IPlugin
             _ => false,
         };
 
-        context.OutputParameters[OutputParameterNames.UserEffectivePermissions] =
+        outputs[OutputParameterNames.UserEffectivePermissions] =
             (int)effectivePermissions;
-        context.OutputParameters[OutputParameterNames.UserEffectivePermissionsDisplayName] =
+        outputs[OutputParameterNames.UserEffectivePermissionsDisplayName] =
             effectivePermissions.ToString();
-        context.OutputParameters[OutputParameterNames.UserHasSufficientPermissions] =
+        outputs[OutputParameterNames.UserHasSufficientPermissions] =
             hasSufficientPermissions;
     }
 

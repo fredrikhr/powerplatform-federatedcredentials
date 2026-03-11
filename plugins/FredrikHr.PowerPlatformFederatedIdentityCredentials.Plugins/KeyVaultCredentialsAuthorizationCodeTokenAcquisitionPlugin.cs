@@ -38,13 +38,12 @@ public sealed class KeyVaultCredentialsAuthorizationCodeTokenAcquisitionPlugin()
         Justification = nameof(ITracingService)
         )]
     protected override string AcquireAccessToken(
-        IServiceProvider serviceProvider
+        PluginContext pluginContext
         )
     {
-        var context = serviceProvider.Get<IPluginExecutionContext6>();
-        ParameterCollection inputs = context.InputParameters;
-        ParameterCollection outputs = context.OutputParameters;
-        ParameterCollection sharedVars = context.SharedVariables;
+        ParameterCollection inputs = pluginContext.Inputs;
+        ParameterCollection outputs = pluginContext.Outputs;
+        ParameterCollection sharedVars = [];
 
         if (!inputs.TryGetValue(
             InputParameterNames.AuthorizationCode,
@@ -82,7 +81,7 @@ public sealed class KeyVaultCredentialsAuthorizationCodeTokenAcquisitionPlugin()
             }
             catch (Exception jweReadExcept)
             {
-                serviceProvider.Get<ITracingService>()?.Trace(
+                pluginContext.ServiceProvider.Get<ITracingService>()?.Trace(
                     "While reading JWE specified in parameter '{0}': {1}",
                     InputParameterNames.MsalV3Cache,
                     jweReadExcept
@@ -90,25 +89,23 @@ public sealed class KeyVaultCredentialsAuthorizationCodeTokenAcquisitionPlugin()
             }
         }
 
-        ResolveUserApplicationIdPlugin.ExecuteInternal(serviceProvider);
-        RetrieveRequestedManagedIdentityPlugin.ExecuteInternal(serviceProvider);
-        var reqManagedIdentity = outputs[
-            RetrieveRequestedManagedIdentityPlugin.OutputParameterNames.RequestedManagedIdentity
-            ] switch
+        if (
+            pluginContext.RequestedManagedIdentity
+            is not ManagedIdentity reqManagedIdentity
+            )
         {
-            ManagedIdentity e => e,
-            Entity e => e.ToEntity<ManagedIdentity>(),
-            _ => throw new InvalidPluginExecutionException("Requested ManagedIdentity entity is not available."),
-        };
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: "Requested ManagedIdentity entity is not available."
+                );
+        }
         if (reqManagedIdentity.TenantId is not Guid reqTenantId || reqTenantId == Guid.Empty)
-            reqTenantId = context.TenantId;
+            reqTenantId = pluginContext.ExecutionContext.TenantId;
         string reqTenantString = reqTenantId.ToString();
         Guid? reqAppId = reqManagedIdentity.ApplicationId;
         bool hasReqAppId = (reqAppId ?? Guid.Empty) != Guid.Empty;
-        bool hasUserAppId = outputs.TryGetValue(
-            ResolveUserApplicationIdPlugin.OutputParameterName.UserApplicationId,
-            out Guid userAppId
-            ) && userAppId != Guid.Empty;
+        Guid? userAppId = pluginContext.UserApplicationId;
+        bool hasUserAppId = userAppId.HasValue && userAppId != Guid.Empty;
         if (!hasReqAppId)
         {
             reqAppId = hasUserAppId ? userAppId : throw new InvalidPluginExecutionException(
@@ -116,26 +113,30 @@ public sealed class KeyVaultCredentialsAuthorizationCodeTokenAcquisitionPlugin()
                 message: $"User is not an application user, and input parameter '{RetrieveRequestedManagedIdentityPlugin.InputParameterNames.ApplicationId}' was not specified."
                 );
         }
+
         string clientId = reqAppId.GetValueOrDefault().ToString();
-        EvaluateKeyVaultDataAccessPermissionsPlugin.ExecuteInternal(serviceProvider);
-        if (!outputs.TryGetValue(
+        EvaluateKeyVaultDataAccessPermissionsPlugin.ExecuteInternal(pluginContext, sharedVars);
+        if (!sharedVars.TryGetValue(
             EvaluateKeyVaultDataAccessPermissionsPlugin.OutputParameterNames.UserHasSufficientPermissions,
             out bool userHasSufficientPermissions
             ) || !userHasSufficientPermissions)
         {
             throw new InvalidPluginExecutionException(
                 httpStatus: PluginHttpStatusCode.Forbidden,
-                message: $"User with Entra Object ID {context.UserAzureActiveDirectoryObjectId} has insufficient permissions to access credentials stored in the referenced Key Vault resource."
+                message: $"User with Entra Object ID {pluginContext.ExecutionContext.UserAzureActiveDirectoryObjectId} has insufficient permissions to access credentials stored in the referenced Key Vault resource."
                 );
         }
 
-        var keyVaultReferenceEntity = outputs[
-            ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultReference
-            ] switch
+        if (
+            pluginContext.ResolvedKeyVaultReferenceEntity
+            is not KeyVaultReference keyVaultReferenceEntity
+            )
         {
-            KeyVaultReference e => e,
-            Entity e => e.ToEntity<KeyVaultReference>(),
-            _ => throw new InvalidPluginExecutionException("KeyVaultReference entity not availble."),
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: "KeyVaultReference entity not availble."
+                );
+            
         };
         var keyVaultUri = keyVaultReferenceEntity.KeyVaultUri;
         var keyVaultDataName = keyVaultReferenceEntity.KeyName;
@@ -146,8 +147,7 @@ public sealed class KeyVaultCredentialsAuthorizationCodeTokenAcquisitionPlugin()
         var keyVaultDataType = keyVaultReferenceEntity.KeyType;
 
         var msalBuilder = MsalPluginUtility.CreateMsalAppBuilder(
-            serviceProvider,
-            reqTenantString,
+            pluginContext, reqTenantString,
             clientId,
             keyVaultUri,
             keyVaultDataType ?? (keytype)(-1),
@@ -163,7 +163,7 @@ public sealed class KeyVaultCredentialsAuthorizationCodeTokenAcquisitionPlugin()
             msalv3cacheJwe,
             keyVaultSecurityKey,
             sharedVars,
-            serviceProvider.Get<ITracingService>()
+            pluginContext.ServiceProvider.Get<ITracingService>()
             );
 
         var msalTokenAcquirer = msalApp
@@ -182,8 +182,7 @@ public sealed class KeyVaultCredentialsAuthorizationCodeTokenAcquisitionPlugin()
             .GetAwaiter().GetResult();
 
         MsalPluginUtility.EnsureUserPrivilegeForAuthResult(
-            serviceProvider,
-            msalAuthResult
+            pluginContext, msalAuthResult
             );
 
         MsalPluginUtility.SetOutputParametersFromMsalAuthResult(

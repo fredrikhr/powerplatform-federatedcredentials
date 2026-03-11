@@ -22,10 +22,10 @@ public sealed class GetPkceParametersPlugin : PluginBase, IPlugin
         internal const string PkceCodeChallengeMethod = nameof(PkceCodeChallengeMethod);
     }
 
-    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    protected override void ExecuteCore(PluginContext context)
     {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        ParameterCollection outputs = context.OutputParameters;
+        _ = context ?? throw new ArgumentNullException(nameof(context));
+        ParameterCollection outputs = context.Outputs;
 
         using RandomNumberGenerator rng = RandomNumberGenerator.Create();
         using SHA256 sha256 = SHA256.Create();

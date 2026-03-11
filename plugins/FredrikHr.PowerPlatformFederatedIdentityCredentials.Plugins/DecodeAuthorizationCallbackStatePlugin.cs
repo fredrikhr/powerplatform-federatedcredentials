@@ -22,11 +22,11 @@ public class DecodeAuthorizationCallbackStatePlugin()
         internal const string OneTimeRedirectUrl = nameof(OneTimeRedirectUrl);
     }
 
-    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    protected override void ExecuteCore(PluginContext context)
     {
-        var context = serviceProvider.Get<IPluginExecutionContext>();
-        ParameterCollection inputs = context.InputParameters;
-        ParameterCollection outputs = context.OutputParameters;
+        _ = context ?? throw new ArgumentNullException(nameof(context));
+        ParameterCollection inputs = context.Inputs;
+        ParameterCollection outputs = context.Outputs;
 
         if (!inputs.TryGetValue(
             InputParameterNames.State,
@@ -46,7 +46,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
         }
         catch (Exception jwtjweReadExcept)
         {
-            serviceProvider.Get<ITracingService>()?.Trace(
+            context.ServiceProvider.Get<ITracingService>()?.Trace(
                 "While reading state parameter as JWT: {0}",
                 jwtjweReadExcept
                 );
@@ -98,7 +98,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
                     );
             }
 
-            var keyVaultSecretClient = serviceProvider.Get<IKeyVaultClient>();
+            var keyVaultSecretClient = context.ServiceProvider.Get<IKeyVaultClient>();
             string keyVaultSecretValue = keyVaultSecretClient.GetSecret(
                 keyVaultUri,
                 keyVaultSecretName
@@ -120,8 +120,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
         else if (SecurityAlgorithms.RsaOAEP.Equals(stateJwt.Alg, OrdInv))
         {
             string keyVaultRsaKeyId = stateJwt.Kid;
-            TokenCredential keyVaultTokenCreds = AzureResourceContextProvider
-                .GetOrCreateTokenCredential(serviceProvider);
+            TokenCredential keyVaultTokenCreds = context.AzureTokenCredential;
             CryptographyClientOptions keyVaultCryptoClientOptions = new();
             KeyResolver keyVaultKeyResolver = new(keyVaultTokenCreds, keyVaultCryptoClientOptions);
             CryptographyClient keyVaultCryptoClient = keyVaultKeyResolver
@@ -147,7 +146,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
         }
         catch (Exception jweDecryptExcept)
         {
-            serviceProvider.Get<ITracingService>()?.Trace(
+            context.ServiceProvider.Get<ITracingService>()?.Trace(
                 "While decrypting JWE: {0}",
                 jweDecryptExcept
                 );
@@ -162,7 +161,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
         }
         catch (Exception jwtReadExcept)
         {
-            serviceProvider.Get<ITracingService>()?.Trace(
+            context.ServiceProvider.Get<ITracingService>()?.Trace(
                 "While reading decrypted JWT: {0}",
                 jwtReadExcept
                 );

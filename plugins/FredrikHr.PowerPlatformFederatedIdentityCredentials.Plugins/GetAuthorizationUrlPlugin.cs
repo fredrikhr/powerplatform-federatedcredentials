@@ -1,8 +1,10 @@
+using System.IdentityModel;
+
+using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
+
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-
-using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -35,29 +37,26 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
 
     private static readonly JsonWebTokenHandler JwtHandler =  new();
 
-    protected override void ExecuteCore(IServiceProvider serviceProvider)
+    protected override void ExecuteCore(PluginContext context)
     {
-        var context = serviceProvider.Get<IPluginExecutionContext6>();
-        ParameterCollection inputs = context.InputParameters;
-        ResolveUserApplicationIdPlugin.ExecuteInternal(serviceProvider);
-        RetrieveRequestedManagedIdentityPlugin.ExecuteInternal(serviceProvider);
-        var reqManagedIdentity = context.OutputParameters[
-            RetrieveRequestedManagedIdentityPlugin.OutputParameterNames.RequestedManagedIdentity
-            ] switch
+        _ = context ?? throw new ArgumentNullException(nameof(context));
+        if (
+            context.RequestedManagedIdentity
+            is not ManagedIdentity reqManagedIdentity
+            )
         {
-            ManagedIdentity e => e,
-            Entity e => e.ToEntity<ManagedIdentity>(),
-            _ => throw new InvalidPluginExecutionException("Requested ManagedIdentity entity is not available."),
-        };
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: "Requested ManagedIdentity entity is not available."
+                );
+        }
         if (reqManagedIdentity.TenantId is not Guid reqTenantId || reqTenantId == Guid.Empty)
-            reqTenantId = context.TenantId;
+            reqTenantId = context.ExecutionContext.TenantId;
         string reqTenantString = reqTenantId.ToString();
         Guid? reqAppId = reqManagedIdentity.ApplicationId;
         bool hasReqAppId = (reqAppId ?? Guid.Empty) != Guid.Empty;
-        bool hasUserAppId = context.OutputParameters.TryGetValue(
-            ResolveUserApplicationIdPlugin.OutputParameterName.UserApplicationId,
-            out Guid userAppId
-            ) && userAppId != Guid.Empty;
+        Guid? userAppId = context.UserApplicationId;
+        bool hasUserAppId = userAppId.HasValue && userAppId != Guid.Empty;
         if (!hasReqAppId)
         {
             reqAppId = hasUserAppId ? userAppId : throw new InvalidPluginExecutionException(
@@ -65,15 +64,15 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
                 message: $"User is not an application user, and input parameter '{RetrieveRequestedManagedIdentityPlugin.InputParameterNames.ApplicationId}' was not specified."
                 );
         }
-        ResolveKeyVaultReferencePlugin.ExecuteInternal(serviceProvider);
 
-        var keyVaultReferenceEntity = context.OutputParameters[
-            ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultReference
-            ] switch
+        if (context.ResolvedKeyVaultReferenceEntity
+            is not KeyVaultReference keyVaultReferenceEntity
+            )
         {
-            KeyVaultReference e => e,
-            Entity e => e.ToEntity<KeyVaultReference>(),
-            _ => throw new InvalidPluginExecutionException("KeyVaultReference entity not availble."),
+            throw new InvalidPluginExecutionException(
+                httpStatus: PluginHttpStatusCode.BadRequest,
+                message: "KeyVaultReference entity not availble."
+                );
         };
         string keyVaultUri = keyVaultReferenceEntity.KeyVaultUri;
         string keyVaultDataName = keyVaultReferenceEntity.KeyName;
@@ -83,8 +82,10 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
             );
         keytype? keyVaultDataType = keyVaultReferenceEntity.KeyType;
 
-        string[] scopes = context.InputParameterOrDefault<string[]>(
-            InputParameterNames.Scopes
+        ParameterCollection inputs = context.Inputs;
+        _ = inputs.TryGetValue(
+            InputParameterNames.Scopes,
+            out string[] scopes
             );
         if (!inputs.TryGetValue(
             InputParameterNames.OneTimeRedirectUri,
@@ -109,8 +110,7 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         }
 
         var msalBuilder = MsalPluginUtility.CreateMsalAppBuilder(
-            serviceProvider,
-            reqTenantString,
+            context, reqTenantString,
             reqAppId.ToString(),
             keyVaultUri,
             keyVaultDataType ?? (keytype)(-1),
@@ -202,7 +202,7 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         Uri msalAuthReqUri = msalAuthReqBuilder
             .ExecuteAsync().GetAwaiter().GetResult();
 
-        ParameterCollection outputs = context.OutputParameters;
+        ParameterCollection outputs = context.Outputs;
         outputs[OutputParameterNames.AuthorizationRequestUrl] =
             msalAuthReqUri.ToString();
     }
