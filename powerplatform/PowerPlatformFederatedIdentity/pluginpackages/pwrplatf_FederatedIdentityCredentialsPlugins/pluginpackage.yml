@@ -10,4 +10,4 @@ pluginpackage:
     '#text': pwrplatf_FederatedIdentityCredentialsPlugins.nupkg
   statecode: 0
   statuscode: 1
-  version: 2.1.0
+  version: 2.1.1
