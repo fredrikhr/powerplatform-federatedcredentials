@@ -22,6 +22,22 @@ internal sealed class PluginPackageManagedIdentityService
         SandboxGrpcContractsAssemblyName,
         throwOnError: true
         );
+    private static readonly Type SandboxCallbackServiceTypeRef = Type.GetType(
+        "Microsoft.CDSRuntime.SandboxWorker.ISandboxCallbackService" + ", " +
+        "Microsoft.CDSRuntime.SandboxWorker, PublicKeyToken=31bf3856ad364e35",
+        throwOnError: true
+        );
+    private static readonly MethodInfo ExecuteCallBackMethodInfo =
+        SandboxCallbackServiceTypeRef.GetMethod(
+            "ExecuteCallBack",
+            BindingFlags.Instance | BindingFlags.Public,
+            Type.DefaultBinder,
+            [typeof(Func<,>).MakeGenericType(
+                ExecuteResponseTypeRef,
+                RequestDataOneofCaseTypeRef
+            )],
+            modifiers: default
+        );
 
     private static readonly System.Globalization.CultureInfo Inv =
         System.Globalization.CultureInfo.InvariantCulture;
@@ -32,7 +48,7 @@ internal sealed class PluginPackageManagedIdentityService
         ignoreCase: true
         );
 
-    private readonly dynamic _sandboxCallbackService;
+    private readonly object _sandboxCallbackService;
 
     public PluginPackageManagedIdentityService(
         IServiceProvider serviceProvider
@@ -48,6 +64,11 @@ internal sealed class PluginPackageManagedIdentityService
             args: null,
             culture: Inv
             );
+        System.Diagnostics.Debug.Assert(
+            SandboxCallbackServiceTypeRef.IsAssignableFrom(
+                _sandboxCallbackService.GetType()
+                )
+        );
     }
 
     public string AcquireToken(
@@ -58,14 +79,17 @@ internal sealed class PluginPackageManagedIdentityService
         object callbackArg = GetSandboxCallback(response =>
         {
             dynamic request = Activator.CreateInstance(ExecuteRequestTypeRef);
-            request.ManagedIdentityId = managedIdentityId;
+            request.ManagedIdentityId = managedIdentityId.ToString();
             IList<string> requestScopes = (IList<string>)request.Scopes;
             foreach (string requestedScope in scopes)
             { requestScopes.Add(requestedScope); }
             response.PluginPackageManagedIdentityServiceProviderAcquireTokenRequest = request;
             return RequestDataOneofCase;
         });
-        dynamic request = _sandboxCallbackService.ExecuteCallBack(callbackArg);
+        dynamic request = ExecuteCallBackMethodInfo.Invoke(
+            _sandboxCallbackService,
+            [callbackArg]
+            );
         dynamic response = request.PluginPackageManagedIdentityServiceProviderAcquireTokenResponse;
         return (response.AccessToken as string)!;
     }
