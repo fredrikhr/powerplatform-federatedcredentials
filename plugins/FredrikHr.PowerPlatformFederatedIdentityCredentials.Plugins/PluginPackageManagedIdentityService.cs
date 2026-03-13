@@ -1,117 +1,97 @@
 using System.Reflection;
 
+using CDSRunTime.Sandbox.Contract;
+
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
-internal sealed class PluginPackageManagedIdentityService
+internal sealed class PluginPackageManagedIdentityService(
+    IServiceProvider serviceProvider
+    ) : IPluginPackageManagedIdentityService
 {
-    private const string SandboxGrpcContractsAssemblyName =
-        "Microsoft.CDSRuntime.SandboxGrpcContracts.Contracts, PublicKeyToken=31bf3856ad364e35";
-
-    private static readonly Type ExecuteRequestTypeRef = Type.GetType(
-        "CDSRunTime.Sandbox.Contract.PluginPackageManagedIdentityServiceProviderAcquireTokenRequest" + ", " +
-        SandboxGrpcContractsAssemblyName,
-        throwOnError: true
-        );
-    private static readonly Type ExecuteResponseTypeRef = Type.GetType(
-        "CDSRunTime.Sandbox.Contract.ExecuteResponse" + ", " +
-        SandboxGrpcContractsAssemblyName,
-        throwOnError: true
-        );
-    private static readonly Type RequestDataOneofCaseTypeRef = Type.GetType(
-        "CDSRunTime.Sandbox.Contract.ExecuteRequest+RequestDataOneofCase" + ", " +
-        SandboxGrpcContractsAssemblyName,
-        throwOnError: true
-        );
-    private static readonly Type SandboxCallbackServiceTypeRef = Type.GetType(
-        "Microsoft.CDSRuntime.SandboxWorker.ISandboxCallbackService" + ", " +
-        "Microsoft.CDSRuntime.SandboxWorker, PublicKeyToken=31bf3856ad364e35",
-        throwOnError: true
-        );
     private static readonly MethodInfo ExecuteCallBackMethodInfo =
-        SandboxCallbackServiceTypeRef.GetMethod(
+        SandboxCallbackServiceProvider.SandboxCallbackServiceType.GetMethod(
             "ExecuteCallBack",
             BindingFlags.Instance | BindingFlags.Public,
             Type.DefaultBinder,
             [typeof(Func<,>).MakeGenericType(
-                ExecuteResponseTypeRef,
-                RequestDataOneofCaseTypeRef
+                typeof(ExecuteResponse),
+                typeof(ExecuteRequest.RequestDataOneofCase)
             )],
             modifiers: default
         );
 
-    private static readonly System.Globalization.CultureInfo Inv =
-        System.Globalization.CultureInfo.InvariantCulture;
+    private readonly object _sandboxCallbackService = serviceProvider
+        .GetSandboxCallbackService();
 
-    private static readonly object RequestDataOneofCase = Enum.Parse(
-        RequestDataOneofCaseTypeRef,
-        "PluginPackageManagedIdentityServiceProviderAcquireTokenResponse",
-        ignoreCase: true
-        );
-
-    private readonly object _sandboxCallbackService;
-
-    public PluginPackageManagedIdentityService(
-        IServiceProvider serviceProvider
+    public string AcquireToken(
+        string managedIdentityId,
+        IEnumerable<string> scopes
         )
     {
-        var fcs = serviceProvider.Get<IFeatureControlService>();
-        _sandboxCallbackService = fcs.GetType().InvokeMember(
-            "_sandboxCallbackService",
-            BindingFlags.Public | BindingFlags.NonPublic |
-            BindingFlags.Instance | BindingFlags.GetField,
-            Type.DefaultBinder,
-            target: fcs,
-            args: null,
-            culture: Inv
+        Func<ExecuteResponse, ExecuteRequest.RequestDataOneofCase> callbackArg =
+            OnCallback;
+        var request = (ExecuteRequest)ExecuteCallBackMethodInfo.Invoke(
+            _sandboxCallbackService,
+            [callbackArg]
             );
-        System.Diagnostics.Debug.Assert(
-            SandboxCallbackServiceTypeRef.IsAssignableFrom(
-                _sandboxCallbackService.GetType()
-                )
-        );
+        PluginPackageManagedIdentityServiceProviderAcquireTokenResponse response =
+            request.PluginPackageManagedIdentityServiceProviderAcquireTokenResponse;
+        return response.AccessToken!;
+
+        ExecuteRequest.RequestDataOneofCase OnCallback(ExecuteResponse response)
+        {
+            PluginPackageManagedIdentityServiceProviderAcquireTokenRequest request = new()
+            {
+                ManagedIdentityId = managedIdentityId,
+            };
+            request.Scopes.AddRange(scopes);
+            response.PluginPackageManagedIdentityServiceProviderAcquireTokenRequest = request;
+            return ExecuteRequest.RequestDataOneofCase.PluginPackageManagedIdentityServiceProviderAcquireTokenResponse;
+        }
     }
 
     public string AcquireToken(
         Guid managedIdentityId,
         IEnumerable<string> scopes
+        ) => AcquireToken(managedIdentityId.ToString(), scopes);
+
+    public string AcquireTokenFromTenant(
+        string managedIdentityId,
+        IEnumerable<string> scopes,
+        string tenant
         )
     {
-        object callbackArg = GetSandboxCallback(response =>
-        {
-            dynamic request = Activator.CreateInstance(ExecuteRequestTypeRef);
-            request.ManagedIdentityId = managedIdentityId.ToString();
-            IList<string> requestScopes = (IList<string>)request.Scopes;
-            foreach (string requestedScope in scopes)
-            { requestScopes.Add(requestedScope); }
-            response.PluginPackageManagedIdentityServiceProviderAcquireTokenRequest = request;
-            return RequestDataOneofCase;
-        });
-        dynamic request = ExecuteCallBackMethodInfo.Invoke(
+        Func<ExecuteResponse, ExecuteRequest.RequestDataOneofCase> callbackArg =
+            OnCallback;
+        var request = (ExecuteRequest)ExecuteCallBackMethodInfo.Invoke(
             _sandboxCallbackService,
             [callbackArg]
             );
-        dynamic response = request.PluginPackageManagedIdentityServiceProviderAcquireTokenResponse;
-        return (response.AccessToken as string)!;
-    }
+        PluginPackageManagedIdentityServiceProviderAcquireTokenFromTenantResponse response =
+            request.PluginPackageManagedIdentityServiceProviderAcquireTokenFromTenantResponse;
+        return response.AccessToken!;
 
-    private static readonly Func<Func<dynamic, object>, object> GetSandboxCallback =
-        (Func<Func<dynamic, object>, object>)
-        typeof(PluginPackageManagedIdentityService)
-        .GetMethod(nameof(WrapCallback), BindingFlags.Static | BindingFlags.NonPublic)
-        .MakeGenericMethod(
-            ExecuteResponseTypeRef,
-            RequestDataOneofCaseTypeRef
-        ).CreateDelegate(typeof(Func<Func<dynamic, object>, object>));
-
-    private static Func<TArg, TResult> WrapCallback<TArg, TResult>(
-        Func<dynamic, object> callback
-        ) where TArg : class
-    {
-        return TypedCallback;
-
-        TResult TypedCallback(TArg arg)
+        ExecuteRequest.RequestDataOneofCase OnCallback(ExecuteResponse response)
         {
-            return (TResult)callback(arg);
+            PluginPackageManagedIdentityServiceProviderAcquireTokenFromTenantRequest request = new()
+            {
+                ManagedIdentityId = managedIdentityId,
+            };
+            request.Scopes.AddRange(scopes);
+            response.PluginPackageManagedIdentityServiceProviderAcquireTokenFromTenantRequest = request;
+            return ExecuteRequest.RequestDataOneofCase.PluginPackageManagedIdentityServiceProviderAcquireTokenFromTenantResponse;
         }
     }
+
+    public string AcquireTokenFromTenant(
+        Guid managedIdentityId,
+        IEnumerable<string> scopes,
+        string tenant
+        ) => AcquireTokenFromTenant(managedIdentityId.ToString(), scopes, tenant);
+
+    public string AcquireTokenFromTenant(
+        Guid managedIdentityId,
+        IEnumerable<string> scopes,
+        Guid tenantId
+        ) => AcquireTokenFromTenant(managedIdentityId.ToString(), scopes, tenantId.ToString());
 }
