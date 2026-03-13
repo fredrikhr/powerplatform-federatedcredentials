@@ -71,6 +71,6 @@
     <PackageVersion Include="System.Memory">
       <Version>4.5.5</Version>
     </PackageVersion>
-    <PackageVersion Include="Google.Protobuf" Version="3.21.6" />
+    <PackageVersion Include="Google.Protobuf" Version="3.24.2" />
   </ItemGroup>
 </Project>
