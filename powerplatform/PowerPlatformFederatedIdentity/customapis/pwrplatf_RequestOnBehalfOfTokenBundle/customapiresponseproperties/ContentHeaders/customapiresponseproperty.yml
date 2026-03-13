@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': ContentHeaders
+  description:
+    '@default': The content headers of the response message
+    label:
+      '@description': The content headers of the response message
+      '@languagecode': 1033
+  displayname:
+    '@default': Content Headers
+    label:
+      '@description': Content Headers
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_RequestOnBehalfOfTokenBundle-Out-ContentHeaders
+  type: 3

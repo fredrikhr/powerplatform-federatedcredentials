@@ -1,0 +1,21 @@
+customapi:
+  '@uniquename': pwrplatf_RequestOnBehalfOfTokenBundle
+  allowedcustomprocessingsteptype: 0
+  bindingtype: 0
+  description:
+    '@default': Requests an on-behalf-of access token bundle for the user from the Power Automate service
+    label:
+      '@description': Requests an on-behalf-of access token bundle for the user from the Power Automate service
+      '@languagecode': 1033
+  displayname:
+    '@default': Request On-Behalf-Of Token Bundle
+    label:
+      '@description': Request On-Behalf-Of Token Bundle
+      '@languagecode': 1033
+  iscustomizable: 1
+  isfunction: 0
+  isprivate: 0
+  name: Request On-Behalf-Of Token Bundle
+  plugintypeid:
+    plugintypeexportkey: 2CC357216C80522B41B588B21A85CF72C64EE1BEAA0BBD5EB61DBFE0A10D93A1
+  workflowsdkstepenabled: 0

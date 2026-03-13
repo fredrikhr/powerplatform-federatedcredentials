@@ -63,6 +63,11 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_GetAsManagedIdentity/customapiresponseproperties/RequestedManagedIdentity
   - '@path': /customapis/pwrplatf_GetFicManagedIdentity
   - '@path': /customapis/pwrplatf_GetFicManagedIdentity/customapiresponseproperties/PluginAssemblyManagedIdentity
+  - '@path': /customapis/pwrplatf_RequestOnBehalfOfTokenBundle
+  - '@path': /customapis/pwrplatf_RequestOnBehalfOfTokenBundle/customapiresponseproperties/Body
+  - '@path': /customapis/pwrplatf_RequestOnBehalfOfTokenBundle/customapiresponseproperties/ContentHeaders
+  - '@path': /customapis/pwrplatf_RequestOnBehalfOfTokenBundle/customapiresponseproperties/Headers
+  - '@path': /customapis/pwrplatf_RequestOnBehalfOfTokenBundle/customapiresponseproperties/StatusCode
   - '@path': /customapis/pwrplatf_ResolveKeyVaultResource
   - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultObjectName
   - '@path': /customapis/pwrplatf_ResolveKeyVaultResource/customapirequestparameters/KeyVaultObjectType
