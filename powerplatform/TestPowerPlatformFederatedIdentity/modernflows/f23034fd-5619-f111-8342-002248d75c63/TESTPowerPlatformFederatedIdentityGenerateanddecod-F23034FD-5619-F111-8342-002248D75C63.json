@@ -153,7 +153,7 @@
           "type": "Select",
           "inputs": {
             "from": "@split(substring(uriQuery(body('Authorization_URL_(Client_secret)')['AuthorizationRequestUrl']), 1), '&')",
-            "select": "@slice(string(addProperty(json('{}'), substring(item(), 0, indexOf(item(), '=')), substring(item(), add(1, indexOf(item(), '='))))), 1, -1)"
+            "select": "@slice(string(addProperty(json('{}'), decodeUriComponent(substring(item(), 0, indexOf(item(), '='))), decodeUriComponent(substring(item(), add(1, indexOf(item(), '=')))))), 1, -1)"
           }
         },
         "Authorization_URL_query_(Client_secret)": {
