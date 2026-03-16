@@ -82,11 +82,11 @@
             },
             "parameters": {
               "actionName": "pwrplatf_AcquireServicePrincipalAccessToken",
-              "item/ApplicationId": "@parameters('TEST | PowerPlatformFederatedIdentity | App ID (test_pwrplatf_pp-fic_appid)')",
-              "item/ResourceId": "https://service.flow.microsoft.com/",
               "item/KeyVaultUri": "@parameters('TEST | PowerPlatformFederatedIdentity | Key Vault URI (test_pwrplatf_pp-fic_keyvaulturi)')",
+              "item/KeyVaultObjectType": 0,
               "item/KeyVaultObjectName": "@parameters('TEST | PowerPlatformFederatedIdentity | Key Vault Secret Name (test_pwrplatf_pp-fic_keyvaultsecretname)')",
-              "item/KeyVaultObjectType": 0
+              "item/ApplicationId": "@parameters('TEST | PowerPlatformFederatedIdentity | App ID (test_pwrplatf_pp-fic_appid)')",
+              "item/ResourceId": "https://service.flow.microsoft.com/"
             },
             "authentication": {
               "type": "Raw",
@@ -165,10 +165,10 @@
             },
             "parameters": {
               "actionName": "pwrplatf_AcquireServicePrincipalAccessToken",
+              "item/KeyVaultObjectType": 0,
               "item/ApplicationId": "@parameters('TEST | PowerPlatformFederatedIdentity | App ID (test_pwrplatf_pp-fic_appid)')",
-              "item/ResourceId": "https://service.flow.microsoft.com/",
               "item/KeyVaultResourceIdentifier": "@outputs('Key_Vault_Secret_Resource_ID')",
-              "item/KeyVaultObjectType": 0
+              "item/ResourceId": "https://service.flow.microsoft.com/"
             },
             "authentication": {
               "type": "Raw",
@@ -235,10 +235,10 @@
             },
             "parameters": {
               "actionName": "pwrplatf_AcquireServicePrincipalAccessToken",
+              "item/KeyVaultObjectType": 0,
               "item/ApplicationId": "@parameters('TEST | PowerPlatformFederatedIdentity | App ID (test_pwrplatf_pp-fic_appid)')",
-              "item/ResourceId": "https://@{uriHost(body('Power_Automate_Environment_Details_(Secret_Resource_ID)')['properties']['linkedEnvironmentMetadata']['instanceUrl'])}",
               "item/KeyVaultResourceIdentifier": "@outputs('Key_Vault_Secret_Resource_ID')",
-              "item/KeyVaultObjectType": 0
+              "item/ResourceId": "https://@{uriHost(body('Power_Automate_Environment_Details_(Secret_Resource_ID)')['properties']['linkedEnvironmentMetadata']['instanceUrl'])}"
             },
             "authentication": {
               "type": "Raw",

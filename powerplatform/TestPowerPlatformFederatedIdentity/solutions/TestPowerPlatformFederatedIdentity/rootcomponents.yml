@@ -1,6 +1,9 @@
 RootComponents:
   RootComponent:
   - '@type': 29
+    '@id': '{14d64702-251d-f111-8342-002248d75c63}'
+    '@behavior': 0
+  - '@type': 29
     '@id': '{4127afca-4119-f111-8342-002248d75c63}'
     '@behavior': 0
   - '@type': 29
@@ -8,6 +11,12 @@ RootComponents:
     '@behavior': 0
   - '@type': 29
     '@id': '{6ace89be-f5fc-f011-8407-002248d75c63}'
+    '@behavior': 0
+  - '@type': 29
+    '@id': '{a8fb5f1f-f91e-f111-88b4-002248d75c63}'
+    '@behavior': 0
+  - '@type': 29
+    '@id': '{f23034fd-5619-f111-8342-002248d75c63}'
     '@behavior': 0
   - '@type': 29
     '@id': '{fffd0a42-f112-f111-8342-002248d75c63}'
