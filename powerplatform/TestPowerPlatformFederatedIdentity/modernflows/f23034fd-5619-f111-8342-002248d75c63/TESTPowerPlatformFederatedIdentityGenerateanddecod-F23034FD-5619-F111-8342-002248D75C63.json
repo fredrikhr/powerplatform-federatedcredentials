@@ -147,6 +147,9 @@
               "Succeeded"
             ]
           },
+          "metadata": {
+            "operationMetadataId": "565ef290-42d6-4ae0-9200-29989e0d6440"
+          },
           "type": "Select",
           "inputs": {
             "from": "@split(substring(uriQuery(body('Authorization_URL_(Client_secret)')['AuthorizationRequestUrl']), 1), '&')",
@@ -158,6 +161,9 @@
             "Authorization_URL_query_JSON_partials_(Client_secret)": [
               "Succeeded"
             ]
+          },
+          "metadata": {
+            "operationMetadataId": "f12f7462-55cf-4bc3-9879-82185608ad25"
           },
           "type": "ParseJson",
           "inputs": {
@@ -182,6 +188,9 @@
               "Succeeded"
             ]
           },
+          "metadata": {
+            "operationMetadataId": "7dc64c40-fc6b-4f9b-bb90-96d3927fc5b8"
+          },
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
@@ -204,6 +213,9 @@
             "Decode_Authorization_state_(Client_secret)": [
               "Succeeded"
             ]
+          },
+          "metadata": {
+            "operationMetadataId": "557786eb-b833-4061-854f-8fe8824cc9f7"
           },
           "type": "Compose",
           "inputs": {
