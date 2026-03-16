@@ -2,51 +2,29 @@
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
-using System.Runtime.Serialization;
 using System.Xml;
 
 using Lock = Object;
 
 internal static class ProxyTypesAssemblyRegistrar
 {
-    private const string KnownTypesResolverTypeName =
-        "Microsoft.Xrm.Sdk.KnownTypesResolver, " +
-        "Microsoft.Xrm.Sdk, PublicKeyToken=31bf3856ad364e35";
-
     private static readonly Lock SyncLock = new();
-    private static bool IsRegistered;
+    private static bool s_isRegistered;
 
     internal static void EnsureProxyTypesRegistered()
     {
         lock (SyncLock)
         {
-            if (IsRegistered) return;
+            if (s_isRegistered) return;
 
             PerformProxyTypeRegistration();
-            IsRegistered = true;
+            s_isRegistered = true;
         }
     }
 
     private static void PerformProxyTypeRegistration()
     {
-        Type knownTypesResolverType = Type.GetType(
-            KnownTypesResolverTypeName,
-            throwOnError: true
-            );
-        var knownTypesResolver = (DataContractResolver)Activator.CreateInstance(
-            knownTypesResolverType
-            );
-        var resolvedTypes = (IDictionary<string, Tuple<XmlDictionaryString, XmlDictionaryString>>)
-            knownTypesResolverType.InvokeMember(
-                "ResolvedTypes",
-                System.Reflection.BindingFlags.Public |
-                System.Reflection.BindingFlags.Instance |
-                System.Reflection.BindingFlags.GetProperty,
-                Type.DefaultBinder,
-                target: knownTypesResolver,
-                args: default,
-                culture: System.Globalization.CultureInfo.InvariantCulture
-                );
+        KnownTypesResolver knownTypesResolver = new();
         _ = knownTypesResolver.TryResolveType(
             typeof(Entity),
             typeof(Entity),
@@ -60,7 +38,7 @@ internal static class ProxyTypesAssemblyRegistrar
         var entityXmlTuple = Tuple.Create(entityXmlTypeName, entityXmlNamespace);
         foreach (Type derivedEntityType in derivedEntityTypes)
         {
-            resolvedTypes[derivedEntityType.Name] = entityXmlTuple;
+            knownTypesResolver.ResolvedTypes[derivedEntityType.Name] = entityXmlTuple;
         }
     }
 }
