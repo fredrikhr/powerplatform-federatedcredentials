@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Azure.Security.KeyVault.Certificates;
 
 using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
+using Azure.Security.KeyVault.Secrets;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -68,11 +69,16 @@ internal static class MsalPluginUtility
         switch (keyVaultDataType)
         {
             case keytype.Secret:
-                var keyVaultSecretClient = pluginContext.ServiceProvider.Get<IKeyVaultClient>();
-                string keyVaultSecretValue = keyVaultSecretClient.GetSecret(
-                    keyVaultUri,
-                    keyVaultDataName
+                SecretClient keyVaultSecretClient = new(
+                    new(keyVaultUri, UriKind.Absolute),
+                    pluginContext.AzureTokenCredential
                     );
+                KeyVaultSecret keyVaultSecretData = keyVaultSecretClient.GetSecret(
+                    keyVaultDataName,
+                    keyVaultDataVersion,
+                    CancellationToken.None
+                    );
+                string keyVaultSecretValue = keyVaultSecretData.Value;
                 keyVaultSecurityKey = KeyVaultPluginUtility.GetKeyVaultSecretSecurityKey(
                     keyVaultUri,
                     keyVaultDataName,
