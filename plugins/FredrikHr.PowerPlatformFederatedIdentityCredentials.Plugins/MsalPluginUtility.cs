@@ -69,20 +69,15 @@ internal static class MsalPluginUtility
         switch (keyVaultDataType)
         {
             case keytype.Secret:
-                SecretClient keyVaultSecretClient = new(
-                    new(keyVaultUri, UriKind.Absolute),
-                    pluginContext.AzureTokenCredential
-                    );
-                KeyVaultSecret keyVaultSecretData = keyVaultSecretClient.GetSecret(
-                    keyVaultDataName,
-                    keyVaultDataVersion,
-                    CancellationToken.None
-                    );
-                string keyVaultSecretValue = keyVaultSecretData.Value;
-                keyVaultSecurityKey = KeyVaultPluginUtility.GetKeyVaultSecretSecurityKey(
+                KeyVaultSecret keyVaultSecretData = KeyVaultPluginUtility.GetKeyVaultSecretAsync(
+                    pluginContext,
                     keyVaultUri,
                     keyVaultDataName,
-                    keyVaultSecretValue,
+                    keyVaultDataVersion
+                    ).GetAwaiter().GetResult();
+                string keyVaultSecretValue = keyVaultSecretData.Value;
+                keyVaultSecurityKey = KeyVaultPluginUtility.GetKeyVaultSecretSecurityKey(
+                    keyVaultSecretData,
                     keySizeBits: 256
                     );
                 keyVaultEncryptCreds = new EncryptingCredentials(

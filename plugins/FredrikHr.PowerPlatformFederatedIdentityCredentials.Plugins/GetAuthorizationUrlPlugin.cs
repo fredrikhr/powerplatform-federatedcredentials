@@ -15,8 +15,6 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
     internal static class JwtClaimNames
     {
         internal const string OneTimeRedirectUri = "uri";
-        internal const string KeyVaultUri = "kv_uri";
-        internal const string KeyVaultSecretName = "kv_sname";
     }
 
     internal static class InputParameterNames
@@ -35,7 +33,7 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         internal const string AuthorizationRequestUrl = nameof(AuthorizationRequestUrl);
     }
 
-    private static readonly JsonWebTokenHandler JwtHandler =  new();
+    private static readonly JsonWebTokenHandler JwtHandler = new();
 
     protected override void ExecuteCore(PluginContext context)
     {
@@ -73,7 +71,8 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
                 httpStatus: PluginHttpStatusCode.BadRequest,
                 message: "KeyVaultReference entity not availble."
                 );
-        };
+        }
+        ;
         string keyVaultUri = keyVaultReferenceEntity.KeyVaultUri;
         string keyVaultDataName = keyVaultReferenceEntity.KeyName;
         _ = keyVaultReferenceEntity.TryGetAttributeValue(
@@ -128,20 +127,8 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
             },
             AdditionalHeaderClaims = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase),
             EncryptingCredentials = keyVaultEncryptCreds,
+            IncludeKeyIdInHeader = true,
         };
-        switch (keyVaultDataType)
-        {
-            case keytype.Secret:
-                stateJwtDesc.AdditionalHeaderClaims[JwtClaimNames.KeyVaultUri] =
-                    keyVaultUri;
-                stateJwtDesc.AdditionalHeaderClaims[JwtClaimNames.KeyVaultSecretName] =
-                    keyVaultDataName;
-                break;
-            case keytype.Certificate:
-            case keytype.CertificateWithX5c:
-                stateJwtDesc.IncludeKeyIdInHeader = true;
-                break;
-        }
         if (inputs.TryGetValue(
             InputParameterNames.CommonRedirectUri,
             out string? commonRedirectUri) &&

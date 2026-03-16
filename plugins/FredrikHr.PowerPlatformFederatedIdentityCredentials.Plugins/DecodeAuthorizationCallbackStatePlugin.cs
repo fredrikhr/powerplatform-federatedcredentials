@@ -1,5 +1,6 @@
 using Azure.Core;
 using Azure.Security.KeyVault.Keys.Cryptography;
+using Azure.Security.KeyVault.Secrets;
 
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -82,15 +83,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
         SecurityKey stateJweSecurityKey;
         if (JwtConstants.DirectKeyUseAlg.Equals(stateJwt.Alg, OrdInv))
         {
-            if (!stateJwt.TryGetHeaderValue(
-                    GetAuthorizationUrlPlugin.JwtClaimNames.KeyVaultUri,
-                    out string keyVaultUri) ||
-                string.IsNullOrEmpty(keyVaultUri) ||
-                !stateJwt.TryGetHeaderValue(
-                    GetAuthorizationUrlPlugin.JwtClaimNames.KeyVaultSecretName,
-                    out string keyVaultSecretName) ||
-                string.IsNullOrEmpty(keyVaultSecretName)
-                )
+            if (string.IsNullOrEmpty(stateJwt.Kid))
             {
                 throw new InvalidPluginExecutionException(
                     httpStatus: PluginHttpStatusCode.BadRequest,
@@ -98,18 +91,16 @@ public class DecodeAuthorizationCallbackStatePlugin()
                     );
             }
 
-            var keyVaultSecretClient = context.ServiceProvider.Get<IKeyVaultClient>();
-            string keyVaultSecretValue = keyVaultSecretClient.GetSecret(
-                keyVaultUri,
-                keyVaultSecretName
-                );
+            Uri keyVaultSecretUri = new(stateJwt.Kid, UriKind.Absolute);
+            KeyVaultSecret keyVaultSecretData = KeyVaultPluginUtility.GetKeyVaultSecretAsync(
+                context,
+                keyVaultSecretUri
+                ).GetAwaiter().GetResult();
             stateJweSecurityKey =
                 SecurityAlgorithms.Aes128CbcHmacSha256.Equals(stateJwt.Enc, OrdInv)
                 ? (SecurityKey)KeyVaultPluginUtility
                     .GetKeyVaultSecretSecurityKey(
-                        keyVaultUri,
-                        keyVaultSecretName,
-                        keyVaultSecretValue,
+                        keyVaultSecretData,
                         keySizeBits: 256
                         )
                 : throw new InvalidPluginExecutionException(
