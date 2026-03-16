@@ -63,22 +63,6 @@ public class DecodeAuthorizationCallbackStatePlugin()
                 message: $"Specified parameter '{InputParameterNames.State}' is not an encrpted JSON Web Token."
                 );
         }
-        TokenValidationResult stateJwtValidateResult = _jwtHandler
-            .ValidateTokenAsync(stateJwt, new()
-            {
-                ValidAlgorithms = [
-                    SecurityAlgorithms.RsaOAEP,
-                    SecurityAlgorithms.Aes128CbcHmacSha256
-                ],
-            })
-            .GetAwaiter().GetResult();
-        if (!stateJwtValidateResult.IsValid)
-        {
-            throw new InvalidPluginExecutionException(
-                httpStatus: PluginHttpStatusCode.BadRequest,
-                message: $"Invalid JWE specified in parameter '{InputParameterNames.State}': {stateJwtValidateResult.Exception?.Message}"
-                );
-        }
 
         SecurityKey stateJweSecurityKey;
         if (JwtConstants.DirectKeyUseAlg.Equals(stateJwt.Alg, OrdInv))
@@ -87,26 +71,30 @@ public class DecodeAuthorizationCallbackStatePlugin()
             {
                 throw new InvalidPluginExecutionException(
                     httpStatus: PluginHttpStatusCode.BadRequest,
-                    message: $"Missing Key Vault claims in JWE header in parameter '{InputParameterNames.State}'"
+                    message: $"Missing Key Vault claims in JWE header in parameter '{InputParameterNames.State}'. JWE header value '{JwtHeaderParameterNames.Kid}' was expected to refer to the ID of a Key Vault Secret."
                     );
             }
 
-            Uri keyVaultSecretUri = new(stateJwt.Kid, UriKind.Absolute);
-            KeyVaultSecret keyVaultSecretData = KeyVaultPluginUtility.GetKeyVaultSecretAsync(
-                context,
-                keyVaultSecretUri
-                ).GetAwaiter().GetResult();
-            stateJweSecurityKey =
-                SecurityAlgorithms.Aes128CbcHmacSha256.Equals(stateJwt.Enc, OrdInv)
-                ? (SecurityKey)KeyVaultPluginUtility
+            if (SecurityAlgorithms.Aes128CbcHmacSha256.Equals(stateJwt.Enc, OrdInv))
+            {
+                Uri keyVaultSecretUri = new(stateJwt.Kid, UriKind.Absolute);
+                KeyVaultSecret keyVaultSecretData = KeyVaultPluginUtility.GetKeyVaultSecretAsync(
+                    context,
+                    keyVaultSecretUri
+                    ).GetAwaiter().GetResult();
+                stateJweSecurityKey = KeyVaultPluginUtility
                     .GetKeyVaultSecretSecurityKey(
                         keyVaultSecretData,
                         keySizeBits: 256
-                        )
-                : throw new InvalidPluginExecutionException(
+                        );
+            }
+            else
+            {
+                throw new InvalidPluginExecutionException(
                     httpStatus: PluginHttpStatusCode.BadRequest,
                     message: $"Invalid content encryption algorithm in JWE header in parameter '{InputParameterNames.State}': {stateJwt.Enc}"
                     );
+            }
         }
         else if (SecurityAlgorithms.RsaOAEP.Equals(stateJwt.Alg, OrdInv))
         {
@@ -161,11 +149,16 @@ public class DecodeAuthorizationCallbackStatePlugin()
                 message: $"Unable to read decrypted payload as JWT specified in parameter '{InputParameterNames.State}': {jwtReadExcept.Message}"
                 );
         }
-        stateJwtValidateResult = _jwtHandler.ValidateTokenAsync(stateJwt, new()
+#pragma warning disable CA5404 // Do not disable token validation checks
+        TokenValidationResult stateJwtValidateResult = _jwtHandler.ValidateTokenAsync(stateJwt, new()
         {
-            RequireSignedTokens = false,
             ValidateLifetime = true,
+            ValidTypes = [JwtConstants.TokenType],
+            RequireSignedTokens = false,
+            ValidateAudience = false,
+            ValidateIssuer = false,
         }).GetAwaiter().GetResult();
+#pragma warning restore CA5404 // Do not disable token validation checks
         if (!stateJwtValidateResult.IsValid)
         {
             throw new InvalidPluginExecutionException(
