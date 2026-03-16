@@ -1,7 +1,7 @@
 {
   "properties": {
     "connectionReferences": {
-      "shared_commondataserviceforapps": {
+      "dataverse": {
         "impersonation": {
           "source": "invoker"
         },
@@ -91,7 +91,7 @@
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
-              "connectionName": "shared_commondataserviceforapps",
+              "connectionName": "dataverse",
               "operationId": "PerformUnboundAction",
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
             },
@@ -116,7 +116,7 @@
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
-              "connectionName": "shared_commondataserviceforapps",
+              "connectionName": "dataverse",
               "operationId": "PerformUnboundAction",
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
             },
@@ -139,6 +139,77 @@
               "type": "Raw",
               "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
             }
+          }
+        },
+        "Authorization_URL_query_JSON_partials_(Client_secret)": {
+          "runAfter": {
+            "Authorization_URL_(Client_secret)": [
+              "Succeeded"
+            ]
+          },
+          "type": "Select",
+          "inputs": {
+            "from": "@split(substring(uriQuery(body('Authorization_URL_(Client_secret)')['AuthorizationRequestUrl']), 1), '&')",
+            "select": "@slice(string(addProperty(json('{}'), substring(item(), 0, indexOf(item(), '=')), substring(item(), add(1, indexOf(item(), '='))))), 1, -1)"
+          }
+        },
+        "Authorization_URL_query_(Client_secret)": {
+          "runAfter": {
+            "Authorization_URL_query_JSON_partials_(Client_secret)": [
+              "Succeeded"
+            ]
+          },
+          "type": "ParseJson",
+          "inputs": {
+            "content": "@concat('{', join(body('Authorization_URL_query_JSON_partials_(Client_secret)'), ','), '}')",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string",
+                  "title": "Authorization State"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            }
+          }
+        },
+        "Decode_Authorization_state_(Client_secret)": {
+          "runAfter": {
+            "Authorization_URL_query_(Client_secret)": [
+              "Succeeded"
+            ]
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "dataverse",
+              "operationId": "PerformUnboundAction",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "actionName": "pwrplatf_DecodeAuthorizationUrlState",
+              "item/State": "@body('Authorization_URL_query_(Client_secret)')['state']"
+            },
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        },
+        "Compare_One-Time_Redirect_URI_(Client_secret)": {
+          "runAfter": {
+            "Decode_Authorization_state_(Client_secret)": [
+              "Succeeded"
+            ]
+          },
+          "type": "Compose",
+          "inputs": {
+            "pre-encode": "@outputs('Redirect_URI')['oneTimeRedirectUri']",
+            "post_decode": "@body('Decode_Authorization_state_(Client_secret)')['OneTimeRedirectUrl']",
+            "equal": "@equals(outputs('Redirect_URI')['oneTimeRedirectUri'], body('Decode_Authorization_state_(Client_secret)')['OneTimeRedirectUrl'])"
           }
         }
       }
