@@ -14,6 +14,11 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 public class KeyVaultCredentialsTokenAcquisitionPlugin
     : FederatedIdentityTokenAcquisitionPlugin, IPlugin
 {
+    internal static new class OutputParameterNames
+    {
+        internal const string KeyVaultResourceIdentifier = nameof(KeyVaultResourceIdentifier);
+    }
+
     static KeyVaultCredentialsTokenAcquisitionPlugin()
     {
         _ = typeof(RSA);
@@ -67,6 +72,14 @@ public class KeyVaultCredentialsTokenAcquisitionPlugin
             out string? keyVaultDataVersion
             );
         var keyVaultDataType = keyVaultReferenceEntity.KeyType;
+        if (keyVaultReferenceEntity.TryGetAttributeValue(
+            KeyVaultReference.Fields.KeyVaultResourceIdentifier,
+            out string keyVaultResourceIdentifier
+            ))
+        {
+            pluginContext.Outputs[OutputParameterNames.KeyVaultResourceIdentifier] =
+                keyVaultResourceIdentifier;
+        }
 
         ConfidentialClientApplicationBuilder msalBuilder = MsalPluginUtility.CreateMsalAppBuilder(
             pluginContext, tenantId,
