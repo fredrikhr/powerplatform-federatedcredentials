@@ -1,7 +1,7 @@
 WebResource:
   WebResourceId: '{48e3538a-e921-f111-88b2-002248d75c63}'
   Name: frh_AuthorizationCommonCallback.html
-  DisplayName: Authorization Common Callback Page
+  DisplayName: TEST | Authorization Common Callback Page
   WebResourceType: 1
   IntroducedVersion: 2.3.0
   IsEnabledForMobileClient: 1

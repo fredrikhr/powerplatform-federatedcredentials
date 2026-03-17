@@ -1,0 +1,12 @@
+WebResource:
+  WebResourceId: '{5e97f994-40ad-4470-8093-999d59ea8d64}'
+  Name: pwrplatf_AuthorizationCommonCallback
+  DisplayName: Authorization Common Callback Page
+  WebResourceType: 1
+  IntroducedVersion: 2.3.0
+  IsEnabledForMobileClient: 1
+  IsAvailableForMobileOffline: 0
+  IsCustomizable: 1
+  CanBeDeleted: 1
+  IsHidden: 0
+  FileName: /webresources/5e97f994-40ad-4470-8093-999d59ea8d64/pwrplatf_AuthorizationCommonCallback5E97F994-40AD-4470-8093-999D59EA8D64.html

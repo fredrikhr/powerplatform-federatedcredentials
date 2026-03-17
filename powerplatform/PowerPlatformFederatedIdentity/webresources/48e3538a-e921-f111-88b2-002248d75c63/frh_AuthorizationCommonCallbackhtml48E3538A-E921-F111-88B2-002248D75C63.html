@@ -27,7 +27,7 @@
                 "OData-Version": "4.0",
                 "OData-MaxVersion": "4.0"
               },
-              body: JSON.stringify({ State: queryParams["state"] }),
+              body: JSON.stringify({ State: queryParams.get("state") }),
             },
           );
 
