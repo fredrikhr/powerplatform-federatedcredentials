@@ -1,8 +1,5 @@
 RootComponents:
   RootComponent:
-  - '@type': 61
-    '@schemaName': frh_AuthorizationCommonCallback.html
-    '@behavior': 0
-  - '@type': 61
+    '@type': 61
     '@schemaName': pwrplatf_AuthorizationCommonCallback
     '@behavior': 0
