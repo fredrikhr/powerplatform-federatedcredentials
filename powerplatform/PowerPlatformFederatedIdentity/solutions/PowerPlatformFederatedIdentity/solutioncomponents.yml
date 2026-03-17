@@ -79,3 +79,4 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_RetrieveFicManagedIdentity/customapiresponseproperties/PluginAssemblyManagedIdentity
   - '@path': /pluginpackages/pwrplatf_FederatedIdentityCredentialsPlugins
   - '@path': /publishers/fredrikhr
+  - '@path': /webresources/48e3538a-e921-f111-88b2-002248d75c63

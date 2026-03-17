@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OpenID Connect Authorization Callback</title>
+  </head>
+  <body>
+    <h1>OpenID Connect</h1>
+    <progress id="loading"></progress>
+
+    <output id="result"></output>
+
+    <script>
+      async function sendRequest() {
+        const queryParams = new URLSearchParams(window.location.search);
+        const progressEl = document.getElementById("loading");
+        const resultDiv = document.getElementById("result");
+
+        try {
+          const response = await fetch(
+            "/api/data/v9.2/pwrplatf_DecodeAuthorizationUrlState",
+            {
+              method: "POST",
+              headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=utf-8",
+                "OData-Version": "4.0",
+                "OData-MaxVersion": "4.0"
+              },
+              body: JSON.stringify({ State: queryParams["state"] }),
+            },
+          );
+
+          const json = await response.json();
+
+          // Remove progress bar from DOM
+          progressEl.remove();
+
+          resultDiv.textContent =
+            "Response received:\n" + JSON.stringify(json, null, 2);
+        } catch (err) {
+          progressEl.remove();
+          resultDiv.textContent = "Error:\n" + err;
+        }
+      }
+
+      window.onload = sendRequest;
+    </script>
+  </body>
+</html>

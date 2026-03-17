@@ -1,1 +1,5 @@
-RootComponents: 
+RootComponents:
+  RootComponent:
+    '@type': 61
+    '@schemaName': frh_AuthorizationCommonCallback.html
+    '@behavior': 0

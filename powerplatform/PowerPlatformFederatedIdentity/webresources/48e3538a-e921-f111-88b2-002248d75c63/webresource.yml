@@ -1,0 +1,12 @@
+WebResource:
+  WebResourceId: '{48e3538a-e921-f111-88b2-002248d75c63}'
+  Name: frh_AuthorizationCommonCallback.html
+  DisplayName: Authorization Common Callback Page
+  WebResourceType: 1
+  IntroducedVersion: 2.3.0
+  IsEnabledForMobileClient: 1
+  IsAvailableForMobileOffline: 0
+  IsCustomizable: 1
+  CanBeDeleted: 1
+  IsHidden: 0
+  FileName: /webresources/48e3538a-e921-f111-88b2-002248d75c63/frh_AuthorizationCommonCallbackhtml48E3538A-E921-F111-88B2-002248D75C63.html
