@@ -5,59 +5,150 @@
     <title>OpenID Connect Authorization Callback</title>
   </head>
   <body>
-    <h1>OpenID Connect</h1>
-    <progress id="loading"></progress>
-
-    <output id="result"></output>
+    <h1>User Authorization</h1>
+    <output id="operationInformation"></output>
+    <progress id="progressBar"></progress>
+    <table>
+      <caption>
+        Additional information
+      </caption>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody id="queryParamsTableBody"></tbody>
+    </table>
 
     <script>
-      async function sendRequest() {
-        const queryParams = new URLSearchParams(window.location.search);
-        const progressEl = document.getElementById("loading");
-        const resultDiv = document.getElementById("result");
+      function addKeyValuePairToTable(tableBodyElement, key, value) {
+        const trElement = document.createElement("tr");
+        const keyTdElement = document.createElement("td");
+        const keyCodeElement = document.createElement("code");
+        keyCodeElement.textContent = key;
+        keyTdElement.appendChild(keyCodeElement);
+        trElement.appendChild(keyTdElement);
+        const valueTdElement = document.createElement("td");
+        valueTdElement.textContent = value;
+        trElement.appendChild(valueTdElement);
+        tableBodyElement.appendChild(trElement);
+      }
 
-        try {
-          const response = await fetch(
-            "/api/data/v9.2/pwrplatf_DecodeAuthorizationUrlState",
-            {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json; charset=utf-8",
-                "OData-Version": "4.0",
-                "OData-MaxVersion": "4.0",
-              },
-              body: JSON.stringify({ State: queryParams.get("state") }),
-            },
-          );
-
-          const stateDecoded = await response.json();
-          const oneTimeRedirectUrl = stateDecoded["OneTimeRedirectUrl"];
-
-          const redirectBody = {};
-          for (const [key, value] of queryParams.entries()) {
-            redirectBody[key] = value;
+      /**
+       * @param {URLSearchParams} queryParams
+       * @param {Record<string, string>} resultData
+       */
+      function outputQueryParamsEntries(queryParams, resultData) {
+        const tableBodyElement = document.getElementById(
+          "queryParamsTableBody",
+        );
+        for (const [key, value] of queryParams.entries()) {
+          if (key !== "code" && key !== "state") {
+            addKeyValuePairToTable(tableBodyElement, key, value);
           }
-          const redirectResponse = await fetch(oneTimeRedirectUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json; charset=utf-8",
-            },
-            body: JSON.stringify(redirectBody),
-          });
-
-          // Remove progress bar from DOM
-          progressEl.remove();
-
-          resultDiv.textContent =
-            `Redirected: ${redirectResponse.status} ${redirectResponse.statusText}`;
-        } catch (err) {
-          progressEl.remove();
-          resultDiv.textContent = "Error:\n" + err;
+          resultData[key] = value;
         }
       }
 
-      window.onload = sendRequest;
+      async function handleWindowLoad() {
+        const operationInformationElement = document.getElementById(
+          "operationInformation",
+        );
+        const queryParams = new URLSearchParams(window.location.search);
+        const queryRecord = {};
+        operationInformationElement.textContent =
+          "Retrieving Authorization data.";
+        outputQueryParamsEntries(queryParams, queryRecord);
+        if (queryParams.has("error")) {
+          operationInformationElement.textContent =
+            "Authorization failed. Aborting.";
+          return;
+        }
+        if (!queryParams.has("code")) {
+          operationInformationElement.textContent =
+            "Missing required authorization code. Aborting.";
+          return;
+        }
+
+        const authorizationState = queryParams.get("state");
+        if (!authorizationState) {
+          operationInformationElement.textContent =
+            "Missing required authorization state. Aborting.";
+          return;
+        }
+
+        operationInformationElement.textContent =
+          "Decrypting protceted authorization state.";
+        const decodeResponse = await fetch(
+          "/api/data/v9.2/pwrplatf_DecodeAuthorizationUrlState",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json; charset=utf-8",
+              "OData-Version": "4.0",
+              "OData-MaxVersion": "4.0",
+            },
+            body: JSON.stringify({ State: authorizationState }),
+          },
+        );
+        const decodeResponseBody = await decodeResponse.json();
+        const redirectUrl = decodeResponseBody?.["OneTimeRedirectUrl"];
+        if (!decodeResponse.ok || !redirectUrl) {
+          operationInformationElement.textContent =
+            "Decrypting protected authorization state failed. Aborting.";
+          const { error: decodeError } = decodeResponseBody;
+          const tableBodyElement = document.getElementById(
+            "queryParamsTableBody",
+          );
+          if (tableBodyElement.hasChildNodes()) {
+            const sepTrElement = document.createElement("tr");
+            tableBodyElement.appendChild(sepTrElement);
+          }
+          for (const [key, value] of Object.entries(decodeError || {})) {
+            addKeyValuePairToTable(tableBodyElement, key, value);
+          }
+          return;
+        }
+
+        operationInformationElement.textContent =
+          "Relaying authorization data.";
+        const redirectResponse = await fetch(oneTimeRedirectUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: JSON.stringify(queryRecord),
+        });
+        if (!redirectResponse.ok) {
+          operationInformationElement.textContent =
+            "Failed to relay authorization data. Aborting";
+          const redirectResponseBody = await redirectResponse.json();
+          const { error: redirectError } = redirectResponseBody;
+          if (tableBodyElement.hasChildNodes()) {
+            const sepTrElement = document.createElement("tr");
+            tableBodyElement.appendChild(sepTrElement);
+          }
+          for (const [key, value] of Object.entries(redirectError || {})) {
+            addKeyValuePairToTable(tableBodyElement, key, value);
+          }
+          return;
+        }
+
+        operationInformationElement.textContent =
+          "Authorization complete. You can now close this page.";
+      }
+
+      async function onWindowLoad() {
+        const progressElement = document.getElementById("progressBar");
+
+        await handleWindowLoad();
+
+        progressElement.remove();
+      }
+
+      window.onload = onWindowLoad;
     </script>
   </body>
 </html>
