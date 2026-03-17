@@ -27,6 +27,8 @@ public sealed class PluginContext
     private readonly Lazy<KeyVaultReference?> _resolvedKeyVaultReferenceEntity;
     private readonly Lazy<ResourceIdentifier?> _resolvedKeyVaultReferenceResourceId;
 
+    private readonly Lazy<IKeyVaultClient> _pluginKeyVaultClient;
+
     internal IServiceProvider ServiceProvider { get; }
     internal IPluginExecutionContext7 ExecutionContext { get; }
     internal ParameterCollection Inputs => ExecutionContext.InputParameters;
@@ -211,6 +213,13 @@ public sealed class PluginContext
                 : null;
             }
         });
+
+        _pluginKeyVaultClient = new(() =>
+        {
+            var keyVaultClient = ServiceProvider.Get<IKeyVaultClient>();
+            keyVaultClient.PreferredAuthType = AuthenticationType.ManagedIdentity;
+            return keyVaultClient;
+        });
     }
 
     internal IOrganizationService DefaultDataverseClient =>
@@ -240,4 +249,7 @@ public sealed class PluginContext
         _resolvedKeyVaultReferenceEntity.Value;
     internal ResourceIdentifier? ResolvedKeyVaultReferenceResourceId =>
         _resolvedKeyVaultReferenceResourceId.Value;
+
+    internal IKeyVaultClient PluginKeyVaultClient =>
+        _pluginKeyVaultClient.Value;
 }
