@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': NonceParameter
+  description:
+    '@default': Random value used as nonce to prevent replay attacks during authorization.
+    label:
+      '@description': Random value used as nonce to prevent replay attacks during authorization.
+      '@languagecode': 1033
+  displayname:
+    '@default': Nonce
+    label:
+      '@description': Nonce
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 1
+  name: pwrplatf_GenerateAuthorizationUrl-In-NonceParameter
+  type: 10

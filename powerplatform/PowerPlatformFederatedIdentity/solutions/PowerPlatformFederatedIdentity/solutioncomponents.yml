@@ -41,12 +41,14 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/ApplicationId
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/CommonRedirectUri
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/IncludeIdToken
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultObjectName
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultObjectType
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultObjectVersion
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultResourceIdentifier
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/KeyVaultUri
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/LoginHint
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/NonceParameter
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/OneTimeRedirectUri
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/PkceS256CodeChallenge
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/Prompt
@@ -55,7 +57,9 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapirequestparameters/TenantId
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapiresponseproperties/AuthorizationRequestUrl
   - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapiresponseproperties/KeyVaultResourceIdentifier
+  - '@path': /customapis/pwrplatf_GenerateAuthorizationUrl/customapiresponseproperties/NonceParameter
   - '@path': /customapis/pwrplatf_GeneratePkceParameters
+  - '@path': /customapis/pwrplatf_GeneratePkceParameters/customapiresponseproperties/NonceParameter
   - '@path': /customapis/pwrplatf_GeneratePkceParameters/customapiresponseproperties/PkceCodeChallenge
   - '@path': /customapis/pwrplatf_GeneratePkceParameters/customapiresponseproperties/PkceCodeChallengeMethod
   - '@path': /customapis/pwrplatf_GeneratePkceParameters/customapiresponseproperties/PkceCodeVerifier
