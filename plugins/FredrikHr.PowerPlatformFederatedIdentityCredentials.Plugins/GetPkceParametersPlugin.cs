@@ -9,6 +9,7 @@ public sealed class GetPkceParametersPlugin : PluginBase, IPlugin
 {
     internal const int PkceCodeVerifierByteLength = 96;
     internal const string PkceCodeChallengeMethodValue = "S256";
+    internal const int NonceValueByteLength = 64;
 
     public GetPkceParametersPlugin() : base()
     {
@@ -20,6 +21,7 @@ public sealed class GetPkceParametersPlugin : PluginBase, IPlugin
         internal const string PkceCodeVerifier = nameof(PkceCodeVerifier);
         internal const string PkceCodeChallenge = nameof(PkceCodeChallenge);
         internal const string PkceCodeChallengeMethod = nameof(PkceCodeChallengeMethod);
+        internal const string NonceParameter = nameof(NonceParameter);
     }
 
     protected override void ExecuteCore(PluginContext context)
@@ -36,9 +38,14 @@ public sealed class GetPkceParametersPlugin : PluginBase, IPlugin
         byte[] pkceCodeChallengeBytes = sha256.ComputeHash(pkceCodeChallengeInput);
         string pkceCodeChallenge = Base64UrlEncoder.Encode(pkceCodeChallengeBytes);
 
+        var nonceValueBytes = new byte[NonceValueByteLength];
+        rng.GetBytes(nonceValueBytes);
+        string nonceValueString = Base64UrlEncoder.Encode(nonceValueBytes);
+
         outputs[OutputParameterNames.PkceCodeVerifier] = pkceCodeVerifier;
         outputs[OutputParameterNames.PkceCodeChallenge] = pkceCodeChallenge;
         outputs[OutputParameterNames.PkceCodeChallengeMethod] =
             PkceCodeChallengeMethodValue;
+        outputs[OutputParameterNames.NonceParameter] = nonceValueString;
     }
 }

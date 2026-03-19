@@ -1,10 +1,10 @@
-using System.IdentityModel;
-
-using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
-
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
+
+using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
+
+using System.Security.Cryptography;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -26,11 +26,14 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         internal const string PkceS256CodeChallenge = nameof(PkceS256CodeChallenge);
         internal const string CommonRedirectUri = nameof(CommonRedirectUri);
         internal const string OneTimeRedirectUri = nameof(OneTimeRedirectUri);
+        internal const string IncludeIdToken = nameof(IncludeIdToken);
+        internal const string NonceParameter = nameof(NonceParameter);
     }
 
     internal static class OutputParameterNames
     {
         internal const string AuthorizationRequestUrl = nameof(AuthorizationRequestUrl);
+        internal const string NonceParameter = nameof(NonceParameter);
     }
 
     private static readonly JsonWebTokenHandler JwtHandler = new();
@@ -80,6 +83,13 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
             out string? keyVaultDataVersion
             );
         keytype? keyVaultDataType = keyVaultReferenceEntity.KeyType;
+        context.Outputs[ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultResourceIdentifier] =
+            keyVaultReferenceEntity.TryGetAttributeValue(
+                KeyVaultReference.Fields.KeyVaultResourceIdentifier,
+                out string keyVaultResourceIdentifier
+                ) && !string.IsNullOrEmpty(keyVaultResourceIdentifier)
+            ? keyVaultResourceIdentifier
+            : context.ResolvedKeyVaultReferenceResourceId?.ToString();
 
         ParameterCollection inputs = context.Inputs;
         _ = inputs.TryGetValue(
@@ -150,6 +160,29 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
             !string.IsNullOrEmpty(responseMode))
         {
             msalExtraParams["response_mode"] = responseMode;
+        }
+        if (!inputs.TryGetValue(
+            InputParameterNames.IncludeIdToken,
+            out bool includeIdToken
+            ))
+        {
+            includeIdToken = false;
+        }
+        if (includeIdToken)
+        {
+            if (!inputs.TryGetValue(
+                InputParameterNames.NonceParameter,
+                out string nonceValue
+                ))
+            {
+                using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+                byte[] nonceBytes = new byte[64];
+                rng.GetBytes(nonceBytes);
+                nonceValue = Base64UrlEncoder.Encode(nonceBytes);
+            }
+            context.Outputs[OutputParameterNames.NonceParameter] = nonceValue;
+            msalExtraParams["nonce"] = nonceValue;
+            msalExtraParams["response_type"] = "code id_token";
         }
 
         IConfidentialClientApplication msalClient = msalBuilder.Build();
