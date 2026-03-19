@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -37,6 +39,12 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
     }
 
     private static readonly JsonWebTokenHandler JwtHandler = new();
+
+    private static readonly Regex IdTokenResponseTypeRegex = new(
+        @"\bid_token\b",
+        RegexOptions.IgnoreCase |
+        RegexOptions.CultureInvariant
+        );
 
     protected override void ExecuteCore(PluginContext context)
     {
@@ -168,22 +176,6 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         {
             includeIdToken = false;
         }
-        if (includeIdToken)
-        {
-            if (!inputs.TryGetValue(
-                InputParameterNames.NonceParameter,
-                out string nonceValue
-                ))
-            {
-                using RandomNumberGenerator rng = RandomNumberGenerator.Create();
-                byte[] nonceBytes = new byte[64];
-                rng.GetBytes(nonceBytes);
-                nonceValue = Base64UrlEncoder.Encode(nonceBytes);
-            }
-            context.Outputs[OutputParameterNames.NonceParameter] = nonceValue;
-            msalExtraParams["nonce"] = nonceValue;
-            msalExtraParams["response_type"] = "code id_token";
-        }
 
         IConfidentialClientApplication msalClient = msalBuilder.Build();
         var msalAuthReqBuilder = msalClient.GetAuthorizationRequestUrl(scopes)
@@ -221,9 +213,92 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         }
         Uri msalAuthReqUri = msalAuthReqBuilder
             .ExecuteAsync().GetAwaiter().GetResult();
+        if (includeIdToken)
+        {
+            if (!inputs.TryGetValue(
+                InputParameterNames.NonceParameter,
+                out string nonceValue
+                ))
+            {
+                using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+                byte[] nonceBytes = new byte[64];
+                rng.GetBytes(nonceBytes);
+                nonceValue = Base64UrlEncoder.Encode(nonceBytes);
+            }
+
+            Dictionary<string, string> msalAuthReqUriQuery =
+                GetUriQueryParameters(msalAuthReqUri);
+            AddResponseTypeIdToken(msalAuthReqUriQuery);
+            msalAuthReqUriQuery["nonce"] = nonceValue;
+            context.Outputs[OutputParameterNames.NonceParameter] = nonceValue;
+            UriBuilder msalAuthReqUriBuilder = new(msalAuthReqUri)
+            {
+                Query = ToUriQuery(msalAuthReqUriQuery),
+            };
+            msalAuthReqUri = msalAuthReqUriBuilder.Uri;
+        }
 
         ParameterCollection outputs = context.Outputs;
         outputs[OutputParameterNames.AuthorizationRequestUrl] =
             msalAuthReqUri.ToString();
+    }
+
+    private static Dictionary<string, string> GetUriQueryParameters(Uri uri)
+    {
+        Dictionary<string, string> dict = new(StringComparer.OrdinalIgnoreCase);
+        string query = uri.Query;
+        for (
+            int keyIdx = query.StartsWith("?", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
+            keyIdx < query.Length;
+            keyIdx++
+            )
+        {
+            int eqIdx = query.IndexOf('=', keyIdx);
+            int ampIdx;
+            string key;
+            string value;
+            if (eqIdx < 0)
+            {
+                key = query[keyIdx..];
+                value = string.Empty;
+                ampIdx = query.Length;
+            }
+            else
+            {
+                key = query[keyIdx..eqIdx];
+                int valueIdx = eqIdx + 1;
+                ampIdx = query.IndexOf('&', valueIdx);
+                if (ampIdx < 0) ampIdx = query.Length;
+                value = query[valueIdx..ampIdx];
+            }
+            (key, value) = (
+                Uri.UnescapeDataString(key).Trim(),
+                Uri.UnescapeDataString(value).Trim()
+                );
+            dict[key] = value;
+            keyIdx = ampIdx;
+        }
+        return dict;
+    }
+
+    private static void AddResponseTypeIdToken(Dictionary<string, string> query)
+    {
+        _ = query.TryGetValue("response_type", out string? responseType);
+        if (IdTokenResponseTypeRegex.IsMatch(responseType)) return;
+        responseType += (string.IsNullOrEmpty(responseType) ? "" : " ") +
+            "id_token";
+        query["response_type"] = responseType;
+    }
+
+    private static string ToUriQuery(Dictionary<string, string> dict)
+    {
+        return dict.Count == 0
+            ? string.Empty
+            : string.Join(
+                "&",
+                dict.Select(static entry =>
+                    $"{Uri.EscapeDataString(entry.Key)}={Uri.EscapeDataString(entry.Value)}"
+                    )
+                );
     }
 }
