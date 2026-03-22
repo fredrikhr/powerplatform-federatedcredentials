@@ -10,7 +10,7 @@
 
   <PropertyGroup>
     <LangVersion>13</LangVersion>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Deterministic>true</Deterministic>

@@ -65,12 +65,17 @@
     <PackageVersion Include="System.ClientModel">
       <Version>1.1.0</Version>
     </PackageVersion>
+    <PackageVersion Include="System.Diagnostics.DiagnosticSource">
+      <Version>7.0.2</Version>
+    </PackageVersion>
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt">
       <Version>8.3.0</Version>
     </PackageVersion>
     <PackageVersion Include="System.Memory">
       <Version>4.5.5</Version>
     </PackageVersion>
-    <PackageVersion Include="Google.Protobuf" Version="3.24.2" />
+    <PackageVersion Include="Google.Protobuf">
+      <Version>3.24.2</Version>
+    </PackageVersion>
   </ItemGroup>
 </Project>
