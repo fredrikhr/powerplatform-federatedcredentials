@@ -128,12 +128,14 @@
               "item/PkceS256CodeChallenge": "@body('PKCE_Parameters')['PkceCodeChallenge']",
               "item/KeyVaultObjectType": 0,
               "item/KeyVaultObjectName": "@parameters('TEST | PowerPlatformFederatedIdentity | Key Vault Secret Name (test_pwrplatf_pp-fic_keyvaultsecretname)')",
-              "item/ResponseMode": "query",
+              "item/ResponseMode": "fragment",
               "item/KeyVaultUri": "@parameters('TEST | PowerPlatformFederatedIdentity | Key Vault URI (test_pwrplatf_pp-fic_keyvaulturi)')",
               "item/Scopes": [
                 "openid",
                 "offline_access"
-              ]
+              ],
+              "item/IncludeIdToken": true,
+              "item/NonceParameter": "@body('PKCE_Parameters')?['NonceParameter']"
             },
             "authentication": {
               "type": "Raw",
