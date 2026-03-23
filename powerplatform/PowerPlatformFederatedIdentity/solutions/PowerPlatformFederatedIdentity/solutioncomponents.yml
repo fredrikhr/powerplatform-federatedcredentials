@@ -81,6 +81,11 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_ResolveResourceIdentifier/customapiresponseproperties/KeyVaultResourceIdentifier
   - '@path': /customapis/pwrplatf_RetrieveFicManagedIdentity
   - '@path': /customapis/pwrplatf_RetrieveFicManagedIdentity/customapiresponseproperties/PluginAssemblyManagedIdentity
+  - '@path': /customapis/pwrplatf_ValidateJsonWebToken
+  - '@path': /customapis/pwrplatf_ValidateJsonWebToken/customapirequestparameters/JsonWebToken
+  - '@path': /customapis/pwrplatf_ValidateJsonWebToken/customapirequestparameters/TenantId
+  - '@path': /customapis/pwrplatf_ValidateJsonWebToken/customapiresponseproperties/JsonWebToken
+  - '@path': /customapis/pwrplatf_ValidateJsonWebToken/customapiresponseproperties/JsonWebTokenInfo
   - '@path': /pluginpackages/pwrplatf_FederatedIdentityCredentialsPlugins
   - '@path': /publishers/fredrikhr
   - '@path': /webresources/5e97f994-40ad-4470-8093-999d59ea8d64

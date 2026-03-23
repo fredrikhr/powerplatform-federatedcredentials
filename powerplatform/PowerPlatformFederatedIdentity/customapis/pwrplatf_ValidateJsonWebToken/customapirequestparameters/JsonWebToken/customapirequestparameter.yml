@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': JsonWebToken
+  description:
+    '@default': The JWT to validate, a JWS in compact serialization form
+    label:
+      '@description': The JWT to validate, a JWS in compact serialization form
+      '@languagecode': 1033
+  displayname:
+    '@default': JSON Web Token
+    label:
+      '@description': JSON Web Token
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 0
+  name: pwrplatf_ValidateJsonWebToken-In-JsonWebToken
+  type: 10

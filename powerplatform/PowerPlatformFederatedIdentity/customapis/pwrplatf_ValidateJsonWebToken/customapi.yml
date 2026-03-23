@@ -1,0 +1,21 @@
+customapi:
+  '@uniquename': pwrplatf_ValidateJsonWebToken
+  allowedcustomprocessingsteptype: 0
+  bindingtype: 0
+  description:
+    '@default': Validates that a JWT has been issued by the Token Authority of the specified Entra ID Tenant
+    label:
+      '@description': Validates that a JWT has been issued by the Token Authority of the specified Entra ID Tenant
+      '@languagecode': 1033
+  displayname:
+    '@default': Validate Json Web Token
+    label:
+      '@description': Validate Json Web Token
+      '@languagecode': 1033
+  iscustomizable: 1
+  isfunction: 0
+  isprivate: 0
+  name: Validate Json Web Token
+  plugintypeid:
+    plugintypeexportkey: DAF66297506A091B77634B8C902BEE81C2F26AE304DB579CC072EA254B033AB4
+  workflowsdkstepenabled: 0

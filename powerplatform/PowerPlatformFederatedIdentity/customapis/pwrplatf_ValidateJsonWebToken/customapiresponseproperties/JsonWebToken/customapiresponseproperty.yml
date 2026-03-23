@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': JsonWebToken
+  description:
+    '@default': The JWT details parsed from the validated token.
+    label:
+      '@description': The JWT details parsed from the validated token.
+      '@languagecode': 1033
+  displayname:
+    '@default': JSON Web Token
+    label:
+      '@description': JSON Web Token
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_ValidateJsonWebToken-Out-JsonWebToken
+  type: 3
