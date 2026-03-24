@@ -1,0 +1,16 @@
+customapirequestparameter:
+  '@uniquename': PkceCodeVerifier
+  description:
+    '@default': PKCE Code Verifier used for deriving the PKCE Code Challenge used to initiate user authorization
+    label:
+      '@description': PKCE Code Verifier used for deriving the PKCE Code Challenge used to initiate user authorization
+      '@languagecode': 1033
+  displayname:
+    '@default': PKCE Code Verifier
+    label:
+      '@description': PKCE Code Verifier
+      '@languagecode': 1033
+  iscustomizable: 1
+  isoptional: 1
+  name: pwrplatf_AcquireUserAuthorizationCodeAccessToken-In-PkceCodeVerifier
+  type: 10

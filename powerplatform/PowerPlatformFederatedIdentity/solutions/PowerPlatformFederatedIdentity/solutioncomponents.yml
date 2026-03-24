@@ -16,6 +16,18 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapiresponseproperties/AccessToken
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapiresponseproperties/JsonWebToken
   - '@path': /customapis/pwrplatf_AcquireServicePrincipalAccessToken/customapiresponseproperties/KeyVaultResourceIdentifier
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/ApplicationId
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/AuthorizationCode
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/KeyVaultObjectName
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/KeyVaultObjectType
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/KeyVaultObjectVersion
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/KeyVaultResourceIdentifier
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/KeyVaultUri
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/MsalV3Cache
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/PkceCodeVerifier
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/Scopes
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/TenantId
   - '@path': /customapis/pwrplatf_AsManagedIdentity
   - '@path': /customapis/pwrplatf_AsManagedIdentity/customapirequestparameters/ApplicationId
   - '@path': /customapis/pwrplatf_AsManagedIdentity/customapirequestparameters/Name

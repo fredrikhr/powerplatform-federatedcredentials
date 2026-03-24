@@ -1,0 +1,21 @@
+customapi:
+  '@uniquename': pwrplatf_AcquireUserAuthorizationCodeAccessToken
+  allowedcustomprocessingsteptype: 0
+  bindingtype: 0
+  description:
+    '@default': Acquires an access token using an authorization code obtained from user sign-in callback.
+    label:
+      '@description': Acquires an access token using an authorization code obtained from user sign-in callback.
+      '@languagecode': 1033
+  displayname:
+    '@default': Acquire User Access Token from Authorization Code
+    label:
+      '@description': Acquire User Access Token from Authorization Code
+      '@languagecode': 1033
+  iscustomizable: 1
+  isfunction: 0
+  isprivate: 0
+  name: Acquire User Access Token from Authorization Code
+  plugintypeid:
+    plugintypeexportkey: 984D423B42584F4F2492FB9855AE61960B95CDA23743098F7BCBD141420FD935
+  workflowsdkstepenabled: 0
