@@ -7,6 +7,9 @@ RootComponents:
     '@id': '{4127afca-4119-f111-8342-002248d75c63}'
     '@behavior': 0
   - '@type': 29
+    '@id': '{48097d51-b726-f111-88b5-002248d75c63}'
+    '@behavior': 0
+  - '@type': 29
     '@id': '{69111b18-2b6a-4e2f-8419-0b5b8ee9b285}'
     '@behavior': 0
   - '@type': 29

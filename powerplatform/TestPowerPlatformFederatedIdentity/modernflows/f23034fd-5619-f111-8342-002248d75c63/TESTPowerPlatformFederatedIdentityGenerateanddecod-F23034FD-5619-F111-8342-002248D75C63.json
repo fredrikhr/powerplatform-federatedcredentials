@@ -61,8 +61,22 @@
           "inputs": {
             "schema": {
               "type": "object",
-              "properties": {},
-              "required": []
+              "properties": {
+                "text": {
+                  "title": "Client Authorization",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Source credentials for Client Authorization",
+                  "enum": [
+                    "Client Secret",
+                    "Client Certificate"
+                  ],
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text"
+              ]
             }
           }
         }
