@@ -28,6 +28,20 @@ SolutionComponents:
   - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/PkceCodeVerifier
   - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/Scopes
   - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapirequestparameters/TenantId
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/AccessToken
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/AdditionalResponseParameters
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/AuthenticationResultMetadata
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/CorrelationId
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/ExpiresOn
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/IdJsonWebToken
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/IdToken
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/JsonWebToken
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/KeyVaultResourceIdentifier
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/MsalAccountId
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/MsalV3Cache
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/Scopes
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/TenantId
+  - '@path': /customapis/pwrplatf_AcquireUserAuthorizationCodeAccessToken/customapiresponseproperties/TokenType
   - '@path': /customapis/pwrplatf_AsManagedIdentity
   - '@path': /customapis/pwrplatf_AsManagedIdentity/customapirequestparameters/ApplicationId
   - '@path': /customapis/pwrplatf_AsManagedIdentity/customapirequestparameters/Name

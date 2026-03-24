@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': IdToken
+  description:
+    '@default': An OIDC ID Token if one is issued together with the access token
+    label:
+      '@description': An OIDC ID Token if one is issued together with the access token
+      '@languagecode': 1033
+  displayname:
+    '@default': ID Token
+    label:
+      '@description': ID Token
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_AcquireUserAuthorizationCodeAccessToken-Out-IdToken
+  type: 10

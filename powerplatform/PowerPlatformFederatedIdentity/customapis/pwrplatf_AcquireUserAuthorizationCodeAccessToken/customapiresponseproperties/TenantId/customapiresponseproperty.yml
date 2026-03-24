@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': TenantId
+  description:
+    '@default': The identifier for the Entra ID Tenant for which the access token has been issued.
+    label:
+      '@description': The identifier for the Entra ID Tenant for which the access token has been issued.
+      '@languagecode': 1033
+  displayname:
+    '@default': Tenant ID
+    label:
+      '@description': Tenant ID
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_AcquireUserAuthorizationCodeAccessToken-Out-TenantId
+  type: 10

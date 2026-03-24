@@ -1,0 +1,15 @@
+customapiresponseproperty:
+  '@uniquename': AuthenticationResultMetadata
+  description:
+    '@default': Metadata for the Authentication result.
+    label:
+      '@description': Metadata for the Authentication result.
+      '@languagecode': 1033
+  displayname:
+    '@default': Authentication Result Metadata
+    label:
+      '@description': Authentication Result Metadata
+      '@languagecode': 1033
+  iscustomizable: 1
+  name: pwrplatf_AcquireUserAuthorizationCodeAccessToken-Out-AuthenticationResultMetadata
+  type: 3
