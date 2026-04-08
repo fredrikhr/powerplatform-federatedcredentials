@@ -5,8 +5,8 @@
     <managedidentityid>1304a7e4-ed28-f011-8c4d-7c1e5226ec1f</managedidentityid>
   </managedidentityid>
   <name>pwrplatf_FederatedIdentityCredentialsPlugins</name>
-  <package mimetype="application/octet-stream">*</package>
+  <package mimetype="application/octet-stream">pwrplatf_FederatedIdentityCredentialsPlugins.nupkg</package>
   <statecode>0</statecode>
   <statuscode>1</statuscode>
-  <version>*</version>
+  <version>2.4.1</version>
 </pluginpackage>
