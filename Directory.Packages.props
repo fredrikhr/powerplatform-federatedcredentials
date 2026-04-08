@@ -27,6 +27,15 @@
     </PackageVersion>
   </ItemGroup>
   <ItemGroup>
+    <PackageVersion
+      Include="
+        FredrikHr.PowerPlatformSdkExtensions.MSBuild.PluginPackage;
+        "
+    >
+      <Version>2.5.1</Version>
+    </PackageVersion>
+  </ItemGroup>
+  <ItemGroup>
     <PackageVersion Include="Microsoft.CrmSdk.CoreAssemblies">
       <Version>9.0.2.60</Version>
     </PackageVersion>

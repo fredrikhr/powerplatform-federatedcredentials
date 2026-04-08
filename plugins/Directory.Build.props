@@ -9,7 +9,6 @@
   <Import Project="$(MSBuildThisFileDirectory)..\$(MSBuildThisFileName)$(MSBuildThisFileExtension)" />
 
   <PropertyGroup>
-    <LangVersion>13</LangVersion>
     <TargetFramework>net471</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -19,6 +18,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FredrikHr.PowerPlatformSdkExtensions.MSBuild.PluginPackage">
+      <PrivateAssets>all</PrivateAssets>
+      <ProjectReference>$(MSBuildThisFileDirectory)..\.submodules\fredrikhr\powerplatform-sdk-extensions\build\FredrikHr.PowerPlatformSdkExtensions.MSBuild.PluginPackage\FredrikHr.PowerPlatformSdkExtensions.MSBuild.PluginPackage.csproj</ProjectReference>
+    </PackageReference>
     <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
