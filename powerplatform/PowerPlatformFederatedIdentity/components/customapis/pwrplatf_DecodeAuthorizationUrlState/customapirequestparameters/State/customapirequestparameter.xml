@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="State">
+  <description default="JWE in compact serialization format obtained from the state parameter received in a User Authorization callback">
+    <label description="JWE in compact serialization format obtained from the state parameter received in a User Authorization callback" languagecode="1033" />
+  </description>
+  <displayname default="State">
+    <label description="State" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>0</isoptional>
+  <name>pwrplatf_DecodeAuthorizationUrlState-In-State</name>
+  <type>10</type>
+</customapirequestparameter>

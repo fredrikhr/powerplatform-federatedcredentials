@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="KeyVaultObjectVersion">
+  <description default="Version identifier of the Secret or Certificate stored in Azure Key Vault. By default resolves to current.">
+    <label description="Version identifier of the Secret or Certificate stored in Azure Key Vault. By default resolves to current." languagecode="1033" />
+  </description>
+  <displayname default="KeyVault Object Version">
+    <label description="KeyVault Object Version" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>pwrplatf_AcquireUserAuthorizationCodeAccessToken-In-KeyVaultObjectVersion</name>
+  <type>10</type>
+</customapirequestparameter>

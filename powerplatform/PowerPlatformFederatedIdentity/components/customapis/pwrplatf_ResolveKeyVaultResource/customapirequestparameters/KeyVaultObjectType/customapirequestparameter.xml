@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="KeyVaultObjectType">
+  <description default="Key Vault Object Type. 0: Secret; 1: Certificate; 2: CertWithX5C">
+    <label description="Key Vault Object Type. 0: Secret; 1: Certificate; 2: CertWithX5C" languagecode="1033" />
+  </description>
+  <displayname default="Object Type">
+    <label description="Object Type" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>0</isoptional>
+  <name>pwrplatf_ResolveKeyVaultResource-In-KeyVaultObjectType</name>
+  <type>9</type>
+</customapirequestparameter>

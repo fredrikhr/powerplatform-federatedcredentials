@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="IdJsonWebToken">
+  <description default="Decoded JWT data from the id token if one was issued">
+    <label description="Decoded JWT data from the id token if one was issued" languagecode="1033" />
+  </description>
+  <displayname default="ID Token Decoded">
+    <label description="ID Token Decoded" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_AcquireUserAuthorizationCodeAccessToken-Out-IdJsonWebToken</name>
+  <type>3</type>
+</customapiresponseproperty>

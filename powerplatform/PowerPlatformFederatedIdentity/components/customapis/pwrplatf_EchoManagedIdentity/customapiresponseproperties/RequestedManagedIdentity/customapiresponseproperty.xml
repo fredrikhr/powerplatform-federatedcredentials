@@ -1,0 +1,12 @@
+<customapiresponseproperty uniquename="RequestedManagedIdentity">
+  <description default="The managed identity entity bound to the request">
+    <label description="The managed identity entity bound to the request" languagecode="1033" />
+  </description>
+  <displayname default="Managed Identity">
+    <label description="Managed Identity" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <logicalentityname>managedidentity</logicalentityname>
+  <name>pwrplatf_EchoManagedIdentity-Out-RequestedManagedIdentity</name>
+  <type>3</type>
+</customapiresponseproperty>

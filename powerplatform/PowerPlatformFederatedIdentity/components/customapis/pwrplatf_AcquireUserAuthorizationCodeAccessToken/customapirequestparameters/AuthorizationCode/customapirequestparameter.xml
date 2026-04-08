@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="AuthorizationCode">
+  <description default="One-time authorization code obtained in a callback after successful user authentication">
+    <label description="One-time authorization code obtained in a callback after successful user authentication" languagecode="1033" />
+  </description>
+  <displayname default="Authorization Code">
+    <label description="Authorization Code" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>0</isoptional>
+  <name>pwrplatf_AcquireUserAuthorizationCodeAccessToken-In-AuthorizationCode</name>
+  <type>10</type>
+</customapirequestparameter>

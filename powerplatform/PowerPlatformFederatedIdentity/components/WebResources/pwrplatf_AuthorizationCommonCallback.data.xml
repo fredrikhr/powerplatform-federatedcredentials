@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebResource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <WebResourceId>{5e97f994-40ad-4470-8093-999d59ea8d64}</WebResourceId>
+  <Name>pwrplatf_AuthorizationCommonCallback</Name>
+  <DisplayName>Authorization Common Callback Page</DisplayName>
+  <WebResourceType>1</WebResourceType>
+  <IntroducedVersion>2.3.0</IntroducedVersion>
+  <IsEnabledForMobileClient>1</IsEnabledForMobileClient>
+  <IsAvailableForMobileOffline>0</IsAvailableForMobileOffline>
+  <IsCustomizable>1</IsCustomizable>
+  <CanBeDeleted>1</CanBeDeleted>
+  <IsHidden>0</IsHidden>
+  <FileName>/WebResources/pwrplatf_AuthorizationCommonCallback5E97F994-40AD-4470-8093-999D59EA8D64</FileName>
+</WebResource>

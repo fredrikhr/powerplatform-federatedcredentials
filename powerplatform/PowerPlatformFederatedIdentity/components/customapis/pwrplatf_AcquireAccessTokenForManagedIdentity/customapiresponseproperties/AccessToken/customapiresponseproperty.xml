@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="AccessToken">
+  <description default="An access token issued on behalf of the specified Managed Identity">
+    <label description="An access token issued on behalf of the specified Managed Identity" languagecode="1033" />
+  </description>
+  <displayname default="Access Token">
+    <label description="Access Token" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_AcquireAccessTokenForManagedIdentity-Out-AccessToken</name>
+  <type>10</type>
+</customapiresponseproperty>

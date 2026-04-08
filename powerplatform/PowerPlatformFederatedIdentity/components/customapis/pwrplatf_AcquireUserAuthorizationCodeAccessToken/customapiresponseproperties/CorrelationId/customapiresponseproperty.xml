@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="CorrelationId">
+  <description default="MSAL Correlation ID identifying the request for token acquisition">
+    <label description="MSAL Correlation ID identifying the request for token acquisition" languagecode="1033" />
+  </description>
+  <displayname default="Correlation ID">
+    <label description="Correlation ID" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_AcquireUserAuthorizationCodeAccessToken-Out-CorrelationId</name>
+  <type>10</type>
+</customapiresponseproperty>

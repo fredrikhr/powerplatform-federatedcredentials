@@ -1,0 +1,12 @@
+<customapiresponseproperty uniquename="RequestedManagedIdentity">
+  <description default="Dynamically created virtual managed identity record">
+    <label description="Dynamically created virtual managed identity record" languagecode="1033" />
+  </description>
+  <displayname default="Managed Identity">
+    <label description="Managed Identity" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <logicalentityname>managedidentity</logicalentityname>
+  <name>pwrplatf_GetAsManagedIdentity-Out-RequestedManagedIdentity</name>
+  <type>3</type>
+</customapiresponseproperty>

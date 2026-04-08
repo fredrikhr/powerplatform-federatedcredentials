@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="ExpiresOn">
+  <description default="The point in time when the issued access token ceases to be valid.">
+    <label description="The point in time when the issued access token ceases to be valid." languagecode="1033" />
+  </description>
+  <displayname default="Expiration">
+    <label description="Expiration" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_AcquireUserAuthorizationCodeAccessToken-Out-ExpiresOn</name>
+  <type>1</type>
+</customapiresponseproperty>

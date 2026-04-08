@@ -1,0 +1,12 @@
+<customapiresponseproperty uniquename="PluginAssemblyManagedIdentity">
+  <description default="Managed Identity record associated with the Federated Identity Credentials Plugin package">
+    <label description="Managed Identity record associated with the Federated Identity Credentials Plugin package" languagecode="1033" />
+  </description>
+  <displayname default="FIC Managed Identity">
+    <label description="FIC Managed Identity" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <logicalentityname>managedidentity</logicalentityname>
+  <name>pwrplatf_RetrieveFicManagedIdentity-Out-PluginAssemblyManagedIdentity</name>
+  <type>3</type>
+</customapiresponseproperty>

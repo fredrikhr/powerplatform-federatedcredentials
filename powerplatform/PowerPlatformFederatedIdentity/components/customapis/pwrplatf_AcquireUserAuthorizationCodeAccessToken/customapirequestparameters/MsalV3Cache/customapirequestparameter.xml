@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="MsalV3Cache">
+  <description default="Encrypted MSAL v3 cache data used for preserving authorization state across sessions">
+    <label description="Encrypted MSAL v3 cache data used for preserving authorization state across sessions" languagecode="1033" />
+  </description>
+  <displayname default="MSAL Cache">
+    <label description="MSAL Cache" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>pwrplatf_AcquireUserAuthorizationCodeAccessToken-In-MsalV3Cache</name>
+  <type>10</type>
+</customapirequestparameter>

@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="TenantId">
+  <description default="The identifier for the Entra ID Tenant for which the access token has been issued.">
+    <label description="The identifier for the Entra ID Tenant for which the access token has been issued." languagecode="1033" />
+  </description>
+  <displayname default="Tenant ID">
+    <label description="Tenant ID" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_AcquireUserAuthorizationCodeAccessToken-Out-TenantId</name>
+  <type>10</type>
+</customapiresponseproperty>

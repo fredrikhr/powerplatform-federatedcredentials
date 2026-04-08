@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="KeyVaultObjectName">
+  <description default="Name of the Secret or Certificate stored in Azure Key Vault">
+    <label description="Name of the Secret or Certificate stored in Azure Key Vault" languagecode="1033" />
+  </description>
+  <displayname default="Key Vault Object Name">
+    <label description="Key Vault Object Name" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>pwrplatf_GenerateAuthorizationUrl-In-KeyVaultObjectName</name>
+  <type>10</type>
+</customapirequestparameter>

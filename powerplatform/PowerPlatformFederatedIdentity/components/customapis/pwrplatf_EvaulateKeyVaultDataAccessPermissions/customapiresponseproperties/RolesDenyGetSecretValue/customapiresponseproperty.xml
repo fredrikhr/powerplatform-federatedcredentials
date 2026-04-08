@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="RolesDenyGetSecretValue">
+  <description default="Roles denying 'Microsoft.KeyVault/vaults/secrets/getSecret/action'">
+    <label description="Roles denying 'Microsoft.KeyVault/vaults/secrets/getSecret/action'" languagecode="1033" />
+  </description>
+  <displayname default="Roles denying reading Secret value">
+    <label description="Roles denying reading Secret value" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_EvaulateKeyVaultDataAccessPermissions-Out-RolesDenyGetSecretValue</name>
+  <type>4</type>
+</customapiresponseproperty>

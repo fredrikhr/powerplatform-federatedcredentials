@@ -1,0 +1,11 @@
+<customapiresponseproperty uniquename="AuthenticationResultMetadata">
+  <description default="Metadata for the Authentication result.">
+    <label description="Metadata for the Authentication result." languagecode="1033" />
+  </description>
+  <displayname default="Authentication Result Metadata">
+    <label description="Authentication Result Metadata" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <name>pwrplatf_AcquireUserAuthorizationCodeAccessToken-Out-AuthenticationResultMetadata</name>
+  <type>3</type>
+</customapiresponseproperty>

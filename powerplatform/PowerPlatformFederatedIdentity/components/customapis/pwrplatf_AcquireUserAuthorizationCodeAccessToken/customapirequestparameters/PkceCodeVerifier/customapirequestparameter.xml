@@ -1,0 +1,12 @@
+<customapirequestparameter uniquename="PkceCodeVerifier">
+  <description default="PKCE Code Verifier used for deriving the PKCE Code Challenge used to initiate user authorization">
+    <label description="PKCE Code Verifier used for deriving the PKCE Code Challenge used to initiate user authorization" languagecode="1033" />
+  </description>
+  <displayname default="PKCE Code Verifier">
+    <label description="PKCE Code Verifier" languagecode="1033" />
+  </displayname>
+  <iscustomizable>1</iscustomizable>
+  <isoptional>1</isoptional>
+  <name>pwrplatf_AcquireUserAuthorizationCodeAccessToken-In-PkceCodeVerifier</name>
+  <type>10</type>
+</customapirequestparameter>
