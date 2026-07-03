@@ -16,7 +16,8 @@
     "pluginpackage",
     "plugintype",
     "sdkmessageprocessingstep",
-    "systemuser"
+    "systemuser",
+    "applicationuser"
   ],
   "emitEntityETC": false,
   "emitVirtualAttributes": false

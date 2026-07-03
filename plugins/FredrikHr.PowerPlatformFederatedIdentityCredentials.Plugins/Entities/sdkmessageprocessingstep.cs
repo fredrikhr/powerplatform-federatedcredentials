@@ -6,6 +6,7 @@ partial class SdkMessageProcessingStep
 {
     public static ColumnSet ColumnSet { get; } = new([
         Fields.SdkMessageProcessingStepId,
-        Fields.PluginTypeId
+        Fields.PluginTypeId,
+        Fields.EventHandler
     ]);
 }

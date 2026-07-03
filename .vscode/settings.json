@@ -6,7 +6,7 @@
   "dotnet.defaultSolution": "PowerPlatform Federated Credentials.slnx",
   "json.schemas": [
     {
-      "fileMatch": ["{powerplatform,powerplatform-test}/*/components/Workflows/*.json"],
+      "fileMatch": ["{powerplatform,powerplatform-test}/*/{components,src}/Workflows/*.json"],
       "url": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/modernflow-json/workflow-clientdata.json"
     }
   ],
@@ -20,31 +20,31 @@
       "systemId": "https://github.com/microsoft/vs-solutionpersistence/raw/refs/heads/main/src/Microsoft.VisualStudio.SolutionPersistence/Serializer/Xml/Slnx.xsd"
     },
     {
-      "pattern": "{powerplatform,powerplatform-test}/*/components/Other/{Customizations,Solution}.xml",
+      "pattern": "{powerplatform,powerplatform-test}/*/{components,src}/Other/{Customizations,Solution}.xml",
       "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/CustomizationsSolution.xsd"
     },
     {
-      "pattern": "{powerplatform,powerplatform-test}/*/components/Entities/*/Entity.xml",
+      "pattern": "{powerplatform,powerplatform-test}/*/{components,src}/Entities/*/Entity.xml",
       "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/Entity.xsd"
     },
     {
-      "pattern": "{powerplatform,powerplatform-test}/*/components/Entities/*/FormXml/*/*.xml",
+      "pattern": "{powerplatform,powerplatform-test}/*/{components,src}/Entities/*/FormXml/*/*.xml",
       "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/FormXmlSystemforms.xsd"
     },
     {
-      "pattern": "{powerplatform,powerplatform-test}/*/components/Entities/*/SavedQueries/*.xml",
+      "pattern": "{powerplatform,powerplatform-test}/*/{components,src}/Entities/*/SavedQueries/*.xml",
       "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/SavedQueries.xsd"
     },
     {
-      "pattern": "{powerplatform,powerplatform-test}/*/components/environmentvariabledefinitions/*/environmentvariabledefinition.xml",
+      "pattern": "{powerplatform,powerplatform-test}/*/{components,src}/environmentvariabledefinitions/*/environmentvariabledefinition.xml",
       "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/EnvironmentVariableDefinition.xsd"
     },
     {
-      "pattern": "{powerplatform,powerplatform-test}/*/components/pluginpackages/*/pluginpackage.xml",
+      "pattern": "{powerplatform,powerplatform-test}/*/{components,src}/pluginpackages/*/pluginpackage.xml",
       "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/PluginPackage.xsd"
     },
     {
-      "pattern": "{powerplatform,powerplatform-test}/*/components/Workflows/*.data.xml",
+      "pattern": "{powerplatform,powerplatform-test}/*/{components,src}/Workflows/*.data.xml",
       "systemId": ".submodules/fredrikhr/powerplatform-sdk-extensions/schemas/dynamics365ce-xsd/Workflow.xsd"
     }
   ]

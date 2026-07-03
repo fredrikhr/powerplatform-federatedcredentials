@@ -144,7 +144,7 @@
         "--packagetype",
         "Unmanaged",
         "--solution-folder",
-        "powerplatform/PowerPlatformFederatedIdentity/components"
+        "powerplatform/PowerPlatformFederatedIdentity/src"
       ],
       "group": "build",
       "presentation": {
@@ -343,7 +343,7 @@
         "--packagetype",
         "Unmanaged",
         "--solution-folder",
-        "powerplatform/PowerPlatformFederatedIdentityManagedIdentity/components"
+        "powerplatform/PowerPlatformFederatedIdentityManagedIdentity/src"
       ],
       "group": "build",
       "presentation": {
@@ -509,7 +509,7 @@
         "--packagetype",
         "Unmanaged",
         "--solution-folder",
-        "powerplatform-test/PowerPlatformFederatedIdentityTest/components"
+        "powerplatform-test/PowerPlatformFederatedIdentityTest/src"
       ],
       "group": "build",
       "presentation": {

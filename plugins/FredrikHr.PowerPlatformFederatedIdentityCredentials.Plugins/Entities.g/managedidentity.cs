@@ -515,6 +515,10 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("owningbusinessunit");
 			}
+			set
+			{
+				this.SetAttributeValue("owningbusinessunit", value);
+			}
 		}
 		
 		/// <summary>

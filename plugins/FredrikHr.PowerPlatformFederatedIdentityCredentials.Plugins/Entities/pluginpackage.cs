@@ -5,6 +5,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 partial class PluginPackage
 {
     public static ColumnSet ColumnSet { get; } = new([
+        Fields.PluginPackageId,
         Fields.managedidentityid,
     ]);
 }

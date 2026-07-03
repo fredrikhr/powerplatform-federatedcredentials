@@ -327,6 +327,18 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 		AgenticUser = 3,
 	}
 	
+	[System.Runtime.Serialization.DataContractAttribute()]
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
+	public enum wf_systemuser_wf_timesheetentrysystem
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		Workflex = 401610000,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		Others = 401610001,
+	}
+	
 	/// <summary>
 	/// Person with access to the Microsoft CRM system and who owns objects in the Microsoft CRM database.
 	/// </summary>
@@ -394,6 +406,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			public const string BusinessUnitId = "businessunitid";
 			public const string CalendarId = "calendarid";
 			public const string CALType = "caltype";
+			public const string cdm_Company = "cdm_company";
 			public const string CreatedBy = "createdby";
 			public const string CreatedOn = "createdon";
 			public const string CreatedOnBehalfBy = "createdonbehalfby";
@@ -467,6 +480,12 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			public const string UserPuid = "userpuid";
 			public const string UTCConversionTimeZoneCode = "utcconversiontimezonecode";
 			public const string VersionNumber = "versionnumber";
+			public const string wf_AutocreateTimesheetsforupcomingperiods = "wf_autocreatetimesheetsforupcomingperiods";
+			public const string wf_Defaultwarehouse = "wf_defaultwarehouse";
+			public const string wf_departmentid = "wf_departmentid";
+			public const string wf_TimesheetEntrySystem = "wf_timesheetentrysystem";
+			public const string wf_upn = "wf_upn";
+			public const string wfu_ElsmartUserID = "wfu_elsmartuserid";
 			public const string WindowsLiveID = "windowsliveid";
 			public const string YammerEmailAddress = "yammeremailaddress";
 			public const string YammerUserId = "yammeruserid";
@@ -478,6 +497,10 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			public const string createdby_plugintype = "createdby_plugintype";
 			public const string createdby_sdkmessageprocessingstep = "createdby_sdkmessageprocessingstep";
 			public const string impersonatinguserid_sdkmessageprocessingstep = "impersonatinguserid_sdkmessageprocessingstep";
+			public const string lk_applicationuser_createdby = "lk_applicationuser_createdby";
+			public const string lk_applicationuser_createdonbehalfby = "lk_applicationuser_createdonbehalfby";
+			public const string lk_applicationuser_modifiedby = "lk_applicationuser_modifiedby";
+			public const string lk_applicationuser_modifiedonbehalfby = "lk_applicationuser_modifiedonbehalfby";
 			public const string lk_keyvaultreference_createdby = "lk_keyvaultreference_createdby";
 			public const string lk_keyvaultreference_createdonbehalfby = "lk_keyvaultreference_createdonbehalfby";
 			public const string lk_keyvaultreference_modifiedby = "lk_keyvaultreference_modifiedby";
@@ -1352,6 +1375,22 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			set
 			{
 				this.SetAttributeValue("caltype", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+			}
+		}
+		
+		/// <summary>
+		/// This is default company for a user.
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("cdm_company")]
+		public Microsoft.Xrm.Sdk.EntityReference cdm_Company
+		{
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("cdm_company");
+			}
+			set
+			{
+				this.SetAttributeValue("cdm_company", value);
 			}
 		}
 		
@@ -2438,6 +2477,84 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			}
 		}
 		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("wf_autocreatetimesheetsforupcomingperiods")]
+		public System.Nullable<bool> wf_AutocreateTimesheetsforupcomingperiods
+		{
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("wf_autocreatetimesheetsforupcomingperiods");
+			}
+			set
+			{
+				this.SetAttributeValue("wf_autocreatetimesheetsforupcomingperiods", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("wf_defaultwarehouse")]
+		public Microsoft.Xrm.Sdk.EntityReference wf_Defaultwarehouse
+		{
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("wf_defaultwarehouse");
+			}
+			set
+			{
+				this.SetAttributeValue("wf_defaultwarehouse", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("wf_departmentid")]
+		public Microsoft.Xrm.Sdk.EntityReference wf_departmentid
+		{
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("wf_departmentid");
+			}
+			set
+			{
+				this.SetAttributeValue("wf_departmentid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("wf_timesheetentrysystem")]
+		public virtual wf_systemuser_wf_timesheetentrysystem? wf_TimesheetEntrySystem
+		{
+			get
+			{
+				return ((wf_systemuser_wf_timesheetentrysystem?)(EntityOptionSetEnum.GetEnum(this, "wf_timesheetentrysystem")));
+			}
+			set
+			{
+				this.SetAttributeValue("wf_timesheetentrysystem", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("wf_upn")]
+		public string wf_upn
+		{
+			get
+			{
+				return this.GetAttributeValue<string>("wf_upn");
+			}
+			set
+			{
+				this.SetAttributeValue("wf_upn", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("wfu_elsmartuserid")]
+		public string wfu_ElsmartUserID
+		{
+			get
+			{
+				return this.GetAttributeValue<string>("wfu_elsmartuserid");
+			}
+			set
+			{
+				this.SetAttributeValue("wfu_elsmartuserid", value);
+			}
+		}
+		
 		/// <summary>
 		/// Windows Live ID
 		/// </summary>
@@ -2607,6 +2724,70 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			set
 			{
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SdkMessageProcessingStep>("impersonatinguserid_sdkmessageprocessingstep", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N lk_applicationuser_createdby
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("lk_applicationuser_createdby")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser> lk_applicationuser_createdby
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_createdby", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_createdby", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N lk_applicationuser_createdonbehalfby
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("lk_applicationuser_createdonbehalfby")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser> lk_applicationuser_createdonbehalfby
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_createdonbehalfby", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_createdonbehalfby", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N lk_applicationuser_modifiedby
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("lk_applicationuser_modifiedby")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser> lk_applicationuser_modifiedby
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_modifiedby", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_modifiedby", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N lk_applicationuser_modifiedonbehalfby
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("lk_applicationuser_modifiedonbehalfby")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser> lk_applicationuser_modifiedonbehalfby
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_modifiedonbehalfby", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_modifiedonbehalfby", null, value);
 			}
 		}
 		

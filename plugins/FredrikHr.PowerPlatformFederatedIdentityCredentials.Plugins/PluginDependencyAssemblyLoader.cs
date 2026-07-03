@@ -2,14 +2,26 @@ using System.Reflection;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
-internal static class PluginDependencyAssemblyLoader
+internal sealed class PluginDependencyAssemblyLoader : IDisposable
 {
-    private static volatile ITracingService? s_trace;
+    private readonly ITracingService _trace;
+    private readonly ResolveEventHandler _resolveEventHandler;
 
-    static PluginDependencyAssemblyLoader()
+    public PluginDependencyAssemblyLoader(
+        ITracingService trace
+        )
     {
+        _trace = trace;
+        _resolveEventHandler = PluginExecutionRuntimeAssemblyResolve;
+
         AppDomain.CurrentDomain.AssemblyResolve +=
-            PluginExecutionRuntimeAssemblyResolve;
+            _resolveEventHandler;
+    }
+
+    public void Dispose()
+    {
+        AppDomain.CurrentDomain.AssemblyResolve -=
+            _resolveEventHandler;
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
@@ -17,11 +29,12 @@ internal static class PluginDependencyAssemblyLoader
         "CA1031: Do not catch general exception types",
         Justification = nameof(ResolveEventHandler)
         )]
-    private static Assembly PluginExecutionRuntimeAssemblyResolve(
+    private Assembly PluginExecutionRuntimeAssemblyResolve(
         object sender,
         ResolveEventArgs args
         )
     {
+        ITracingService trace = _trace;
         if (string.IsNullOrEmpty(args.Name)) return null!;
         Assembly? loadedAssembly;
         try
@@ -29,12 +42,11 @@ internal static class PluginDependencyAssemblyLoader
             AssemblyName name = new(args.Name);
             string filename = $"{name.Name}.dll";
 
-            foreach (string filepath in GetPossibleFilepaths(filename))
+            foreach (string filepath in GetPossibleFilepaths(filename, trace))
             {
                 if (File.Exists(filepath))
                 {
                     loadedAssembly = Assembly.LoadFile(filepath);
-                    ITracingService? trace = s_trace;
                     try
                     {
                         trace?.Trace(
@@ -56,11 +68,15 @@ internal static class PluginDependencyAssemblyLoader
 
         return null!;
 
-        static IEnumerable<string> GetPossibleFilepaths(string filename)
+        static IEnumerable<string> GetPossibleFilepaths(
+            string filename,
+            ITracingService trace
+            )
         {
             string filepath;
 
             GetFilePathsFromThisAssembly(
+                trace,
                 out string? locationDirectoryPath,
                 out string? codeBaseDirectoryPath
                 );
@@ -93,7 +109,8 @@ internal static class PluginDependencyAssemblyLoader
         "CA1031: Do not catch general exception types",
         Justification = nameof(ResolveEventHandler)
         )]
-    internal static void GetFilePathsFromThisAssembly(
+    private static void GetFilePathsFromThisAssembly(
+        ITracingService trace,
         out string? locationDirectoryPath,
         out string? codeBaseDirectoryPath
         )
@@ -111,7 +128,7 @@ internal static class PluginDependencyAssemblyLoader
         }
         catch (Exception pathExcept)
         {
-            s_trace?.Trace("While determining directory path for location of assembly: {0}", pathExcept);
+            trace.Trace("While determining directory path for location of assembly: {0}", pathExcept);
             return;
         }
 
@@ -125,20 +142,42 @@ internal static class PluginDependencyAssemblyLoader
         }
         catch (Exception pathExcept)
         {
-            s_trace?.Trace("While determining directory path for code base of assembly: {0}", pathExcept);
+            trace.Trace("While determining directory path for code base of assembly: {0}", pathExcept);
             return;
         }
     }
 
-    internal static void RegisterTracingService(ITracingService trace)
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Design",
+        "CA1031: Do not catch general exception types",
+        Justification = nameof(ITracingService)
+        )]
+    internal void PreloadAssemblies()
     {
-        s_trace = trace;
-    }
+        const string publicKeyToken = "PublicKeyToken=92742159e12e44c8";
+        const string asmSys_CM = $"System.ClientModel, {publicKeyToken}";
+        const string asmAz_C = $"Azure.Core, {publicKeyToken}";
+        const string asmAz_S_Kv_S = $"Azure.Security.KeyVault.Secrets, {publicKeyToken}";
+        const string asmAz_S_Kv_C = $"Azure.Security.KeyVault.Certificates, {publicKeyToken}";
+        const string asmAz_S_Kv_K = $"Azure.Security.KeyVault.Keys, {publicKeyToken}";
+        const string asmAz_RM = $"Azure.ResourceManager, {publicKeyToken}";
+        const string asmAz_RM_Authz = $"Azure.ResourceManager.Authorization, {publicKeyToken}";
+        const string asmAz_RM_Kv = $"Azure.ResourceManager.KeyVault, {publicKeyToken}";
 
-    internal static void DeregisterTracingService(ITracingService? trace)
-    {
-        Interlocked.CompareExchange(ref s_trace, null, trace);
+        try
+        {
+            Assembly.Load(asmSys_CM);
+            Assembly.Load(asmAz_C);
+            Assembly.Load(asmAz_S_Kv_S);
+            Assembly.Load(asmAz_S_Kv_C);
+            Assembly.Load(asmAz_S_Kv_K);
+            Assembly.Load(asmAz_RM);
+            Assembly.Load(asmAz_RM_Authz);
+            Assembly.Load(asmAz_RM_Kv);
+        }
+        catch (Exception assemblyLoadExcept)
+        {
+            PluginBase.TraceException(_trace, assemblyLoadExcept);
+        }
     }
-
-    internal static ITracingService? TracingService => s_trace;
 }

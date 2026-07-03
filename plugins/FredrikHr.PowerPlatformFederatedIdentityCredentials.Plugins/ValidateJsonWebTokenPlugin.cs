@@ -20,8 +20,6 @@ public sealed class ValidateJsonWebTokenPlugin : PluginBase, IPlugin
         internal const string JsonWebToken = nameof(JsonWebToken);
     }
 
-    private const string FallbackClientId = "00000007-0000-0000-c000-000000000000";
-
     private static readonly JsonWebTokenHandler JwtHandler = new();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
@@ -29,10 +27,14 @@ public sealed class ValidateJsonWebTokenPlugin : PluginBase, IPlugin
         "CA1031: Do not catch general exception types",
         Justification = nameof(ITracingService)
         )]
-    protected override void ExecuteCore(PluginContext context)
+    protected override void ExecuteCore(
+        IServiceProvider serviceProvider,
+        PluginExecutionInformation info
+        )
     {
-        ParameterCollection inputs = context.Inputs;
-        ParameterCollection outputs = context.Outputs;
+        var context = serviceProvider.Get<IPluginExecutionContext6>();
+        ParameterCollection inputs = context.InputParameters;
+        ParameterCollection outputs = context.OutputParameters;
 
         if (!inputs.TryGetValue(
             InputParameterNames.JsonWebToken,
@@ -53,15 +55,15 @@ public sealed class ValidateJsonWebTokenPlugin : PluginBase, IPlugin
             string.IsNullOrEmpty(tenantId)
             )
         {
-            tenantId = context.ExecutionContext.TenantId.ToString();
+            tenantId = context.TenantId.ToString();
         }
 
-        var idpAuthorityInfo = context.ServiceProvider.Get<IEnvironmentService>();
+        var idpAuthorityInfo = serviceProvider.Get<IEnvironmentService>();
         Uri idpInstanceUri = idpAuthorityInfo.AzureAuthorityHost;
         string idpInstanceUrl = idpInstanceUri.ToString();
 
         IPublicClientApplication msalClient = PublicClientApplicationBuilder
-            .Create(FallbackClientId)
+            .Create(PluginExecutionInformation.FallbackClientId)
             .WithAuthority(
                 idpInstanceUrl,
                 tenantId,
@@ -78,6 +80,9 @@ public sealed class ValidateJsonWebTokenPlugin : PluginBase, IPlugin
             ConfigurationManager = jwtConfigMgr,
             ValidateIssuerSigningKey = true,
             ValidTypes = [JwtConstants.TokenType],
+#pragma warning disable CA5404 // Do not disable token validation checks
+            ValidateAudience = false,
+#pragma warning restore CA5404 // Do not disable token validation checks
             ValidateLifetime = true,
             RequireAudience = true,
             RequireSignedTokens = true,
@@ -88,7 +93,7 @@ public sealed class ValidateJsonWebTokenPlugin : PluginBase, IPlugin
             .GetAwaiter().GetResult();
         if (!jwtValidationResult.IsValid)
         {
-            context.ServiceProvider.Get<ITracingService>()?.Trace(
+            info.TracingService.Trace(
                 "JWT Validation failed: {0}",
                 jwtValidationResult.Exception
                 );
@@ -105,7 +110,7 @@ public sealed class ValidateJsonWebTokenPlugin : PluginBase, IPlugin
             {
                 { nameof(jwtModel.Actor), jwtModel.Actor },
                 { nameof(jwtModel.Alg), jwtModel.Alg },
-                { nameof(jwtModel.Audiences), jwtModel.Audiences },
+                { nameof(jwtModel.Audiences), jwtModel.Audiences.ToArray() },
                 { nameof(jwtModel.Azp), jwtModel.Azp },
                 { nameof(jwtModel.Cty), jwtModel.Cty },
                 { nameof(jwtModel.Enc), jwtModel.Enc },
@@ -126,6 +131,6 @@ public sealed class ValidateJsonWebTokenPlugin : PluginBase, IPlugin
 
         outputs[OutputParameterNames.JsonWebTokenInfo] = jwtInfoEntity;
         outputs[OutputParameterNames.JsonWebToken] =
-            AccessTokenAcquisitionPluginBase.GetJwtEntity(jwtBase64Url);
+            JwtUtility.GetJwtEntity(jwtBase64Url);
     }
 }

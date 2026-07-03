@@ -5,6 +5,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
 partial class PluginType
 {
     public static ColumnSet ColumnSet { get; } = new([
-        Fields.PluginAssemblyId
+        Fields.PluginTypeId,
+        Fields.PluginAssemblyId,
     ]);
 }
