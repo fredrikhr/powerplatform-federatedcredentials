@@ -1,7 +1,7 @@
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
 [Flags]
-internal enum KeyVaultDataAccessPermisions : int
+public enum KeyVaultDataAccessPermisions : int
 {
     None = 0,
     GetSecret = 1,

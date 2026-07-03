@@ -23,11 +23,16 @@ public class DecodeAuthorizationCallbackStatePlugin()
         internal const string OneTimeRedirectUrl = nameof(OneTimeRedirectUrl);
     }
 
-    protected override void ExecuteCore(PluginContext context)
+    protected override void ExecuteCore(
+        IServiceProvider serviceProvider,
+        PluginExecutionInformation info
+        )
     {
-        _ = context ?? throw new ArgumentNullException(nameof(context));
-        ParameterCollection inputs = context.Inputs;
-        ParameterCollection outputs = context.Outputs;
+        info ??= new(serviceProvider);
+
+        var context = serviceProvider.Get<IPluginExecutionContext>();
+        ParameterCollection inputs = context.InputParameters;
+        ParameterCollection outputs = context.OutputParameters;
 
         if (!inputs.TryGetValue(
             InputParameterNames.State,
@@ -47,7 +52,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
         }
         catch (Exception jwtjweReadExcept)
         {
-            context.ServiceProvider.Get<ITracingService>()?.Trace(
+            info.TracingService.Trace(
                 "While reading state parameter as JWT: {0}",
                 jwtjweReadExcept
                 );
@@ -78,10 +83,24 @@ public class DecodeAuthorizationCallbackStatePlugin()
             if (SecurityAlgorithms.Aes128CbcHmacSha256.Equals(stateJwt.Enc, OrdInv))
             {
                 Uri keyVaultSecretUri = new(stateJwt.Kid, UriKind.Absolute);
-                KeyVaultSecret keyVaultSecretData = KeyVaultPluginUtility.GetKeyVaultSecretAsync(
-                    context,
-                    keyVaultSecretUri
-                    ).GetAwaiter().GetResult();
+                if (!KeyVaultSecretIdentifier.TryCreate(keyVaultSecretUri, out var keyVaultSecretId))
+                {
+                    info.TracingService.Trace(
+                        "Unable to create Key Vault Secret ID from URI: {0}",
+                        keyVaultSecretUri
+                        );
+                    throw new InvalidPluginExecutionException(
+                        httpStatus: PluginHttpStatusCode.BadRequest,
+                        message: $"Specified JWE specifies an invalid URI for a Key Vault Secret. URI: {keyVaultSecretUri}"
+                        );
+                }
+                SecretClient keyVaultClient = new(
+                    keyVaultSecretId.VaultUri,
+                    info.PluginAzureTokenCredential
+                    );
+                KeyVaultSecret keyVaultSecretData = keyVaultClient
+                    .GetSecretAsync(keyVaultSecretId.Name, keyVaultSecretId.Version)
+                    .GetAwaiter().GetResult();
                 stateJweSecurityKey = KeyVaultPluginUtility
                     .GetKeyVaultSecretSecurityKey(
                         keyVaultSecretData,
@@ -99,7 +118,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
         else if (SecurityAlgorithms.RsaOAEP.Equals(stateJwt.Alg, OrdInv))
         {
             string keyVaultRsaKeyId = stateJwt.Kid;
-            TokenCredential keyVaultTokenCreds = context.AzureTokenCredential;
+            TokenCredential keyVaultTokenCreds = info.PluginAzureTokenCredential;
             CryptographyClientOptions keyVaultCryptoClientOptions = new();
             KeyResolver keyVaultKeyResolver = new(keyVaultTokenCreds, keyVaultCryptoClientOptions);
             CryptographyClient keyVaultCryptoClient = keyVaultKeyResolver
@@ -125,7 +144,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
         }
         catch (Exception jweDecryptExcept)
         {
-            context.ServiceProvider.Get<ITracingService>()?.Trace(
+            info.TracingService.Trace(
                 "While decrypting JWE: {0}",
                 jweDecryptExcept
                 );
@@ -140,7 +159,7 @@ public class DecodeAuthorizationCallbackStatePlugin()
         }
         catch (Exception jwtReadExcept)
         {
-            context.ServiceProvider.Get<ITracingService>()?.Trace(
+            info.TracingService.Trace(
                 "While reading decrypted JWT: {0}",
                 jwtReadExcept
                 );

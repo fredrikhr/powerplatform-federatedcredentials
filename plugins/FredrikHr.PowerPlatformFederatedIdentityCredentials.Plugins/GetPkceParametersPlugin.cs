@@ -24,10 +24,13 @@ public sealed class GetPkceParametersPlugin : PluginBase, IPlugin
         internal const string NonceParameter = nameof(NonceParameter);
     }
 
-    protected override void ExecuteCore(PluginContext context)
+    protected override void ExecuteCore(
+        IServiceProvider serviceProvider,
+        PluginExecutionInformation info
+        )
     {
-        _ = context ?? throw new ArgumentNullException(nameof(context));
-        ParameterCollection outputs = context.Outputs;
+        var context = serviceProvider.Get<IPluginExecutionContext>();
+        ParameterCollection outputs = context.OutputParameters;
 
         using RandomNumberGenerator rng = RandomNumberGenerator.Create();
         using SHA256 sha256 = SHA256.Create();

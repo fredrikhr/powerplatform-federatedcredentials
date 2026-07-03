@@ -1,12 +1,10 @@
+using System.Security.Cryptography;
+
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 using FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities;
-
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
-using System.Text;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
@@ -40,70 +38,22 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
 
     private static readonly JsonWebTokenHandler JwtHandler = new();
 
-    private static readonly Regex IdTokenResponseTypeRegex = new(
-        @"\bid_token\b",
-        RegexOptions.IgnoreCase |
-        RegexOptions.CultureInvariant
-        );
-
-    protected override void ExecuteCore(PluginContext context)
+    protected override void ExecuteCore(
+        IServiceProvider serviceProvider,
+        PluginExecutionInformation info
+        )
     {
-        _ = context ?? throw new ArgumentNullException(nameof(context));
-        if (
-            context.RequestedManagedIdentity
-            is not ManagedIdentity reqManagedIdentity
-            )
-        {
-            throw new InvalidPluginExecutionException(
-                httpStatus: PluginHttpStatusCode.BadRequest,
-                message: "Requested ManagedIdentity entity is not available."
-                );
-        }
-        if (reqManagedIdentity.TenantId is not Guid reqTenantId || reqTenantId == Guid.Empty)
-            reqTenantId = context.ExecutionContext.TenantId;
-        string reqTenantString = reqTenantId.ToString();
-        Guid? reqAppId = reqManagedIdentity.ApplicationId;
-        bool hasReqAppId = (reqAppId ?? Guid.Empty) != Guid.Empty;
-        Guid? userAppId = context.UserApplicationId;
-        bool hasUserAppId = userAppId.HasValue && userAppId != Guid.Empty;
-        if (!hasReqAppId)
-        {
-            reqAppId = hasUserAppId ? userAppId : throw new InvalidPluginExecutionException(
-                httpStatus: PluginHttpStatusCode.BadRequest,
-                message: $"User is not an application user, and input parameter '{RetrieveRequestedManagedIdentityPlugin.InputParameterNames.ApplicationId}' was not specified."
-                );
-        }
+        info ??= new(serviceProvider);
+        var context = serviceProvider.Get<IPluginExecutionContext6>();
 
-        if (context.ResolvedKeyVaultReferenceEntity
-            is not KeyVaultReference keyVaultReferenceEntity
-            )
-        {
-            throw new InvalidPluginExecutionException(
-                httpStatus: PluginHttpStatusCode.BadRequest,
-                message: "KeyVaultReference entity not availble."
-                );
-        }
-        ;
-        string keyVaultUri = keyVaultReferenceEntity.KeyVaultUri;
-        string keyVaultDataName = keyVaultReferenceEntity.KeyName;
-        _ = keyVaultReferenceEntity.TryGetAttributeValue(
-            KeyVaultReference.Fields.KeyVersion,
-            out string? keyVaultDataVersion
-            );
-        keytype? keyVaultDataType = keyVaultReferenceEntity.KeyType;
-        context.Outputs[ResolveKeyVaultReferencePlugin.OutputParameterNames.KeyVaultResourceIdentifier] =
-            keyVaultReferenceEntity.TryGetAttributeValue(
-                KeyVaultReference.Fields.KeyVaultResourceIdentifier,
-                out string keyVaultResourceIdentifier
-                ) && !string.IsNullOrEmpty(keyVaultResourceIdentifier)
-            ? keyVaultResourceIdentifier
-            : context.ResolvedKeyVaultReferenceResourceId?.ToString();
+        ParameterCollection inputs = context.InputParameters;
+        ParameterCollection outputs = context.OutputParameters;
 
-        ParameterCollection inputs = context.Inputs;
         _ = inputs.TryGetValue(
             InputParameterNames.Scopes,
-            out string[] scopes
+            out string[]? scopes
             );
+        scopes ??= [];
         if (!inputs.TryGetValue(
             InputParameterNames.OneTimeRedirectUri,
             out string oneTimeRedirectUri) ||
@@ -126,16 +76,17 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
                 );
         }
 
-        var msalBuilder = MsalPluginUtility.CreateMsalAppBuilder(
-            context, reqTenantString,
-            reqAppId.ToString(),
-            keyVaultUri,
-            keyVaultDataType ?? (keytype)(-1),
-            keyVaultDataName,
-            keyVaultDataVersion,
-            out _,
-            out EncryptingCredentials keyVaultEncryptCreds
-            );
+        var idpAuthorityInfo = serviceProvider.Get<IEnvironmentService>();
+        Uri idpInstanceUri = idpAuthorityInfo.AzureAuthorityHost;
+        string idpInstanceUrl = idpInstanceUri.ToString();
+        var msalBuilder = ConfidentialClientApplicationBuilder
+            .Create(PluginExecutionInformation.FallbackClientId)
+            .WithAuthority(
+                idpInstanceUrl,
+                context.TenantId
+                )
+            ;
+        EncryptingCredentials keyVaultEncryptCreds = null!;
 
         SecurityTokenDescriptor stateJwtDesc = new()
         {
@@ -176,6 +127,30 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         {
             includeIdToken = false;
         }
+        if (includeIdToken)
+        {
+            if (!inputs.TryGetValue(
+                InputParameterNames.NonceParameter,
+                out string nonceValue
+                ))
+            {
+                using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+                byte[] nonceBytes = new byte[64];
+                rng.GetBytes(nonceBytes);
+                nonceValue = Base64UrlEncoder.Encode(nonceBytes);
+            }
+
+            msalExtraParams["nonce"] = nonceValue;
+            outputs[OutputParameterNames.NonceParameter] = nonceValue;
+
+            if (!scopes.Contains("openid", StringComparer.Ordinal))
+            {
+                scopes = [
+                    "openid",
+                    ..scopes,
+                ];
+            }
+        }
 
         IConfidentialClientApplication msalClient = msalBuilder.Build();
         var msalAuthReqBuilder = msalClient.GetAuthorizationRequestUrl(scopes)
@@ -213,92 +188,9 @@ public class GetAuthorizationUrlPlugin() : PluginBase(), IPlugin
         }
         Uri msalAuthReqUri = msalAuthReqBuilder
             .ExecuteAsync().GetAwaiter().GetResult();
-        if (includeIdToken)
-        {
-            if (!inputs.TryGetValue(
-                InputParameterNames.NonceParameter,
-                out string nonceValue
-                ))
-            {
-                using RandomNumberGenerator rng = RandomNumberGenerator.Create();
-                byte[] nonceBytes = new byte[64];
-                rng.GetBytes(nonceBytes);
-                nonceValue = Base64UrlEncoder.Encode(nonceBytes);
-            }
 
-            Dictionary<string, string> msalAuthReqUriQuery =
-                GetUriQueryParameters(msalAuthReqUri);
-            AddResponseTypeIdToken(msalAuthReqUriQuery);
-            msalAuthReqUriQuery["nonce"] = nonceValue;
-            context.Outputs[OutputParameterNames.NonceParameter] = nonceValue;
-            UriBuilder msalAuthReqUriBuilder = new(msalAuthReqUri)
-            {
-                Query = ToUriQuery(msalAuthReqUriQuery),
-            };
-            msalAuthReqUri = msalAuthReqUriBuilder.Uri;
-        }
 
-        ParameterCollection outputs = context.Outputs;
         outputs[OutputParameterNames.AuthorizationRequestUrl] =
             msalAuthReqUri.ToString();
-    }
-
-    private static Dictionary<string, string> GetUriQueryParameters(Uri uri)
-    {
-        Dictionary<string, string> dict = new(StringComparer.OrdinalIgnoreCase);
-        string query = uri.Query;
-        for (
-            int keyIdx = query.StartsWith("?", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
-            keyIdx < query.Length;
-            keyIdx++
-            )
-        {
-            int eqIdx = query.IndexOf('=', keyIdx);
-            int ampIdx;
-            string key;
-            string value;
-            if (eqIdx < 0)
-            {
-                key = query[keyIdx..];
-                value = string.Empty;
-                ampIdx = query.Length;
-            }
-            else
-            {
-                key = query[keyIdx..eqIdx];
-                int valueIdx = eqIdx + 1;
-                ampIdx = query.IndexOf('&', valueIdx);
-                if (ampIdx < 0) ampIdx = query.Length;
-                value = query[valueIdx..ampIdx];
-            }
-            (key, value) = (
-                Uri.UnescapeDataString(key).Trim(),
-                Uri.UnescapeDataString(value).Trim()
-                );
-            dict[key] = value;
-            keyIdx = ampIdx;
-        }
-        return dict;
-    }
-
-    private static void AddResponseTypeIdToken(Dictionary<string, string> query)
-    {
-        _ = query.TryGetValue("response_type", out string? responseType);
-        if (IdTokenResponseTypeRegex.IsMatch(responseType)) return;
-        responseType += (string.IsNullOrEmpty(responseType) ? "" : " ") +
-            "id_token";
-        query["response_type"] = responseType;
-    }
-
-    private static string ToUriQuery(Dictionary<string, string> dict)
-    {
-        return dict.Count == 0
-            ? string.Empty
-            : string.Join(
-                "&",
-                dict.Select(static entry =>
-                    $"{Uri.EscapeDataString(entry.Key)}={Uri.EscapeDataString(entry.Value)}"
-                    )
-                );
     }
 }
