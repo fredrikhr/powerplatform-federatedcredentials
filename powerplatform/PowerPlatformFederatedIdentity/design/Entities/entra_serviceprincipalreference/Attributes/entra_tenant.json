@@ -1,0 +1,47 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Text"
+  },
+  "MaxLength": 127,
+  "IsPrimaryName": true,
+  "RequiredLevel": {
+    "Value": "None"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": true,
+  "IsValidForForm": true,
+  "IsValidForGrid": true,
+  "IsValidForRead": true,
+  "IsValidForUpdate": true,
+  "LogicalName": "entra_tenant",
+  "SchemaName": "entra_tenant",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Tenant"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Leier"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Microsoft Entra ID Tenant. Leave unset for automatic Tenant inference from current environment. If specified, use Tenant ID, Directory ID or registered domain name."
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Microsoft Entra ID Leier. La stående blankt for automatisk valg av leier fra nåværende miljø. Hvis angitt, bruk Leier ID (Tenant ID), Directory ID eller registrert domenenavn."
+      }
+    ]
+  }
+}

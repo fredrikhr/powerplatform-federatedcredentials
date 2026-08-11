@@ -1,0 +1,88 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.EntityMetadata",
+  "IntroducedVersion": "3.0.0",
+  "IsQuickCreateEnabled": true,
+  "LogicalName": "az_keyvaultreference",
+  "LogicalCollectionName": "az_keyvaultreferences",
+  "SchemaName": "az_keyvaultreference",
+  "CollectionSchemaName": "az_keyvaultreferences",
+  "EntitySetName": "az_keyvaultreferences",
+  "HasActivities": false,
+  "HasNotes": false,
+  "OwnershipType": "UserOwned",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Azure Key Vault Reference"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Azure Key Vault Referanse"
+      }
+    ]
+  },
+  "DisplayCollectionName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Azure Key Vault References"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Azure Key Vault Referanser"
+      }
+    ]
+  },
+  "Attributes": [
+    {
+      "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+      "AttributeType": "String",
+      "AttributeTypeName": {
+        "Value": "StringType"
+      },
+      "FormatName": {
+        "Value": "Text"
+      },
+      "MaxLength": 850,
+      "IsPrimaryName": true,
+      "RequiredLevel": {
+        "Value": "None"
+      },
+      "IntroducedVersion": "3.0.0",
+      "IsValidForCreate": true,
+      "IsValidForRead": true,
+      "IsValidForUpdate": true,
+      "IsValidForForm": false,
+      "IsValidForGrid": false,
+      "IsRequiredForForm": false,
+      "IsValidForAdvancedFind": { "Value": false },
+      "LogicalName": "az_displayname",
+      "SchemaName": "az_displayname",
+      "DisplayName": {
+        "LocalizedLabels": [
+          {
+            "LanguageCode": 1033,
+            "Label": "Display Name"
+          },
+          {
+            "LanguageCode": 1044,
+            "Label": "Visningsnavn"
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "LanguageCode": 1033,
+            "Label": "Display name for the record."
+          },
+          {
+            "LanguageCode": 1044,
+            "Label": "Visningsnavn for oppføringen."
+          }
+        ]
+      }
+    }
+  ]
+}

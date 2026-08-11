@@ -1,0 +1,30 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StateAttributeMetadata",
+  "AttributeType": "State",
+  "LogicalName": "statecode",
+  "SchemaName": "statecode",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "State"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Tilstand"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "State of the Azure Key Vault Reference"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Tilstand for Azure Key Vault Referanse"
+      }
+    ]
+  }
+}

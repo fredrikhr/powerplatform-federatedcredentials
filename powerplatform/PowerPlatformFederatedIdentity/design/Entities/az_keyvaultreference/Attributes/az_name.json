@@ -1,0 +1,51 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "LogicalName": "az_name",
+  "SchemaName": "az_name",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Text"
+  },
+  "MaxLength": 127,
+  "RequiredLevel": {
+    "Value": "ApplicationRequired"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": false,
+  "IsValidForRead": true,
+  "IsValidForUpdate": false,
+  "IsRequiredForForm": false,
+  "IsValidForForm": true,
+  "IsValidForGrid": true,
+  "IsValidForAdvancedFind": { "Value": true },
+  "SourceTypeMask": 1,
+  "SourceType": 3,
+  "FormulaDefinition": "If(Not(IsBlank(az_keyvaultreference_parent)), az_keyvaultreference_parent.az_templatename, Not(IsBlank(az_keyvaultreference_parentcomponent)), az_keyvaultreference_parentcomponent.keyname, az_templatename)",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Name"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Navn"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Name of the referenced Key Vault secret, key, or certificate."
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Navn på Key Vault secret, nøkkel eller sertifikat."
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{6dd9ab71-378f-f111-b8db-70a8a52e6a7e}</savedqueryid>
+    <querytype>8192</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical" output-format="xml-platform">
+        <entity name="entra_serviceprincipalreference">
+          <attribute name="entra_serviceprincipalreferenceid" />
+          <attribute name="entra_displayname" />
+          <attribute name="entra_clientid" />
+          <attribute name="entra_tenant" />
+          <attribute name="entra_instance" />
+          <order attribute="entra_displayname" descending="false" />
+          <order attribute="entra_clientid" descending="false" />
+          <order attribute="entra_tenant" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+            <condition attribute="ownerid" operator="eq-userid" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>3.0.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="My Service Principal References" languagecode="1033" />
+      <LocalizedName description="Mine Service Principal Referanser" languagecode="1044" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Active Service Principal References owned by me" languagecode="1033" />
+      <Description description="Aktive Service Principal Referanser som eies av meg" languagecode="1044" />
+    </Descriptions>
+  </savedquery>
+</savedqueries>

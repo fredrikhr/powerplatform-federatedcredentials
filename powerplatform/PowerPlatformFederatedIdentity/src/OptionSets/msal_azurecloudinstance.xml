@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="msal_azurecloudinstance" localizedName="Microsoft Entra Instance" description="Microsoft Entra ID Secure Token Service Instance" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>3.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <ExternalTypeName>Microsoft.Identity.Client.AzureCloudInstance</ExternalTypeName>
+  <displaynames>
+    <displayname description="Microsoft Entra Instance" languagecode="1033" />
+    <displayname description="Microsoft Entra Instans" languagecode="1044" />
+  </displaynames>
+  <Descriptions>
+    <Description description="Microsoft Entra ID Secure Token Service Instance" languagecode="1033" />
+    <Description description="Microsoft Entra ID Secure Token Service Instans" languagecode="1044" />
+  </Descriptions>
+  <options>
+    <option value="0" IsHidden="0">
+      <labels>
+        <label description="Automatic" languagecode="1033" />
+        <label description="Automatisk" languagecode="1044" />
+      </labels>
+      <Descriptions>
+        <Description description="Automatically inferred from current environment" languagecode="1033" />
+        <Description description="Automatisk valgt fra nåværende miljø" languagecode="1044" />
+      </Descriptions>
+    </option>
+    <option value="1" ExternalValue="AzurePublic" IsHidden="0">
+      <labels>
+        <label description="Public" languagecode="1033" />
+        <label description="Standard" languagecode="1044" />
+      </labels>
+      <Descriptions>
+        <Description description="Microsoft Azure public cloud. Maps to https://login.microsoftonline.com" languagecode="1033" />
+        <Description description="Microsoft Azure public cloud. URL: https://login.microsoftonline.com" languagecode="1044" />
+      </Descriptions>
+    </option>
+    <option value="2" ExternalValue="AzureChina" IsHidden="0">
+      <labels>
+        <label description="China" languagecode="1033" />
+        <label description="Kina" languagecode="1044" />
+      </labels>
+      <Descriptions>
+        <Description description="Microsoft Azure China cloud. Maps to https://login.chinacloudapi.cn" languagecode="1033" />
+        <Description description="Microsoft Azure China cloud. URL: https://login.chinacloudapi.cn" languagecode="1044" />
+      </Descriptions>
+    </option>
+    <option value="3" ExternalValue="AzureGermany" IsHidden="0">
+      <labels>
+        <label description="Germany" languagecode="1033" />
+        <label description="Tyskland" languagecode="1044" />
+      </labels>
+      <Descriptions>
+        <Description description="Microsoft Azure German cloud (&quot;Black Forest&quot;). Maps to https://login.microsoftonline.de" languagecode="1033" />
+        <Description description="Microsoft Azure German cloud (&quot;Black Forest&quot;). URL: https://login.microsoftonline.de" languagecode="1044" />
+      </Descriptions>
+    </option>
+    <option value="4" ExternalValue="AzureUsGovernment" IsHidden="0">
+      <labels>
+        <label description="UsGovernment" languagecode="1033" />
+        <label description="USA Regjering" languagecode="1044" />
+      </labels>
+      <Descriptions>
+        <Description description="US Government cloud. Maps to https://login.microsoftonline.us" languagecode="1033" />
+        <Description description="US Government cloud. URL: https://login.microsoftonline.us" languagecode="1044" />
+      </Descriptions>
+    </option>
+  </options>
+</optionset>

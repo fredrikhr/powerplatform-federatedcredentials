@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{dce397e2-5950-4be0-b60b-f1dcc6b4b587}</savedqueryid>
+    <layoutxml>
+      <grid name="entra_serviceprincipalreferences" jump="entra_displayname" select="1" icon="1" preview="1">
+        <row name="entra_serviceprincipalreference" id="entra_serviceprincipalreferenceid">
+          <cell name="entra_displayname" width="100" />
+          <cell name="entra_clientid" width="80" />
+          <cell name="entra_tenant" width="80" />
+          <cell name="entra_instance" width="20" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>2</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="entra_serviceprincipalreference">
+          <attribute name="entra_serviceprincipalreferenceid" />
+          <attribute name="entra_displayname" />
+          <attribute name="entra_clientid" />
+          <attribute name="entra_tenant" />
+          <attribute name="entra_instance" />
+          <order attribute="entra_displayname" descending="false" />
+          <order attribute="entra_clientid" descending="false" />
+          <order attribute="entra_tenant" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>3.0.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Service Principal Associated View" languagecode="1033" />
+      <LocalizedName description="Service Principal assosiert visning" languagecode="1044" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

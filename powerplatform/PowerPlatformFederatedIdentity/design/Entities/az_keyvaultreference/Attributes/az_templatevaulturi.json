@@ -1,0 +1,51 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Url"
+  },
+  "MaxLength": 50,
+  "RequiredLevel": {
+    "Value": "ApplicationRequired"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": false,
+  "IsValidForRead": true,
+  "IsValidForUpdate": false,
+  "IsRequiredForForm": false,
+  "IsValidForForm": true,
+  "IsValidForGrid": false,
+  "IsValidForAdvancedFind": { "Value": false },
+  "LogicalName": "az_templatevaulturi",
+  "SchemaName": "az_templatevaulturi",
+  "SourceTypeMask": 1,
+  "SourceType": 3,
+  "FormulaDefinition": "If(\n    IsBlank(az_templatevaultname),\n    Blank(),\n    \"https://\" & az_templatevaultname & \".vault.azure.net/\"\n)",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Key Vault URI (Template)"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Key Vault URI (mal)"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "URI to the Key Vault storing the referenced secret, key or certificate. Use: https://<vault-name>.vault.azure.net/"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "URI for Key Vault hvor secret, nøkkel eller sertifikat lagres. Bruk: https://<vault-name>.vault.azure.net/"
+      }
+    ]
+  }
+}

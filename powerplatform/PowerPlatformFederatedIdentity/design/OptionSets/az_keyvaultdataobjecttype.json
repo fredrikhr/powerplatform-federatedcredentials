@@ -1,0 +1,116 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.OptionSetMetadata",
+  "Name": "az_keyvaultdataobjecttype",
+  "OptionSetType": "Picklist",
+  "IntroducedVersion": "3.0.0",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "Label": "Key Vault Data Object Type",
+        "LanguageCode": 1033
+      },
+      {
+        "Label": "Key Vault data type",
+        "LanguageCode": 1044
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "Label": "Data type of an object stored in Azure Key Vault",
+        "LanguageCode": 1033
+      },
+      {
+        "Label": "Datatype for et objekt som er lagret i Azure Key Vault",
+        "LanguageCode": 1044
+      }
+    ]
+  },
+  "Options": [
+    {
+      "Value": 0,
+      "ExternalValue": "Secret",
+      "Label": {
+        "LocalizedLabels": [
+          {
+            "Label": "Secret",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Hemmelighet",
+            "LanguageCode": 1044
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "Label": "A secret (e.g. a password or OAuth2 client secret) stored in Azure Key Vault",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "En hemmelighet (f.eks. et passord eller en OAuth2 client secret) lagret i Azure Key Vault.",
+            "LanguageCode": 1044
+          }
+        ]
+      }
+    },
+    {
+      "Value": 1,
+      "ExternalValue": "Certificate",
+      "Label": {
+        "LocalizedLabels": [
+          {
+            "Label": "Certificate",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Sertifikat",
+            "LanguageCode": 1044
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "Label": "A certificate stored in Azure Key Vault",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Et sertifikat lagret i Azure Key Vault.",
+            "LanguageCode": 1044
+          }
+        ]
+      }
+    },
+    {
+      "Value": 2,
+      "ExternalValue": "CertificateWithX5c",
+      "Label": {
+        "LocalizedLabels": [
+          {
+            "Label": "Certificate with X509-chain",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Sertifikat med X509 utstedelseshierarki",
+            "LanguageCode": 1044
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "Label": "A certificate with its entire chain stored in Azure Key Vault",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Et sertifikat sammen med sitt utstedelseshierarki lagret i Azure Key Vault.",
+            "LanguageCode": 1044
+          }
+        ]
+      }
+    }
+  ]
+}

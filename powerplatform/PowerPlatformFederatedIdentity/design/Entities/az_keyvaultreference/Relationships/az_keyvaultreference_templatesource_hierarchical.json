@@ -1,0 +1,79 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.OneToManyRelationshipMetadata",
+  "SchemaName": "az_keyvaultreference_templatesource_hierarchical",
+  "RelationshipType": "OneToManyRelationship",
+  "IntroducedVersion": "3.0.0",
+  "ReferencedEntity": "az_keyvaultreference",
+  "ReferencingEntity": "az_keyvaultreference",
+  "IsHierarchical": true,
+  "ReferencedEntityNavigationPropertyName": "az_keyvaultreference_versions",
+  "ReferencingEntityNavigationPropertyName": "az_keyvaultreference_parent",
+  "RelationshipBehavior": 1,
+  "CascadeConfiguration": {
+    "Assign": "Cascade",
+    "Delete": "Cascade",
+    "Archive": "Cascade",
+    "Merge": "NoCascade",
+    "Reparent": "Cascade",
+    "Share": "Cascade",
+    "Unshare": "Cascade",
+    "RollupView": "NoCascade"
+  },
+  "AssociatedMenuConfiguration": {
+    "Behavior": "UseLabel",
+    "Group": "Details",
+    "Order": 10000,
+    "Label": {
+      "LocalizedLabels": [
+        {
+          "Label": "Versions",
+          "LanguageCode": 1033
+        },
+        {
+          "Label": "Versjoner",
+          "LanguageCode": 1044
+        }
+      ]
+    }
+  },
+  "Lookup": {
+    "@odata.type": "Microsoft.Dynamics.CRM.LookupAttributeMetadata",
+    "LogicalName": "az_templatesourceid",
+    "SchemaName": "az_templatesourceid",
+    "AttributeType": "Lookup",
+    "IntroducedVersion": "3.0.0",
+    "RequiredLevel": {
+      "Value": "Recommended"
+    },
+    "IsValidForCreate": true,
+    "IsValidForRead": true,
+    "IsValidForUpdate": true,
+    "IsValidForForm": true,
+    "IsValidForGrid": false,
+    "IsValidForAdvancedFind": { "Value": false },
+    "DisplayName": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "Source"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Kilde"
+        }
+      ]
+    },
+    "Description": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "A reference to the version-less record serving as the source for the base information of a versioned Azure Key Vault Reference."
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Referance til en uversjonert oppføring som representerer kilden for kjerneinformasjonen av en versjonert Azure Key Vault referanse."
+        }
+      ]
+    }
+  }
+}

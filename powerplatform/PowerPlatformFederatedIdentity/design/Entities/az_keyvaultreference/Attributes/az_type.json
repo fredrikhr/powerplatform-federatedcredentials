@@ -1,0 +1,45 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.PicklistAttributeMetadata",
+  "LogicalName": "az_type",
+  "SchemaName": "az_type",
+  "AttributeType": "Picklist",
+  "GlobalOptionSet@odata.bind": "/GlobalOptionSetDefinitions(dc8a31f2-348f-f111-b8db-70a8a52e6a7e)",
+  "RequiredLevel": {
+    "Value": "ApplicationRequired"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": false,
+  "IsValidForRead": true,
+  "IsValidForUpdate": false,
+  "IsRequiredForForm": false,
+  "IsValidForForm": true,
+  "IsValidForGrid": true,
+  "IsValidForAdvancedFind": { "Value": true },
+  "SourceType": 3,
+  "SourceTypeMask": 8,
+  "FormulaDefinition": "If(\n    Not(IsBlank(az_templatesourcetypevalue)),\n    Switch(\n        az_templatesourcetypevalue,\n        \"0\", global_az_keyvaultdataobjecttype.'0',\n        \"1\", global_az_keyvaultdataobjecttype.'1',\n        \"2\", global_az_keyvaultdataobjecttype.'2',\n        global_az_keyvaultdataobjecttype.'0'\n    ),\n    az_templatetype\n)",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Type"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Type"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Datatype of object in Azure Key Vault the record refers to."
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Datatype i Azure Key Vault som oppføringen viser til."
+      }
+    ]
+  }
+}

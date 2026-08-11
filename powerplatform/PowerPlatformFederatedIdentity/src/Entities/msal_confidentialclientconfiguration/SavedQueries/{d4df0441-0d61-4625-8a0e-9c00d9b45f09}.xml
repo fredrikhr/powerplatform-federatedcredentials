@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{d4df0441-0d61-4625-8a0e-9c00d9b45f09}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="msal_displayname" select="1" icon="1" preview="1">
+        <row name="result" id="msal_confidentialclientconfigurationid">
+          <cell name="msal_displayname" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="msal_confidentialclientconfiguration">
+          <attribute name="msal_confidentialclientconfigurationid" />
+          <attribute name="msal_displayname" />
+          <attribute name="createdon" />
+          <order attribute="msal_displayname" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="1" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>3.0.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Inactive OAuth2 Confidential Client Configurations" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

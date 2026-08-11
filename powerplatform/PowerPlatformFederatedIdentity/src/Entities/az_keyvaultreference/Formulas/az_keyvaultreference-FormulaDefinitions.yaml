@@ -1,0 +1,59 @@
+az_name: |-
+    =If(
+        Not(IsBlank(az_keyvaultreference_parent)),
+        az_keyvaultreference_parent.az_templatename,
+        Not(IsBlank(az_keyvaultreference_parentcomponent)),
+        az_keyvaultreference_parentcomponent.keyname,
+        az_templatename
+    )
+az_templatesourcecomponentkeytypevalue: |-
+    =If(
+        Not(IsBlank(az_keyvaultreference_parentcomponent)),
+        If(
+            Not(IsBlank(az_keyvaultreference_parentcomponent.keytype)),
+            Text(az_keyvaultreference_parentcomponent.keytype),
+            Blank()
+        ),
+        Blank()
+    )
+az_templatesourcetypevalue: |-
+    =If(
+        Not(IsBlank(az_keyvaultreference_parent)),
+        Text(az_keyvaultreference_parent.az_templatetype),
+        Not(IsBlank(az_keyvaultreference_parentcomponent)),
+        az_templatesourcecomponentkeytypevalue
+    )
+az_templatevaulturi: |-
+    =If(
+        IsBlank(az_templatevaultname),
+        Blank(),
+        "https://" & az_templatevaultname & ".vault.azure.net/"
+    )
+az_type: |-
+    =If(
+        Not(IsBlank(az_templatesourcetypevalue)),
+        Switch(
+            az_templatesourcetypevalue,
+            "0", global_az_keyvaultdataobjecttype.'0',
+            "1", global_az_keyvaultdataobjecttype.'1',
+            "2", global_az_keyvaultdataobjecttype.'2',
+            global_az_keyvaultdataobjecttype.'0'
+        ),
+        az_templatetype
+    )
+az_vaulturi: |-
+    =If(
+        Not(IsBlank(az_keyvaultreference_parent)),
+        If(
+            IsBlank(az_keyvaultreference_parent.az_templatevaultname),
+            Blank(),
+            "https://" & az_keyvaultreference_parent.az_templatevaultname & ".vault.azure.net/"
+        ),
+        Not(IsBlank(az_keyvaultreference_parentcomponent)),
+        az_keyvaultreference_parentcomponent.keyvaulturi,
+        If(
+            IsBlank(az_templatevaultname),
+            Blank(),
+            "https://" & az_templatevaultname & ".vault.azure.net/"
+        )
+    )

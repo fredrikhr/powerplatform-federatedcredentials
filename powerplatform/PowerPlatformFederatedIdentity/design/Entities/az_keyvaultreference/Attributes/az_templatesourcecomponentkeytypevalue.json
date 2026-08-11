@@ -1,0 +1,51 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "LogicalName": "az_templatesourcecomponentkeytypevalue",
+  "SchemaName": "az_templatesourcecomponentkeytypevalue",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Text"
+  },
+  "MaxLength": 12,
+  "RequiredLevel": {
+    "Value": "ApplicationRequired"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": false,
+  "IsValidForRead": true,
+  "IsValidForUpdate": false,
+  "IsRequiredForForm": false,
+  "IsValidForForm": false,
+  "IsValidForGrid": false,
+  "IsValidForAdvancedFind": { "Value": false },
+  "SourceTypeMask": 1,
+  "SourceType": 3,
+  "FormulaDefinition": "If(Not(IsBlank(az_keyvaultreference_parentcomponent)), If(Not(IsBlank(az_keyvaultreference_parentcomponent.keytype)), Text(az_keyvaultreference_parentcomponent.keytype), Blank()), Blank())",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Source (Component) Type (value)"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Source (Component) type (verdi)"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "For internal use"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "For internt bruk"
+      }
+    ]
+  }
+}

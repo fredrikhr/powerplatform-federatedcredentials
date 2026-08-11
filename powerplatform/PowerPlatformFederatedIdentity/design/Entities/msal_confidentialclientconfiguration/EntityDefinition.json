@@ -1,0 +1,74 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.EntityMetadata",
+  "IntroducedVersion": "3.0.0",
+  "IsQuickCreateEnabled": true,
+  "LogicalName": "msal_confidentialclientconfiguration",
+  "LogicalCollectionName": "msal_confidentialclientconfigurations",
+  "SchemaName": "msal_confidentialclientconfiguration",
+  "CollectionSchemaName": "msal_confidentialclientconfigurations",
+  "EntitySetName": "msal_confidentialclientconfigurations",
+  "HasActivities": false,
+  "HasNotes": false,
+  "OwnershipType": "UserOwned",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "OAuth2 Confidential Client Configuration"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "OAuth2 konfidensiell klient\u00ADkonfigurasjon"
+      }
+    ]
+  },
+  "DisplayCollectionName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "OAuth2 Confidential Client Configurations"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "OAuth2 konfidensiell klient\u00ADkonfigurasjoner"
+      }
+    ]
+  },
+  "Attributes": [
+    {
+      "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+      "AttributeType": "String",
+      "AttributeTypeName": {
+        "Value": "StringType"
+      },
+      "FormatName": {
+        "Value": "Text"
+      },
+      "MaxLength": 850,
+      "IsPrimaryName": true,
+      "RequiredLevel": {
+        "Value": "None"
+      },
+      "IntroducedVersion": "3.0.0",
+      "IsValidForCreate": true,
+      "IsValidForForm": true,
+      "IsValidForGrid": true,
+      "IsValidForRead": true,
+      "IsValidForUpdate": true,
+      "LogicalName": "msal_displayname",
+      "SchemaName": "msal_displayname",
+      "DisplayName": {
+        "LocalizedLabels": [
+          {
+            "LanguageCode": 1033,
+            "Label": "Display Name"
+          },
+          {
+            "LanguageCode": 1044,
+            "Label": "Visningsnavn"
+          }
+        ]
+      }
+    }
+  ]
+}

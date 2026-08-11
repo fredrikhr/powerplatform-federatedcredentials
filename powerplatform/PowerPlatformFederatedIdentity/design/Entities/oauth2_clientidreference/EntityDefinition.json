@@ -1,0 +1,86 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.EntityMetadata",
+  "IntroducedVersion": "3.0.0",
+  "IsQuickCreateEnabled": true,
+  "LogicalName": "oauth2_clientidreference",
+  "LogicalCollectionName": "oauth2_clientidreferences",
+  "SchemaName": "oauth2_clientidreference",
+  "CollectionSchemaName": "oauth2_clientidreferences",
+  "EntitySetName": "oauth2_clientidreferences",
+  "HasActivities": false,
+  "HasNotes": false,
+  "OwnershipType": "UserOwned",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "OAuth2 Client Reference"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "OAuth2 Klient-Referanse"
+      }
+    ]
+  },
+  "DisplayCollectionName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "OAuth2 Client References"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "OAuth2 Klient-Referanser"
+      }
+    ]
+  },
+  "Attributes": [
+    {
+      "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+      "AttributeType": "String",
+      "AttributeTypeName": {
+        "Value": "StringType"
+      },
+      "FormatName": {
+        "Value": "Text"
+      },
+      "MaxLength": 850,
+      "IsPrimaryName": true,
+      "RequiredLevel": {
+        "Value": "None"
+      },
+      "IntroducedVersion": "3.0.0",
+      "IsValidForCreate": true,
+      "IsValidForForm": false,
+      "IsValidForGrid": false,
+      "IsValidForRead": true,
+      "IsValidForUpdate": true,
+      "LogicalName": "oauth2_displayname",
+      "SchemaName": "oauth2_displayname",
+      "DisplayName": {
+        "LocalizedLabels": [
+          {
+            "LanguageCode": 1033,
+            "Label": "Display Name"
+          },
+          {
+            "LanguageCode": 1044,
+            "Label": "Visningsnavn"
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "LanguageCode": 1033,
+            "Label": "Display name for the OAuth2 client."
+          },
+          {
+            "LanguageCode": 1044,
+            "Label": "Visningsnavn for OAuth2 klienten."
+          }
+        ]
+      }
+    }
+  ]
+}

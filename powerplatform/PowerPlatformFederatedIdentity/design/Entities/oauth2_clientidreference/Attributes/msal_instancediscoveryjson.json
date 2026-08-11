@@ -1,0 +1,42 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.MemoAttributeMetadata",
+  "FormatName": {
+    "Value": "Text"
+  },
+  "MaxLength": 16384,
+  "RequiredLevel": {
+    "Value": "Recommended"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": true,
+  "IsValidForForm": true,
+  "IsValidForGrid": true,
+  "IsValidForRead": true,
+  "IsValidForUpdate": true,
+  "LogicalName": "msal_instancediscoveryjson",
+  "SchemaName": "msal_instancediscoveryjson",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Instance Discovery Metadata"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Oppdaget metadata for instans"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "JSON string similar to https://aka.ms/aad-instance-discovery to configure MSAL instance and authority information."
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "JSON text liknende til https://aka.ms/aad-instance-discovery for å konfigurere MSAL med informasjon om instans og autoritet."
+      }
+    ]
+  }
+}

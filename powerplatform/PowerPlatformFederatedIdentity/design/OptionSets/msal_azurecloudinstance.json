@@ -1,0 +1,172 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.OptionSetMetadata",
+  "Name": "msal_azurecloudinstance",
+  "ExternalTypeName": "Microsoft.Identity.Client.AzureCloudInstance",
+  "OptionSetType": "Picklist",
+  "IntroducedVersion": "3.0.0",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "Label": "Microsoft Entra Instance",
+        "LanguageCode": 1033
+      },
+      {
+        "Label": "Microsoft Entra Instans",
+        "LanguageCode": 1044
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "Label": "Microsoft Entra ID Secure Token Service Instance",
+        "LanguageCode": 1033
+      },
+      {
+        "Label": "Microsoft Entra ID Secure Token Service Instans",
+        "LanguageCode": 1044
+      }
+    ]
+  },
+  "Options": [
+    {
+      "Value": 0,
+      "Label": {
+        "LocalizedLabels": [
+          {
+            "Label": "Automatic",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Automatisk",
+            "LanguageCode": 1044
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "Label": "Automatically inferred from current environment",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Automatisk valgt fra nåværende miljø",
+            "LanguageCode": 1044
+          }
+        ]
+      }
+    },
+    {
+      "Value": 1,
+      "ExternalValue": "AzurePublic",
+      "Label": {
+        "LocalizedLabels": [
+          {
+            "Label": "Public",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Standard",
+            "LanguageCode": 1044
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "Label": "Microsoft Azure public cloud. Maps to https://login.microsoftonline.com",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Microsoft Azure public cloud. URL: https://login.microsoftonline.com",
+            "LanguageCode": 1044
+          }
+        ]
+      }
+    },
+    {
+      "Value": 2,
+      "ExternalValue": "AzureChina",
+      "Label": {
+        "LocalizedLabels": [
+          {
+            "Label": "China",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Kina",
+            "LanguageCode": 1044
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "Label": "Microsoft Azure China cloud. Maps to https://login.chinacloudapi.cn",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Microsoft Azure China cloud. URL: https://login.chinacloudapi.cn",
+            "LanguageCode": 1044
+          }
+        ]
+      }
+    },
+    {
+      "Value": 3,
+      "ExternalValue": "AzureGermany",
+      "Label": {
+        "LocalizedLabels": [
+          {
+            "Label": "Germany",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Tyskland",
+            "LanguageCode": 1044
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "Label": "Microsoft Azure German cloud (\"Black Forest\"). Maps to https://login.microsoftonline.de",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "Microsoft Azure German cloud (\"Black Forest\"). URL: https://login.microsoftonline.de",
+            "LanguageCode": 1044
+          }
+        ]
+      }
+    },
+    {
+      "Value": 4,
+      "ExternalValue": "AzureUsGovernment",
+      "Label": {
+        "LocalizedLabels": [
+          {
+            "Label": "UsGovernment",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "USA Regjering",
+            "LanguageCode": 1044
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "Label": "US Government cloud. Maps to https://login.microsoftonline.us",
+            "LanguageCode": 1033
+          },
+          {
+            "Label": "US Government cloud. URL: https://login.microsoftonline.us",
+            "LanguageCode": 1044
+          }
+        ]
+      }
+    }
+  ]
+}
