@@ -1,0 +1,48 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "LogicalName": "az_version",
+  "SchemaName": "az_version",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Text"
+  },
+  "MaxLength": 254,
+  "RequiredLevel": {
+    "Value": "None"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": true,
+  "IsValidForRead": true,
+  "IsValidForUpdate": true,
+  "IsRequiredForForm": false,
+  "IsValidForForm": true,
+  "IsValidForGrid": true,
+  "IsValidForAdvancedFind": { "Value": false },
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Version"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Versjon"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Version of the referenced Key Vault secret, key, or certificate."
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Versjon på Key Vault secret, nøkkel eller sertifikat."
+      }
+    ]
+  }
+}

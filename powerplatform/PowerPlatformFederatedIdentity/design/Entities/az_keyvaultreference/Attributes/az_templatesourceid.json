@@ -1,0 +1,42 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.LookupAttributeMetadata",
+  "IntroducedVersion": "3.0.0",
+  "LogicalName": "az_templatesourceid",
+  "SchemaName": "az_templatesourceid",
+  "RequiredLevel": {
+    "Value": "ApplicationRequired"
+  },
+  "AttributeType": "Lookup",
+  "Targets": ["keyvaultreference", "az_keyvaultreference"],
+  "IsValidForCreate": true,
+  "IsValidForRead": true,
+  "IsValidForUpdate": true,
+  "IsRequiredForForm": false,
+  "IsValidForForm": true,
+  "IsValidForGrid": false,
+  "IsValidForAdvancedFind": { "Value": false },
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Source"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Kilde"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "A reference to the version-less record serving as the source for the base information of a versioned Azure Key Vault Reference."
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Referance til en uversjonert oppføring som representerer kilden for kjerneinformasjonen av en versjonert Azure Key Vault referanse."
+      }
+    ]
+  }
+}

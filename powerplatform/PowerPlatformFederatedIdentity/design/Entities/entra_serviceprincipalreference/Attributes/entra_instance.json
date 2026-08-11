@@ -1,0 +1,42 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.PicklistAttributeMetadata",
+  "IntroducedVersion": "3.0.0",
+  "LogicalName": "entra_instance",
+  "SchemaName": "entra_instance",
+  "RequiredLevel": {
+    "Value": "ApplicationRequired"
+  },
+  "AttributeType": "Picklist",
+  "GlobalOptionSet@odata.bind": "GlobalOptionSetDefinitions(Name='msal_azurecloudinstance')",
+  "IsValidForCreate": true,
+  "IsValidForForm": true,
+  "IsValidForGrid": true,
+  "IsValidForRead": true,
+  "IsValidForUpdate": true,
+  "IsRequiredForForm": false,
+  "DefaultFormValue": 0,
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Instance"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Instans"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Microsoft Entra ID Secure Token Service Instance."
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Microsoft Entra ID Secure Token Service Instans."
+      }
+    ]
+  }
+}

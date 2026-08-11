@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{3915bf8c-9095-f111-b8dc-70a8a52e6a7e}" Name="Azure Key Vault Reference | Source and template fields mutually exclusive" Description="Source fields are mutually exclusive. Source field and any template field are mutually exclusive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/AzureKeyVaultReferenceSourceandtemplatefieldsmutua-3915BF8C-9095-F111-B8DC-70A8A52E6A7E.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>3.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ProcessTriggerScope>2</ProcessTriggerScope>
+  <ModernFlowType>0</ModernFlowType>
+  <PrimaryEntity>az_keyvaultreference</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Azure Key Vault Reference | Source and template fields mutually exclusive" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Source fields are mutually exclusive. Source field and any template field are mutually exclusive" />
+  </Descriptions>
+</Workflow>

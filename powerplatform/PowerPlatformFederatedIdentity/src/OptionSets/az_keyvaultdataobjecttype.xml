@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="az_keyvaultdataobjecttype" localizedName="Key Vault Data Object Type" description="Data type of an object stored in Azure Key Vault" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>3.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="Key Vault Data Object Type" languagecode="1033" />
+    <displayname description="Key Vault data type" languagecode="1044" />
+  </displaynames>
+  <Descriptions>
+    <Description description="Data type of an object stored in Azure Key Vault" languagecode="1033" />
+    <Description description="Datatype for et objekt som er lagret i Azure Key Vault" languagecode="1044" />
+  </Descriptions>
+  <options>
+    <option value="0" ExternalValue="Secret" IsHidden="0">
+      <labels>
+        <label description="Secret" languagecode="1033" />
+        <label description="Hemmelighet" languagecode="1044" />
+      </labels>
+      <Descriptions>
+        <Description description="A secret (e.g. a password or OAuth2 client secret) stored in Azure Key Vault" languagecode="1033" />
+        <Description description="En hemmelighet (f.eks. et passord eller en OAuth2 client secret) lagret i Azure Key Vault." languagecode="1044" />
+      </Descriptions>
+    </option>
+    <option value="1" ExternalValue="Certificate" IsHidden="0">
+      <labels>
+        <label description="Certificate" languagecode="1033" />
+        <label description="Sertifikat" languagecode="1044" />
+      </labels>
+      <Descriptions>
+        <Description description="A certificate stored in Azure Key Vault" languagecode="1033" />
+        <Description description="Et sertifikat lagret i Azure Key Vault." languagecode="1044" />
+      </Descriptions>
+    </option>
+    <option value="2" ExternalValue="CertificateWithX5c" IsHidden="0">
+      <labels>
+        <label description="Certificate with X509-chain" languagecode="1033" />
+        <label description="Sertifikat med X509 utstedelseshierarki" languagecode="1044" />
+      </labels>
+      <Descriptions>
+        <Description description="A certificate with its entire chain stored in Azure Key Vault" languagecode="1033" />
+        <Description description="Et sertifikat sammen med sitt utstedelseshierarki lagret i Azure Key Vault." languagecode="1044" />
+      </Descriptions>
+    </option>
+  </options>
+</optionset>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>1</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{cba92a7b-776a-4a04-abea-057b46daf8e6}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="entra_displayname" select="1" icon="1" preview="1">
+        <row name="result" id="entra_serviceprincipalreferenceid">
+          <cell name="entra_displayname" width="100" />
+          <cell name="entra_clientid" width="80" />
+          <cell name="entra_tenant" width="80" />
+          <cell name="entra_instance" width="20" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>4</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="entra_serviceprincipalreference">
+          <attribute name="entra_serviceprincipalreferenceid" />
+          <attribute name="entra_displayname" />
+          <attribute name="entra_clientid" />
+          <attribute name="entra_tenant" />
+          <attribute name="entra_instance" />
+          <order attribute="entra_displayname" descending="false" />
+          <order attribute="entra_clientid" descending="false" />
+          <order attribute="entra_tenant" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <filter type="or" isquickfindfields="1">
+            <condition attribute="entra_displayname" operator="like" value="{0}" />
+            <condition attribute="entra_clientid" operator="like" value="{0}" />
+            <condition attribute="entra_tenant" operator="like" value="{0}" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>3.0.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Quick Find Service Principal references" languagecode="1033" />
+      <LocalizedName description="Hurtigsøk Service Principal referanser" languagecode="1044" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

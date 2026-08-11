@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EntityRelationship Name="az_keyvaultreference_templatesource_hierarchical" />
+  <EntityRelationship Name="az_keyvaultreference_templatesource_keyvaultreference" />
+  <EntityRelationship Name="business_unit_az_keyvaultreference" />
+  <EntityRelationship Name="business_unit_entra_serviceprincipalreference" />
+  <EntityRelationship Name="business_unit_msal_confidentialclientconfiguration" />
+  <EntityRelationship Name="business_unit_oauth2_clientidreference" />
+  <EntityRelationship Name="lk_az_keyvaultreference_createdby" />
+  <EntityRelationship Name="lk_az_keyvaultreference_modifiedby" />
+  <EntityRelationship Name="lk_entra_serviceprincipalreference_createdby" />
+  <EntityRelationship Name="lk_entra_serviceprincipalreference_modifiedby" />
+  <EntityRelationship Name="lk_msal_confidentialclientconfiguration_createdby" />
+  <EntityRelationship Name="lk_msal_confidentialclientconfiguration_modifiedby" />
+  <EntityRelationship Name="lk_oauth2_clientidreference_createdby" />
+  <EntityRelationship Name="lk_oauth2_clientidreference_modifiedby" />
+  <EntityRelationship Name="msal_confidentialclientconfiguration_clientinfo_entra_serviceprincipalreference" />
+  <EntityRelationship Name="msal_confidentialclientconfiguration_clientinfo_managedidentity" />
+  <EntityRelationship Name="msal_confidentialclientconfiguration_clientinfo_oauth2_clientidreference" />
+  <EntityRelationship Name="msal_confidentialclientconfiguration_clientinfo_systemuserapplicationid" />
+  <EntityRelationship Name="owner_az_keyvaultreference" />
+  <EntityRelationship Name="owner_entra_serviceprincipalreference" />
+  <EntityRelationship Name="owner_msal_confidentialclientconfiguration" />
+  <EntityRelationship Name="owner_oauth2_clientidreference" />
+  <EntityRelationship Name="team_az_keyvaultreference" />
+  <EntityRelationship Name="team_entra_serviceprincipalreference" />
+  <EntityRelationship Name="team_msal_confidentialclientconfiguration" />
+  <EntityRelationship Name="team_oauth2_clientidreference" />
+  <EntityRelationship Name="user_az_keyvaultreference" />
+  <EntityRelationship Name="user_entra_serviceprincipalreference" />
+  <EntityRelationship Name="user_msal_confidentialclientconfiguration" />
+  <EntityRelationship Name="user_oauth2_clientidreference" />
+</EntityRelationships>

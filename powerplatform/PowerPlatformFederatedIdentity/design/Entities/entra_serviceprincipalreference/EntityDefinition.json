@@ -1,0 +1,86 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.EntityMetadata",
+  "IntroducedVersion": "3.0.0",
+  "IsQuickCreateEnabled": true,
+  "LogicalName": "entra_serviceprincipalreference",
+  "LogicalCollectionName": "entra_serviceprincipalreferences",
+  "SchemaName": "entra_serviceprincipalreference",
+  "CollectionSchemaName": "entra_serviceprincipalreferences",
+  "EntitySetName": "entra_serviceprincipalreferences",
+  "HasActivities": false,
+  "HasNotes": false,
+  "OwnershipType": "UserOwned",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Microsoft Entra Service Principal Reference"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Microsoft Entra Service Principal Referanse"
+      }
+    ]
+  },
+  "DisplayCollectionName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Microsoft Entra Service Principal References"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Microsoft Entra Service Principal Referanser"
+      }
+    ]
+  },
+  "Attributes": [
+    {
+      "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+      "AttributeType": "String",
+      "AttributeTypeName": {
+        "Value": "StringType"
+      },
+      "FormatName": {
+        "Value": "Text"
+      },
+      "MaxLength": 850,
+      "IsPrimaryName": true,
+      "RequiredLevel": {
+        "Value": "None"
+      },
+      "IntroducedVersion": "3.0.0",
+      "IsValidForCreate": true,
+      "IsValidForForm": false,
+      "IsValidForGrid": false,
+      "IsValidForRead": true,
+      "IsValidForUpdate": true,
+      "LogicalName": "entra_displayname",
+      "SchemaName": "entra_displayname",
+      "DisplayName": {
+        "LocalizedLabels": [
+          {
+            "LanguageCode": 1033,
+            "Label": "Display Name"
+          },
+          {
+            "LanguageCode": 1044,
+            "Label": "Visningsnavn"
+          }
+        ]
+      },
+      "Description": {
+        "LocalizedLabels": [
+          {
+            "LanguageCode": 1033,
+            "Label": "Display name for the service principal."
+          },
+          {
+            "LanguageCode": 1044,
+            "Label": "Visningsnavn for Service Principal objektet."
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{37154fc3-488f-f111-b8db-70a8a52e6a7e}" Name="Microsoft Entra Service Principal Reference | Recommend Automatic Instance and Tenant" Description="Recommends usage of automatic values for Instance and Tenant" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/MicrosoftEntraServicePrincipalReferenceRecommendAu-37154FC3-488F-F111-B8DB-70A8A52E6A7E.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>3.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ProcessTriggerScope>2</ProcessTriggerScope>
+  <ModernFlowType>0</ModernFlowType>
+  <PrimaryEntity>entra_serviceprincipalreference</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Microsoft Entra Service Principal Reference | Recommend Automatic Instance and Tenant" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Recommends usage of automatic values for Instance and Tenant" />
+  </Descriptions>
+  <labels>
+    <steplabels id="{6056ad18-6f72-4ced-ac6f-c7f654258654}">
+      <label languagecode="1033" description="Automatic" />
+      <label languagecode="1044" description="Automatisk" />
+    </steplabels>
+    <steplabels id="{ad3be35c-edeb-4098-bc47-626814660afc}">
+      <label languagecode="1033" description="In most situations the instance can be left unspecified to infer the value from the current environment." />
+      <label languagecode="1044" description="I de fleste tilfeller bør instans angis med verdien Automatisk slik at instans fra nåværende miljø brukes." />
+    </steplabels>
+    <steplabels id="{9cca5d99-7c30-4d16-8932-8b21d94d777a}">
+      <label languagecode="1033" description="Automatic" />
+      <label languagecode="1044" description="Automatisk" />
+    </steplabels>
+    <steplabels id="{f42b3308-4c58-4c7c-8380-5af1dfcf720c}">
+      <label languagecode="1033" description="In most situations the tenant can be left unspecified to infer the value from the current environment." />
+      <label languagecode="1044" description="I de fleste tilfeller bør leier ikke angis slik at leier fra nåværende miljø brukes." />
+    </steplabels>
+  </labels>
+</Workflow>

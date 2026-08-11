@@ -1,0 +1,48 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Url"
+  },
+  "MaxLength": 1024,
+  "RequiredLevel": {
+    "Value": "Recommended"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": true,
+  "IsValidForForm": true,
+  "IsValidForGrid": true,
+  "IsValidForRead": true,
+  "IsValidForUpdate": true,
+  "IsSortableEnabled": { "Value": true },
+  "IsValidForAdvancedFind": { "Value": true },
+  "LogicalName": "oidc_authorityurl",
+  "SchemaName": "oidc_authorityurl",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "OIDC Authority"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "OIDC Autoritet"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "OpenID Connect Authority URL"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "URL for OpenID Connect Autoritet"
+      }
+    ]
+  }
+}

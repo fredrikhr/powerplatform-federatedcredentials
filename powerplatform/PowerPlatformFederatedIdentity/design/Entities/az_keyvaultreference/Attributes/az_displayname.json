@@ -1,0 +1,49 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Text"
+  },
+  "MaxLength": 850,
+  "IsPrimaryName": true,
+  "RequiredLevel": {
+    "Value": "None"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": true,
+  "IsValidForRead": true,
+  "IsValidForUpdate": true,
+  "IsValidForForm": false,
+  "IsValidForGrid": false,
+  "IsRequiredForForm": false,
+  "IsValidForAdvancedFind": { "Value": false },
+  "LogicalName": "az_displayname",
+  "SchemaName": "az_displayname",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Display Name"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Visningsnavn"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Display name for the record."
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Visningsnavn for oppføringen."
+      }
+    ]
+  }
+}

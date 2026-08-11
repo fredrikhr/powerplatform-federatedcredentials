@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{378e7fd7-8e95-f111-b8dc-70a8a52e6a7e}" Name="Azure Key Vault Reference | Source fields control template mode" Description="Changes the field state of Azure Key Vault Reference to or from template mode based on whether a source field contains data" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/AzureKeyVaultReferenceSourcefieldscontroltemplatem-378E7FD7-8E95-F111-B8DC-70A8A52E6A7E.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>3.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ProcessTriggerScope>2</ProcessTriggerScope>
+  <ModernFlowType>0</ModernFlowType>
+  <PrimaryEntity>az_keyvaultreference</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Azure Key Vault Reference | Source fields control template mode" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Changes the field state of Azure Key Vault Reference to or from template mode based on whether a source field contains data" />
+  </Descriptions>
+</Workflow>

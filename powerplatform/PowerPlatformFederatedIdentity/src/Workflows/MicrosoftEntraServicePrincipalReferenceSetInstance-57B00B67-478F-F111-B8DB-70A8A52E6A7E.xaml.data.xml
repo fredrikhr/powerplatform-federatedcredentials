@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{57b00b67-478f-f111-b8db-70a8a52e6a7e}" Name="Microsoft Entra Service Principal Reference | Set Instance to Automatic when Tenant is unspecified" Description="Sets field Instance to Automatic when field Tenant is unspecified." xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/MicrosoftEntraServicePrincipalReferenceSetInstance-57B00B67-478F-F111-B8DB-70A8A52E6A7E.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>3.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ProcessTriggerScope>2</ProcessTriggerScope>
+  <ModernFlowType>0</ModernFlowType>
+  <PrimaryEntity>entra_serviceprincipalreference</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Microsoft Entra Service Principal Reference | Set Instance to Automatic when Tenant is unspecified" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Sets field Instance to Automatic when field Tenant is unspecified." />
+  </Descriptions>
+</Workflow>

@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{ba646f41-d3da-46c3-9b00-a17240778c12}</formid>
+    <IntroducedVersion>3.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form headerdensity="HighWithControls">
+      <tabs>
+        <tab verticallayout="true" id="{1eae1d7f-9a88-485d-a64d-09648156050c}" IsUserDefined="1" name="tab_general">
+          <labels>
+            <label description="General" languagecode="1033" />
+            <label description="Generelt" languagecode="1044" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{2ab76df3-700a-4499-8871-c55c77c6fe49}" name="section_general">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                    <label description="Generelt" languagecode="1044" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{c1e435b0-db62-4ca3-b7c5-bdeca93f1397}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Source" languagecode="1033" />
+                          <label description="Kilde" languagecode="1044" />
+                        </labels>
+                        <control id="az_templatesourceid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="az_templatesourceid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{251892f2-b0f6-4816-96bb-b2ef8056176f}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Source (component)" languagecode="1033" />
+                          <label description="Kilde (komponent)" languagecode="1044" />
+                        </labels>
+                        <control id="az_templatesourcecomponentid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="az_templatesourcecomponentid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{08c438db-6560-467e-b27a-5f0b844dc818}" locklevel="0" colspan="1" rowspan="1" labelid="{dcded08f-e42e-4de2-b719-fee28463b868}">
+                        <labels>
+                          <label description="Key Vault Name" languagecode="1033" />
+                          <label description="Key Vault Navn" languagecode="1044" />
+                        </labels>
+                        <control id="az_templatevaultname" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="az_templatevaultname" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{2bd123a7-8746-47b9-b23c-c45dfc477a63}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Key Vault URI" languagecode="1033" />
+                          <label description="Key Vault URI" languagecode="1044" />
+                        </labels>
+                        <control id="az_vaulturi" classid="{71716B6C-711E-476C-8AB8-5D11542BFB47}" datafieldname="az_vaulturi" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{f3cc7db0-8c87-4240-aba8-854c9261e93e}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                          <label description="Navn" languagecode="1044" />
+                        </labels>
+                        <control id="az_name" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="az_name" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{58392bfc-428d-449d-a597-203655d1cd46}" locklevel="0" colspan="1" rowspan="1" labelid="{8b47eefe-4949-42b7-b826-58003c76d05c}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                          <label description="Navn" languagecode="1044" />
+                        </labels>
+                        <control id="az_templatename" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="az_templatename" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{9ee68c29-4732-46c0-89ac-78c28ec1dc5c}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Type" languagecode="1033" />
+                          <label description="Type" languagecode="1044" />
+                        </labels>
+                        <control id="az_type" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="az_type" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{254f8c6a-dc59-436a-81fe-8d9ebcac5c9f}" locklevel="0" colspan="1" rowspan="1" labelid="{c08accb2-45a9-4886-8306-7b19bda7f8bd}">
+                        <labels>
+                          <label description="Type" languagecode="1033" />
+                          <label description="Type" languagecode="1044" />
+                        </labels>
+                        <control id="az_templatetype" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="az_templatetype" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{592f702e-1865-4793-ba6c-7be7f853ab7a}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Version" languagecode="1033" />
+                          <label description="Versjon" languagecode="1044" />
+                        </labels>
+                        <control id="az_version" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="az_version" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{4ff6a3aa-3e9f-41c7-8f2b-4210c2c29339}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{4e08e6aa-f97b-4368-98d7-6df1d785d848}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{e80412bb-bf36-473f-b5c2-65ceabc28cdf}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{9c437d2e-99f2-4f8d-8e86-b9f5ee67bf1b}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{61d17720-55ba-41f1-9984-adec82f3b626}" locklevel="0" colspan="1" rowspan="1">
+              <labels>
+                <label description="Owner" languagecode="1033" />
+                <label description="Eier" languagecode="1044" />
+              </labels>
+              <control id="header_ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false" />
+            </cell>
+            <cell id="{11500823-aa76-4932-a749-f66780cceda5}" locklevel="0" colspan="1" rowspan="1">
+              <labels>
+                <label description="Status" languagecode="1033" />
+                <label description="Status" languagecode="1044" />
+              </labels>
+              <control id="header_statuscode" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="statuscode" disabled="false" />
+            </cell>
+          </row>
+        </rows>
+      </header>
+      <footer id="{98807ec9-74aa-4d48-b22f-6e034aa7bfa7}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{4475d72d-b41d-4b70-9f14-b6bc84926216}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{dcc2e182-8d00-4372-9ca6-1994ff8e195a}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{6a4dd9a8-49c3-459b-9785-2fcce24ccda9}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </footer>
+      <DisplayConditions Order="0" FallbackForm="true">
+        <Everyone />
+      </DisplayConditions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Main Form" languagecode="1033" />
+      <LocalizedName description="Standardformular" languagecode="1044" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="General form" languagecode="1033" />
+      <Description description="Generelt formular" languagecode="1044" />
+    </Descriptions>
+  </systemform>
+</forms>
