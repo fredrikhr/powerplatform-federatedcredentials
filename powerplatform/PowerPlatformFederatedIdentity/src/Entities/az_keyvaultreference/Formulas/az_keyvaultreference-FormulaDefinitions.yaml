@@ -19,7 +19,13 @@ az_templatesourcecomponentkeytypevalue: |-
 az_templatesourcetypevalue: |-
     =If(
         Not(IsBlank(az_keyvaultreference_parent)),
-        Text(az_keyvaultreference_parent.az_templatetype),
+        Switch(
+            az_keyvaultreference_parent.az_templatetype,
+            global_az_keyvaultdataobjecttype.'0', "0",
+            global_az_keyvaultdataobjecttype.'1', "1",
+            global_az_keyvaultdataobjecttype.'2', "2",
+            "0"
+        ),
         Not(IsBlank(az_keyvaultreference_parentcomponent)),
         az_templatesourcecomponentkeytypevalue
     )

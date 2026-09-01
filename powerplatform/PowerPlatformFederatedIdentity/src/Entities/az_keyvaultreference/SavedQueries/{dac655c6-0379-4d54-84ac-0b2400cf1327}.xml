@@ -10,8 +10,10 @@
     <layoutxml>
       <grid name="az_keyvaultreferences" jump="az_displayname" select="1" icon="1" preview="1">
         <row name="az_keyvaultreference" id="az_keyvaultreferenceid">
-          <cell name="az_displayname" width="300" />
-          <cell name="createdon" width="125" />
+          <cell name="az_name" width="80" />
+          <cell name="az_version" width="80" />
+          <cell name="az_vaulturi" width="125" />
+          <cell name="az_type" width="50" />
         </row>
       </grid>
     </layoutxml>
@@ -20,9 +22,13 @@
       <fetch version="1.0" mapping="logical">
         <entity name="az_keyvaultreference">
           <attribute name="az_keyvaultreferenceid" />
-          <attribute name="az_displayname" />
-          <attribute name="createdon" />
-          <order attribute="az_displayname" descending="false" />
+          <attribute name="az_vaulturi" />
+          <attribute name="az_name" />
+          <attribute name="az_version" />
+          <attribute name="az_type" />
+          <order attribute="az_vaulturi" descending="false" />
+          <order attribute="az_name" descending="false" />
+          <order attribute="createdon" descending="false" />
           <filter type="and">
             <condition attribute="statecode" operator="eq" value="0" />
           </filter>
@@ -32,6 +38,7 @@
     <IntroducedVersion>3.0.0</IntroducedVersion>
     <LocalizedNames>
       <LocalizedName description="Azure Key Vault Reference Associated View" languagecode="1033" />
+      <LocalizedName description="Azure Key Vault Referanse assosiert visning" languagecode="1044" />
     </LocalizedNames>
   </savedquery>
 </savedqueries>

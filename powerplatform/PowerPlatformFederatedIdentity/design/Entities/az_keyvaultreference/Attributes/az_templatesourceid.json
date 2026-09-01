@@ -19,11 +19,11 @@
     "LocalizedLabels": [
       {
         "LanguageCode": 1033,
-        "Label": "Source"
+        "Label": "Parent"
       },
       {
         "LanguageCode": 1044,
-        "Label": "Kilde"
+        "Label": "Overordnet"
       }
     ]
   },
@@ -31,11 +31,11 @@
     "LocalizedLabels": [
       {
         "LanguageCode": 1033,
-        "Label": "A reference to the version-less record serving as the source for the base information of a versioned Azure Key Vault Reference."
+        "Label": "A reference to the version-less record representing the parent containing the base information of a versioned Azure Key Vault Reference."
       },
       {
         "LanguageCode": 1044,
-        "Label": "Referance til en uversjonert oppføring som representerer kilden for kjerneinformasjonen av en versjonert Azure Key Vault referanse."
+        "Label": "Referance til en uversjonert oppføring som representerer overordnet kjerneinformasjon av en versjonert Azure Key Vault referanse."
       }
     ]
   }

@@ -36,28 +36,43 @@
             </column>
             <column width="33%">
               <sections>
-                <section id="02DECBA0-3AE2-484D-A19F-C5353AF4F4F2" name="section_parent" columns="1" showlabel="true" showbar="false" IsUserDefined="0" labelwidth="130" labelid="{b6ed61eb-3808-49e0-aa34-22d89e6f9ee9}">
+                <section id="02DECBA0-3AE2-484D-A19F-C5353AF4F4F2" name="section_versioned" columns="1" showlabel="true" showbar="false" IsUserDefined="0" labelwidth="130" labelid="{b6ed61eb-3808-49e0-aa34-22d89e6f9ee9}">
                   <labels>
-                    <label description="Parent" languagecode="1033" />
-                    <label description="Overordnet" languagecode="1044" />
+                    <label description="With Version" languagecode="1033" />
+                    <label description="Med versjon" languagecode="1044" />
                   </labels>
                   <rows>
                     <row>
                       <cell id="{664079bb-faaf-4eb1-9fbc-ffa5a0c23a70}" locklevel="0" colspan="1" rowspan="1">
                         <labels>
-                          <label description="Source" languagecode="1033" />
-                          <label description="Kilde" languagecode="1044" />
+                          <label description="Parent" languagecode="1033" />
+                          <label description="Overordnet" languagecode="1044" />
                         </labels>
-                        <control id="az_templatesourceid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="az_templatesourceid" disabled="false" />
+                        <control id="az_templatesourceid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="az_templatesourceid" disabled="false">
+                          <parameters>
+                            <DefaultViewId>{9F098D69-77CD-406F-8255-B3E82BC626C1}</DefaultViewId>
+                            <AvailableViewIds>{9F098D69-77CD-406F-8255-B3E82BC626C1}</AvailableViewIds>
+                            <DisableViewPicker>true</DisableViewPicker>
+                          </parameters>
+                        </control>
                       </cell>
                     </row>
                     <row>
                       <cell id="{06bee4d3-e472-49c5-818d-19dcf9291da4}" locklevel="0" colspan="1" rowspan="1">
                         <labels>
-                          <label description="Source" languagecode="1033" />
-                          <label description="Kilde" languagecode="1044" />
+                          <label description="Parent (Component)" languagecode="1033" />
+                          <label description="Overordnet (Komponent)" languagecode="1044" />
                         </labels>
                         <control id="az_templatesourcecomponentid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="az_templatesourcecomponentid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{fdc8b7e0-3a93-485c-ae68-9320efddf852}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Version" languagecode="1033" />
+                          <label description="Versjon" languagecode="1044" />
+                        </labels>
+                        <control id="az_version" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="az_version" disabled="false" />
                       </cell>
                     </row>
                   </rows>
@@ -66,10 +81,10 @@
             </column>
             <column width="33%">
               <sections>
-                <section id="46FD66EA-B686-41D9-AAE0-C565BD78EC1F" name="section_template" columns="1" showlabel="true" showbar="false" IsUserDefined="0" labelwidth="130" labelid="{c47f787f-e1f9-4d87-864e-b8b765d9a836}">
+                <section id="46FD66EA-B686-41D9-AAE0-C565BD78EC1F" name="section_toplevel" columns="1" showlabel="true" showbar="false" IsUserDefined="0" labelwidth="130" labelid="{c47f787f-e1f9-4d87-864e-b8b765d9a836}">
                   <labels>
-                    <label description="Template" languagecode="1033" />
-                    <label description="Mal" languagecode="1044" />
+                    <label description="Top-Level" languagecode="1033" />
+                    <label description="Overordnet" languagecode="1044" />
                   </labels>
                   <rows>
                     <row>

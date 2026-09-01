@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{378e7fd7-8e95-f111-b8dc-70a8a52e6a7e}" Name="Azure Key Vault Reference | Source fields control template mode" Description="Changes the field state of Azure Key Vault Reference to or from template mode based on whether a source field contains data" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <XamlFileName>/Workflows/AzureKeyVaultReferenceSourcefieldscontroltemplatem-378E7FD7-8E95-F111-B8DC-70A8A52E6A7E.xaml</XamlFileName>
+<Workflow WorkflowId="{570b67ff-4253-4c62-8c07-db4c48dbceb9}" Name="Azure Key Vault Reference | Parent, Parent (component) → Visibility Name" Description="Decide visibility of field Name based on value for field Parent or Parent (component)" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/AzureKeyVaultReferenceParentParentcomponentVisibil-570B67FF-4253-4C62-8C07-DB4C48DBCEB9.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
   <Category>2</Category>
@@ -23,9 +23,9 @@
   <ModernFlowType>0</ModernFlowType>
   <PrimaryEntity>az_keyvaultreference</PrimaryEntity>
   <LocalizedNames>
-    <LocalizedName languagecode="1033" description="Azure Key Vault Reference | Source fields control template mode" />
+    <LocalizedName languagecode="1033" description="Azure Key Vault Reference | Parent, Parent (component) → Visibility Name" />
   </LocalizedNames>
   <Descriptions>
-    <Description languagecode="1033" description="Changes the field state of Azure Key Vault Reference to or from template mode based on whether a source field contains data" />
+    <Description languagecode="1033" description="Decide visibility of field Name based on value for field Parent or Parent (component)" />
   </Descriptions>
 </Workflow>

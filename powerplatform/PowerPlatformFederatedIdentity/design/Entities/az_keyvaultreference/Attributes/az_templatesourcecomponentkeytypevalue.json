@@ -28,11 +28,11 @@
     "LocalizedLabels": [
       {
         "LanguageCode": 1033,
-        "Label": "Source (Component) Type (value)"
+        "Label": "Parent (Component) Type (value)"
       },
       {
         "LanguageCode": 1044,
-        "Label": "Source (Component) type (verdi)"
+        "Label": "Overordnet (Komponent) type (verdi)"
       }
     ]
   },

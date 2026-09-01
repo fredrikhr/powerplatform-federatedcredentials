@@ -18,8 +18,8 @@
     <ReferencingAttributeName>az_templatesourcecomponentid</ReferencingAttributeName>
     <RelationshipDescription>
       <Descriptions>
-        <Description description="A reference to the version-less record serving as the source for the base information of a versioned Azure Key Vault Reference." languagecode="1033" />
-        <Description description="Referance til en uversjonert oppføring som representerer kilden for kjerneinformasjonen av en versjonert Azure Key Vault referanse." languagecode="1044" />
+        <Description description="A reference to the version-less record serving as the parent containing the base information of a versioned Azure Key Vault Reference." languagecode="1033" />
+        <Description description="Referance til en uversjonert oppføring som representerer overordnet kjerneinformasjon av en versjonert Azure Key Vault referanse." languagecode="1044" />
       </Descriptions>
     </RelationshipDescription>
     <EntityRelationshipRoles>

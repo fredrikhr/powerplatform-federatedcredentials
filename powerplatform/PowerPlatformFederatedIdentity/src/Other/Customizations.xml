@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26081.135" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26081.00135">
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26083.148" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26083.00148">
   <Entities />
   <Roles />
   <Workflows />
@@ -11,7 +11,19 @@
   <optionsets />
   <WebResources />
   <CustomControls />
+  <AppModuleSiteMaps />
+  <AppModules />
   <EntityDataProviders />
+  <connectionreferences>
+    <connectionreference connectionreferencelogicalname="pwrplatf_federatedidentity_dataverse">
+      <connectionreferencedisplayname>Power Platform Federated Identity | Dataverse</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+      <iscustomizable>1</iscustomizable>
+      <promptingbehavior>0</promptingbehavior>
+      <statecode>0</statecode>
+      <statuscode>1</statuscode>
+    </connectionreference>
+  </connectionreferences>
   <Languages>
     <Language>1033</Language>
     <Language>1044</Language>

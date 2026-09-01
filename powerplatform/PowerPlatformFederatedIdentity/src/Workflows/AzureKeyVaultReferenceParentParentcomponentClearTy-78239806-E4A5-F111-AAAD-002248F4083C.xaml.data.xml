@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{78239806-e4a5-f111-aaad-002248f4083c}" Name="Azure Key Vault Reference | Parent, Parent (component) → Clear Type" Description="Clear field Type when either Parent or Parent (component) is specified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/AzureKeyVaultReferenceParentParentcomponentClearTy-78239806-E4A5-F111-AAAD-002248F4083C.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>3.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ProcessTriggerScope>2</ProcessTriggerScope>
+  <ModernFlowType>0</ModernFlowType>
+  <PrimaryEntity>az_keyvaultreference</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Azure Key Vault Reference | Parent, Parent (component) → Clear Type" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Clear field Type when either Parent or Parent (component) is specified" />
+  </Descriptions>
+</Workflow>

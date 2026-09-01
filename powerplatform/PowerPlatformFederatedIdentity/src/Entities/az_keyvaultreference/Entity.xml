@@ -212,12 +212,12 @@
           <LookupStyle>single</LookupStyle>
           <LookupTypes />
           <displaynames>
-            <displayname description="Source (component)" languagecode="1033" />
-            <displayname description="Kilde (komponent)" languagecode="1044" />
+            <displayname description="Parent (Component)" languagecode="1033" />
+            <displayname description="Overordnet (Komponent)" languagecode="1044" />
           </displaynames>
           <Descriptions>
-            <Description description="A reference to the version-less record serving as the source for the base information of a versioned Azure Key Vault Reference." languagecode="1033" />
-            <Description description="Referance til en uversjonert oppføring som representerer kilden for kjerneinformasjonen av en versjonert Azure Key Vault referanse." languagecode="1044" />
+            <Description description="A reference to the version-less record serving as the parent containing the base information of a versioned Azure Key Vault Reference." languagecode="1033" />
+            <Description description="Referance til en uversjonert oppføring som representerer overordnet kjerneinformasjon av en versjonert Azure Key Vault referanse." languagecode="1044" />
           </Descriptions>
         </attribute>
         <attribute PhysicalName="az_templatesourcecomponentkeytypevalue">
@@ -254,8 +254,8 @@
           <MaxLength>4000</MaxLength>
           <Length>8000</Length>
           <displaynames>
-            <displayname description="Source (Component) Type (value)" languagecode="1033" />
-            <displayname description="Source (Component) type (verdi)" languagecode="1044" />
+            <displayname description="Parent (Component) Type (value)" languagecode="1033" />
+            <displayname description="Overordnet (Komponent) type (verdi)" languagecode="1044" />
           </displaynames>
           <Descriptions>
             <Description description="For internal use" languagecode="1033" />
@@ -297,12 +297,12 @@
           <LookupStyle>single</LookupStyle>
           <LookupTypes />
           <displaynames>
-            <displayname description="Source" languagecode="1033" />
-            <displayname description="Kilde" languagecode="1044" />
+            <displayname description="Parent" languagecode="1033" />
+            <displayname description="Overordnet" languagecode="1044" />
           </displaynames>
           <Descriptions>
-            <Description description="A reference to the version-less record serving as the source for the base information of a versioned Azure Key Vault Reference." languagecode="1033" />
-            <Description description="Referance til en uversjonert oppføring som representerer kilden for kjerneinformasjonen av en versjonert Azure Key Vault referanse." languagecode="1044" />
+            <Description description="A reference to the version-less record representing the parent containing the base information of a versioned Azure Key Vault Reference." languagecode="1033" />
+            <Description description="Referance til en uversjonert oppføring som representerer overordnet kjerneinformasjon av en versjonert Azure Key Vault referanse." languagecode="1044" />
           </Descriptions>
         </attribute>
         <attribute PhysicalName="az_templatesourcetypevalue">
@@ -339,8 +339,8 @@
           <MaxLength>4000</MaxLength>
           <Length>8000</Length>
           <displaynames>
-            <displayname description="Source Type (value)" languagecode="1033" />
-            <displayname description="Source Type (verdi)" languagecode="1044" />
+            <displayname description="Parent Type (value)" languagecode="1033" />
+            <displayname description="Overordnet Type (verdi)" languagecode="1044" />
           </displaynames>
           <Descriptions>
             <Description description="For internal use" languagecode="1033" />
