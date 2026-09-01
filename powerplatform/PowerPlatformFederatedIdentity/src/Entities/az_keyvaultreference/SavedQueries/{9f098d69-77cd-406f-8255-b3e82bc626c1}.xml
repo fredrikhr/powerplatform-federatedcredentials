@@ -5,40 +5,40 @@
     <CanBeDeleted>0</CanBeDeleted>
     <isquickfindquery>0</isquickfindquery>
     <isprivate>0</isprivate>
-    <isdefault>1</isdefault>
-    <savedqueryid>{95c86049-f549-4d80-aad1-656a0cef6bd3}</savedqueryid>
+    <isdefault>0</isdefault>
+    <savedqueryid>{9f098d69-77cd-406f-8255-b3e82bc626c1}</savedqueryid>
     <layoutxml>
-      <grid name="resultset" jump="az_displayname" select="1" icon="1" preview="1">
-        <row name="result" id="az_keyvaultreferenceid">
+      <grid name="az_keyvaultreferences" jump="az_displayname" select="1" icon="1" preview="0">
+        <row name="az_keyvaultreference" id="az_keyvaultreferenceid">
           <cell name="az_name" width="80" />
-          <cell name="az_version" width="80" />
           <cell name="az_vaulturi" width="125" />
           <cell name="az_type" width="50" />
         </row>
       </grid>
     </layoutxml>
-    <querytype>0</querytype>
+    <querytype>64</querytype>
     <fetchxml>
       <fetch version="1.0" mapping="logical">
         <entity name="az_keyvaultreference">
           <attribute name="az_keyvaultreferenceid" />
-          <attribute name="az_vaulturi" />
           <attribute name="az_name" />
-          <attribute name="az_version" />
+          <attribute name="az_vaulturi" />
           <attribute name="az_type" />
           <order attribute="az_vaulturi" descending="false" />
           <order attribute="az_name" descending="false" />
           <order attribute="createdon" descending="false" />
           <filter type="and">
             <condition attribute="statecode" operator="eq" value="0" />
+            <condition attribute="az_templatesourceid" operator="null" />
+            <condition attribute="az_templatesourcecomponentid" operator="null" />
           </filter>
         </entity>
       </fetch>
     </fetchxml>
     <IntroducedVersion>3.0.0</IntroducedVersion>
     <LocalizedNames>
-      <LocalizedName description="Active Azure Key Vault References" languagecode="1033" />
-      <LocalizedName description="Aktive Azure Key Vault Referanser" languagecode="1044" />
+      <LocalizedName description="Azure Key Vault Reference Lookup Parents" languagecode="1033" />
+      <LocalizedName description="Azure Key Vault Referanse Oppslag for overordnet" languagecode="1044" />
     </LocalizedNames>
   </savedquery>
 </savedqueries>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{962c1462-edc4-4d6a-9968-ceeb1eb59f84}" Name="Azure Key Vault Reference | Parent, Key Vault Name → Requirement Parent (component)" Description="Decide requirement of field Parent (component) based on value for field Parent or Key Vault Name" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/AzureKeyVaultReferenceParentKeyVaultNameRequiremen-962C1462-EDC4-4D6A-9968-CEEB1EB59F84.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>3.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ProcessTriggerScope>2</ProcessTriggerScope>
+  <ModernFlowType>0</ModernFlowType>
+  <PrimaryEntity>az_keyvaultreference</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="Azure Key Vault Reference | Parent, Key Vault Name → Requirement Parent (component)" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description languagecode="1033" description="Decide requirement of field Parent (component) based on value for field Parent or Key Vault Name" />
+  </Descriptions>
+</Workflow>

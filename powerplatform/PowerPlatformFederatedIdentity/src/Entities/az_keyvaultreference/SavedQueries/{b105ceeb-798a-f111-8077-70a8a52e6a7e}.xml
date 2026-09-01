@@ -12,6 +12,13 @@
       <fetch version="1.0" mapping="logical" output-format="xml-platform">
         <entity name="az_keyvaultreference">
           <attribute name="az_keyvaultreferenceid" />
+          <attribute name="az_vaulturi" />
+          <attribute name="az_name" />
+          <attribute name="az_version" />
+          <attribute name="az_type" />
+          <order attribute="az_vaulturi" descending="false" />
+          <order attribute="az_name" descending="false" />
+          <order attribute="createdon" descending="false" />
           <filter type="and">
             <condition attribute="statecode" operator="eq" value="0" />
           </filter>
@@ -20,10 +27,12 @@
     </fetchxml>
     <IntroducedVersion>3.0.0</IntroducedVersion>
     <LocalizedNames>
-      <LocalizedName description="Azure Key Vault References" languagecode="1033" />
+      <LocalizedName description="Active Azure Key Vault References" languagecode="1033" />
+      <LocalizedName description="Aktive Azure Key Vault Referanser" languagecode="1044" />
     </LocalizedNames>
     <Descriptions>
-      <Description description="Alle aktive Azure Key Vault References" languagecode="1033" />
+      <Description description="All active Azure Key Vault References" languagecode="1033" />
+      <Description description="Alle aktive Azure Key Vault Referanser" languagecode="1044" />
     </Descriptions>
   </savedquery>
 </savedqueries>

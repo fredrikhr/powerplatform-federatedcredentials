@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Workflow WorkflowId="{3915bf8c-9095-f111-b8dc-70a8a52e6a7e}" Name="Azure Key Vault Reference | Source and template fields mutually exclusive" Description="Source fields are mutually exclusive. Source field and any template field are mutually exclusive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <XamlFileName>/Workflows/AzureKeyVaultReferenceSourceandtemplatefieldsmutua-3915BF8C-9095-F111-B8DC-70A8A52E6A7E.xaml</XamlFileName>
+<Workflow WorkflowId="{8f3470dd-d9a5-f111-aaad-002248f4083c}" Name="Azure Key Vault Reference | Parent (component), Key Vault Name → Clear Parent" Description="Clear field Parent when either Parent (component) or Key Vault Name is specified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/AzureKeyVaultReferenceParentcomponentKeyVaultNameC-8F3470DD-D9A5-F111-AAAD-002248F4083C.xaml</XamlFileName>
   <Type>1</Type>
   <Subprocess>0</Subprocess>
   <Category>2</Category>
@@ -23,9 +23,9 @@
   <ModernFlowType>0</ModernFlowType>
   <PrimaryEntity>az_keyvaultreference</PrimaryEntity>
   <LocalizedNames>
-    <LocalizedName languagecode="1033" description="Azure Key Vault Reference | Source and template fields mutually exclusive" />
+    <LocalizedName languagecode="1033" description="Azure Key Vault Reference | Parent (component), Key Vault Name → Clear Parent" />
   </LocalizedNames>
   <Descriptions>
-    <Description languagecode="1033" description="Source fields are mutually exclusive. Source field and any template field are mutually exclusive" />
+    <Description languagecode="1033" description="Clear field Parent when either Parent (component) or Key Vault Name is specified" />
   </Descriptions>
 </Workflow>

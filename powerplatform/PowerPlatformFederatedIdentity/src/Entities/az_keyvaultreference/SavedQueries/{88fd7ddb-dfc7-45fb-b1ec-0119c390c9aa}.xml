@@ -5,27 +5,23 @@
     <CanBeDeleted>0</CanBeDeleted>
     <isquickfindquery>0</isquickfindquery>
     <isprivate>0</isprivate>
-    <isdefault>1</isdefault>
-    <savedqueryid>{95c86049-f549-4d80-aad1-656a0cef6bd3}</savedqueryid>
+    <isdefault>0</isdefault>
+    <savedqueryid>{88fd7ddb-dfc7-45fb-b1ec-0119c390c9aa}</savedqueryid>
     <layoutxml>
-      <grid name="resultset" jump="az_displayname" select="1" icon="1" preview="1">
-        <row name="result" id="az_keyvaultreferenceid">
-          <cell name="az_name" width="80" />
+      <grid name="az_keyvaultreferences" jump="az_displayname" select="1" icon="1" preview="1">
+        <row name="az_keyvaultreference" id="az_keyvaultreferenceid">
           <cell name="az_version" width="80" />
-          <cell name="az_vaulturi" width="125" />
-          <cell name="az_type" width="50" />
+          <cell name="createdon" width="80" />
         </row>
       </grid>
     </layoutxml>
-    <querytype>0</querytype>
+    <querytype>2</querytype>
     <fetchxml>
       <fetch version="1.0" mapping="logical">
         <entity name="az_keyvaultreference">
           <attribute name="az_keyvaultreferenceid" />
-          <attribute name="az_vaulturi" />
-          <attribute name="az_name" />
           <attribute name="az_version" />
-          <attribute name="az_type" />
+          <attribute name="createdon" />
           <order attribute="az_vaulturi" descending="false" />
           <order attribute="az_name" descending="false" />
           <order attribute="createdon" descending="false" />
@@ -37,8 +33,12 @@
     </fetchxml>
     <IntroducedVersion>3.0.0</IntroducedVersion>
     <LocalizedNames>
-      <LocalizedName description="Active Azure Key Vault References" languagecode="1033" />
-      <LocalizedName description="Aktive Azure Key Vault Referanser" languagecode="1044" />
+      <LocalizedName description="Azure Key Vault Reference versions" languagecode="1033" />
+      <LocalizedName description="Azure Key Vault Referanse versjoner" languagecode="1044" />
     </LocalizedNames>
+    <Descriptions>
+      <Description description="Displays specific versioned records from the selected parent record" languagecode="1033" />
+      <Description description="Viser oppføringer med versjonsidentifikator som er underordnet valgt oppføring" languagecode="1044" />
+    </Descriptions>
   </savedquery>
 </savedqueries>

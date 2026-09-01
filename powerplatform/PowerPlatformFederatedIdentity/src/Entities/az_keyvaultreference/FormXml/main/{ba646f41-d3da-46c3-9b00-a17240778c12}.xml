@@ -24,17 +24,23 @@
                     <row>
                       <cell id="{c1e435b0-db62-4ca3-b7c5-bdeca93f1397}" locklevel="0" colspan="1" rowspan="1">
                         <labels>
-                          <label description="Source" languagecode="1033" />
-                          <label description="Kilde" languagecode="1044" />
+                          <label description="Parent" languagecode="1033" />
+                          <label description="Overordnet" languagecode="1044" />
                         </labels>
-                        <control id="az_templatesourceid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="az_templatesourceid" disabled="false" />
+                        <control id="az_templatesourceid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="az_templatesourceid" disabled="false">
+                          <parameters>
+                            <DefaultViewId>{9F098D69-77CD-406F-8255-B3E82BC626C1}</DefaultViewId>
+                            <AvailableViewIds>{9F098D69-77CD-406F-8255-B3E82BC626C1}</AvailableViewIds>
+                            <DisableViewPicker>true</DisableViewPicker>
+                          </parameters>
+                        </control>
                       </cell>
                     </row>
                     <row>
                       <cell id="{251892f2-b0f6-4816-96bb-b2ef8056176f}" locklevel="0" colspan="1" rowspan="1">
                         <labels>
-                          <label description="Source (component)" languagecode="1033" />
-                          <label description="Kilde (komponent)" languagecode="1044" />
+                          <label description="Parent (Component)" languagecode="1033" />
+                          <label description="Overordnet (Komponent)" languagecode="1044" />
                         </labels>
                         <control id="az_templatesourcecomponentid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="az_templatesourcecomponentid" disabled="false" />
                       </cell>
@@ -100,6 +106,36 @@
                           <label description="Versjon" languagecode="1044" />
                         </labels>
                         <control id="az_version" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="az_version" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="section_versions" id="a3cc1279-a9ac-4887-a50e-dd0ca254b9e9" IsUserDefined="0" locklevel="0" showlabel="false" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115">
+                  <labels>
+                    <label description="Versions" languagecode="1033" />
+                    <label description="Versjoner" languagecode="1044" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell locklevel="0" id="{2ae0575d-c61d-446c-9153-97bdec42a52f}" rowspan="4" colspan="1" auto="true" showlabel="true">
+                        <labels>
+                          <label description="Versions" languagecode="1033" />
+                          <label description="Versjoner" languagecode="1044" />
+                        </labels>
+                        <control indicationOfSubgrid="true" id="subgrid_versions" classid="{E7A81278-8635-4D9E-8D4D-59480B391C5B}">
+                          <parameters>
+                            <RecordsPerPage>20</RecordsPerPage>
+                            <AutoExpand>Auto</AutoExpand>
+                            <EnableQuickFind>false</EnableQuickFind>
+                            <EnableViewPicker>false</EnableViewPicker>
+                            <EnableChartPicker>false</EnableChartPicker>
+                            <ChartGridMode>Grid</ChartGridMode>
+                            <RelationshipName>az_keyvaultreference_templatesource_hierarchical</RelationshipName>
+                            <TargetEntityType>az_keyvaultreference</TargetEntityType>
+                            <ViewId>{88fd7ddb-dfc7-45fb-b1ec-0119c390c9aa}</ViewId>
+                            <ViewIds>{88fd7ddb-dfc7-45fb-b1ec-0119c390c9aa}</ViewIds>
+                          </parameters>
+                        </control>
                       </cell>
                     </row>
                   </rows>
