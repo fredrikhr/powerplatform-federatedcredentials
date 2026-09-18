@@ -9,7 +9,7 @@ using Azure.ResourceManager.Resources;
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins;
 
-internal class KeyVaultDataAccessEvaluator(
+internal sealed class KeyVaultDataAccessEvaluator(
     ArmClient armClient,
     ResourceIdentifier keyVaultObjectResourceIdentifier,
     Guid entraIdPrincipalObjectId)

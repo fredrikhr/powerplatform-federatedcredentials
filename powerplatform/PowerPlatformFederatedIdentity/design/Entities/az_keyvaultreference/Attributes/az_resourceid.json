@@ -1,0 +1,48 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Text"
+  },
+  "MaxLength": 1024,
+  "RequiredLevel": {
+    "Value": "None"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": true,
+  "IsValidForRead": true,
+  "IsValidForUpdate": true,
+  "IsRequiredForForm": false,
+  "IsValidForForm": true,
+  "IsValidForGrid": false,
+  "IsValidForAdvancedFind": { "Value": false },
+  "LogicalName": "az_resourceid",
+  "SchemaName": "az_resourceid",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Resource ID"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Ressurs-ID"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Azure Resource Manager (ARM) Resource ID"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Azure Resource Manager (ARM) Resource ID"
+      }
+    ]
+  }
+}

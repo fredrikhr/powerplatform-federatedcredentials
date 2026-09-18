@@ -47,6 +47,18 @@ az_type: |-
         ),
         az_templatetype
     )
+az_vaultobjectidcollectionname: |-
+    =Switch(
+        az_type,
+        global_az_keyvaultdataobjecttype.'0',
+        "secrets",
+        global_az_keyvaultdataobjecttype.'1',
+        "certificates",
+        global_az_keyvaultdataobjecttype.'2',
+        "certificates",
+        "secrets"
+    )
+az_vaultobjectiduri: =az_vaulturi & az_vaultobjectidcollectionname & "/" & az_name & If(Not(IsBlank(az_version)), "/" & az_version)
 az_vaulturi: |-
     =If(
         Not(IsBlank(az_keyvaultreference_parent)),

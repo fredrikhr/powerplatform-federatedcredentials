@@ -17,7 +17,8 @@
     "plugintype",
     "sdkmessageprocessingstep",
     "systemuser",
-    "applicationuser"
+    "applicationuser",
+    "az_keyvaultreference"
   ],
   "emitEntityETC": false,
   "emitVirtualAttributes": false

@@ -142,6 +142,8 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			public const string OwningBusinessUnit = "owningbusinessunit";
 			public const string OwningTeam = "owningteam";
 			public const string OwningUser = "owninguser";
+			public const string ParentAgentBlueprintId = "parentagentblueprintid";
+			public const string ParentAgentIdentityId = "parentagentidentityid";
 			public const string SolutionId = "solutionid";
 			public const string statecode = "statecode";
 			public const string statuscode = "statuscode";
@@ -515,10 +517,6 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("owningbusinessunit");
 			}
-			set
-			{
-				this.SetAttributeValue("owningbusinessunit", value);
-			}
 		}
 		
 		/// <summary>
@@ -542,6 +540,38 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("owninguser");
+			}
+		}
+		
+		/// <summary>
+		/// ParentAgentBlueprintId
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentagentblueprintid")]
+		public System.Nullable<System.Guid> ParentAgentBlueprintId
+		{
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.Guid>>("parentagentblueprintid");
+			}
+			set
+			{
+				this.SetAttributeValue("parentagentblueprintid", value);
+			}
+		}
+		
+		/// <summary>
+		/// ParentAgentIdentityId
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentagentidentityid")]
+		public System.Nullable<System.Guid> ParentAgentIdentityId
+		{
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.Guid>>("parentagentidentityid");
+			}
+			set
+			{
+				this.SetAttributeValue("parentagentidentityid", value);
 			}
 		}
 		

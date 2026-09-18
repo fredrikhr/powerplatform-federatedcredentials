@@ -1,0 +1,142 @@
+[
+  {
+    "Value": 1,
+    "StateCode": 0,
+    "Label": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "New"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Ny"
+        }
+      ]
+    },
+    "Description": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "The record has been created, but has not yet been validated with Azure Resource Manager"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Oppføringen har blitt opprettet, men er ikke ennå validert med Azure Resource Manager"
+        }
+      ]
+    }
+  },
+  {
+    "Value": 2,
+    "StateCode": 1,
+    "Label": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "Deactivated"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Deaktivert"
+        }
+      ]
+    },
+    "Description": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "The record has been deactivated"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Oppføringen har blitt deaktivert"
+        }
+      ]
+    }
+  },
+  {
+    "Value": 3,
+    "StateCode": 0,
+    "Label": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "Validated"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Validert"
+        }
+      ]
+    },
+    "Description": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "The record has been validated with Azure Resource Manager"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Oppføringen har blitt validert mot Azure Resource Manager"
+        }
+      ]
+    }
+  },
+  {
+    "Value": 4,
+    "StateCode": 1,
+    "Label": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "Invalid Key Vault"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Ugyldig Key Vault"
+        }
+      ]
+    },
+    "Description": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "Referenced Azure Key Vault not found or inaccessible"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Angitt Azure Key Vault er ikke tilgjengelig eller finnes ikke"
+        }
+      ]
+    }
+  },
+  {
+    "Value": 5,
+    "StateCode": 1,
+    "Label": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "Invalid Reference"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Ugyldig Referanse"
+        }
+      ]
+    },
+    "Description": {
+      "LocalizedLabels": [
+        {
+          "LanguageCode": 1033,
+          "Label": "Referenced object within Azure Key Vault not found or inaccessible"
+        },
+        {
+          "LanguageCode": 1044,
+          "Label": "Angitt object innenfor Azure Key Vault er ikke tilgjengelig eller finnes ikke"
+        }
+      ]
+    }
+  }
+]

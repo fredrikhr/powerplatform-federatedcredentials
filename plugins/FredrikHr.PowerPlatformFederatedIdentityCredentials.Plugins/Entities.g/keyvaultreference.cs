@@ -120,6 +120,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			public const string TimeZoneRuleVersionNumber = "timezoneruleversionnumber";
 			public const string UTCConversionTimeZoneCode = "utcconversiontimezonecode";
 			public const string VersionNumber = "versionnumber";
+			public const string az_keyvaultreference_templatesource_keyvaultreference = "az_keyvaultreference_templatesource_keyvaultreference";
 			public const string keyvaultreference_ManagedIdentity = "keyvaultreference_ManagedIdentity";
 			public const string lk_keyvaultreference_createdby = "lk_keyvaultreference_createdby";
 			public const string lk_keyvaultreference_createdonbehalfby = "lk_keyvaultreference_createdonbehalfby";
@@ -454,10 +455,6 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("owningbusinessunit");
 			}
-			set
-			{
-				this.SetAttributeValue("owningbusinessunit", value);
-			}
 		}
 		
 		/// <summary>
@@ -585,6 +582,22 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
+			}
+		}
+		
+		/// <summary>
+		/// 1:N az_keyvaultreference_templatesource_keyvaultreference
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("az_keyvaultreference_templatesource_keyvaultreference")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference> az_keyvaultreference_templatesource_keyvaultreference
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("az_keyvaultreference_templatesource_keyvaultreference", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("az_keyvaultreference_templatesource_keyvaultreference", null, value);
 			}
 		}
 		

@@ -156,6 +156,7 @@ internal sealed class PluginDependencyAssemblyLoader : IDisposable
     {
         const string publicKeyToken = "PublicKeyToken=92742159e12e44c8";
         const string asmSys_CM = $"System.ClientModel, {publicKeyToken}";
+        const string asmSys_MD = $"System.Memory.Data, PublicKeyToken=cc7b13ffcd2ddd51";
         const string asmAz_C = $"Azure.Core, {publicKeyToken}";
         const string asmAz_S_Kv_S = $"Azure.Security.KeyVault.Secrets, {publicKeyToken}";
         const string asmAz_S_Kv_C = $"Azure.Security.KeyVault.Certificates, {publicKeyToken}";
@@ -164,9 +165,37 @@ internal sealed class PluginDependencyAssemblyLoader : IDisposable
         const string asmAz_RM_Authz = $"Azure.ResourceManager.Authorization, {publicKeyToken}";
         const string asmAz_RM_Kv = $"Azure.ResourceManager.KeyVault, {publicKeyToken}";
 
+        /*
+        GetFilePathsFromThisAssembly(_trace,
+            out string? path1,
+            out string? path2
+            );
+        List<string> paths = new(capacity: 2);
+        if (!string.IsNullOrEmpty(path1))
+            paths.Add(path1!);
+        if (!string.IsNullOrEmpty(path2) && !path2!.Equals(path1, StringComparison.OrdinalIgnoreCase))
+            paths.Add(path2);
+        foreach (string path in paths)
+        {
+            foreach (string dllPath in Directory.EnumerateFiles(path, "*.dll"))
+            {
+                try
+                {
+                    _trace.Trace("Preloading assembly: {0}", dllPath);
+                    Assembly.LoadFile(dllPath);
+                }
+                catch (Exception assemblyLoadExcept)
+                {
+                    PluginBase.TraceException(_trace, assemblyLoadExcept);
+                }
+            }
+        }
+        */
+
         try
         {
             Assembly.Load(asmSys_CM);
+            Assembly.Load(asmSys_MD);
             Assembly.Load(asmAz_C);
             Assembly.Load(asmAz_S_Kv_S);
             Assembly.Load(asmAz_S_Kv_C);

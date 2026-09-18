@@ -12,7 +12,6 @@
         <row name="az_keyvaultreference" id="az_keyvaultreferenceid">
           <cell name="az_name" width="80" />
           <cell name="az_vaulturi" width="125" />
-          <cell name="az_version" width="80" />
           <cell name="az_type" width="50" />
         </row>
       </grid>

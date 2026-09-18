@@ -12,6 +12,7 @@
         <row name="az_keyvaultreference" id="az_keyvaultreferenceid">
           <cell name="az_version" width="80" />
           <cell name="createdon" width="80" />
+          <cell name="statuscode" width="50" />
         </row>
       </grid>
     </layoutxml>
@@ -22,6 +23,7 @@
           <attribute name="az_keyvaultreferenceid" />
           <attribute name="az_version" />
           <attribute name="createdon" />
+          <attribute name="statuscode" />
           <order attribute="az_vaulturi" descending="false" />
           <order attribute="az_name" descending="false" />
           <order attribute="createdon" descending="false" />

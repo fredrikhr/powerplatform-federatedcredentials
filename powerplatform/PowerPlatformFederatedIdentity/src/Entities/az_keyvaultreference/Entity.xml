@@ -136,6 +136,90 @@
           </Descriptions>
           <FormulaDefinitionFileName>/Formulas/az_keyvaultreference-FormulaDefinitions.yaml</FormulaDefinitionFileName>
         </attribute>
+        <attribute PhysicalName="az_resourceid">
+          <Type>nvarchar</Type>
+          <Name>az_resourceid</Name>
+          <LogicalName>az_resourceid</LogicalName>
+          <RequiredLevel>none</RequiredLevel>
+          <DisplayMask>ValidForForm|ValidForGrid</DisplayMask>
+          <ImeMode>auto</ImeMode>
+          <ValidForUpdateApi>1</ValidForUpdateApi>
+          <ValidForReadApi>1</ValidForReadApi>
+          <ValidForCreateApi>1</ValidForCreateApi>
+          <IsCustomField>1</IsCustomField>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsSecured>0</IsSecured>
+          <IntroducedVersion>3.0.0</IntroducedVersion>
+          <IsCustomizable>1</IsCustomizable>
+          <IsRenameable>1</IsRenameable>
+          <CanModifySearchSettings>1</CanModifySearchSettings>
+          <CanModifyRequirementLevelSettings>1</CanModifyRequirementLevelSettings>
+          <CanModifyAdditionalSettings>1</CanModifyAdditionalSettings>
+          <SourceType>0</SourceType>
+          <IsGlobalFilterEnabled>0</IsGlobalFilterEnabled>
+          <IsSortableEnabled>0</IsSortableEnabled>
+          <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
+          <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
+          <IsDataSourceSecret>0</IsDataSourceSecret>
+          <AutoNumberFormat></AutoNumberFormat>
+          <IsSearchable>0</IsSearchable>
+          <IsFilterable>0</IsFilterable>
+          <IsRetrievable>0</IsRetrievable>
+          <IsLocalizable>0</IsLocalizable>
+          <Format>text</Format>
+          <MaxLength>1024</MaxLength>
+          <Length>2048</Length>
+          <displaynames>
+            <displayname description="Resource ID" languagecode="1033" />
+            <displayname description="Ressurs-ID" languagecode="1044" />
+          </displaynames>
+          <Descriptions>
+            <Description description="Azure Resource Manager (ARM) Resource ID" languagecode="1033" />
+            <Description description="Azure Resource Manager (ARM) Resource ID" languagecode="1044" />
+          </Descriptions>
+        </attribute>
+        <attribute PhysicalName="az_resourcevalidatedon">
+          <Type>datetime</Type>
+          <Name>az_resourcevalidatedon</Name>
+          <LogicalName>az_resourcevalidatedon</LogicalName>
+          <RequiredLevel>none</RequiredLevel>
+          <DisplayMask>ValidForForm|ValidForGrid</DisplayMask>
+          <ImeMode>inactive</ImeMode>
+          <ValidForUpdateApi>1</ValidForUpdateApi>
+          <ValidForReadApi>1</ValidForReadApi>
+          <ValidForCreateApi>1</ValidForCreateApi>
+          <IsCustomField>1</IsCustomField>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsSecured>0</IsSecured>
+          <IntroducedVersion>3.0.0</IntroducedVersion>
+          <IsCustomizable>1</IsCustomizable>
+          <IsRenameable>1</IsRenameable>
+          <CanModifySearchSettings>1</CanModifySearchSettings>
+          <CanModifyRequirementLevelSettings>1</CanModifyRequirementLevelSettings>
+          <CanModifyAdditionalSettings>1</CanModifyAdditionalSettings>
+          <SourceType>0</SourceType>
+          <IsGlobalFilterEnabled>0</IsGlobalFilterEnabled>
+          <IsSortableEnabled>0</IsSortableEnabled>
+          <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
+          <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
+          <IsDataSourceSecret>0</IsDataSourceSecret>
+          <AutoNumberFormat></AutoNumberFormat>
+          <IsSearchable>0</IsSearchable>
+          <IsFilterable>0</IsFilterable>
+          <IsRetrievable>0</IsRetrievable>
+          <IsLocalizable>0</IsLocalizable>
+          <Format>datetime</Format>
+          <CanChangeDateTimeBehavior>1</CanChangeDateTimeBehavior>
+          <Behavior>1</Behavior>
+          <displaynames>
+            <displayname description="Resource validated on" languagecode="1033" />
+            <displayname description="Ressurs validert den" languagecode="1044" />
+          </displaynames>
+          <Descriptions>
+            <Description description="Date and time when the record was last validated with Azure Resource Manager" languagecode="1033" />
+            <Description description="Tid og dato når oppføringen sist ble validert mot Azure Resource Manager" languagecode="1044" />
+          </Descriptions>
+        </attribute>
         <attribute PhysicalName="az_templatename">
           <Type>nvarchar</Type>
           <Name>az_templatename</Name>
@@ -516,6 +600,92 @@
           </Descriptions>
           <FormulaDefinitionFileName>/Formulas/az_keyvaultreference-FormulaDefinitions.yaml</FormulaDefinitionFileName>
         </attribute>
+        <attribute PhysicalName="az_vaultobjectidcollectionname">
+          <Type>nvarchar</Type>
+          <Name>az_vaultobjectidcollectionname</Name>
+          <LogicalName>az_vaultobjectidcollectionname</LogicalName>
+          <RequiredLevel>none</RequiredLevel>
+          <DisplayMask>ValidForForm|ValidForGrid</DisplayMask>
+          <ImeMode>auto</ImeMode>
+          <ValidForUpdateApi>0</ValidForUpdateApi>
+          <ValidForReadApi>1</ValidForReadApi>
+          <ValidForCreateApi>0</ValidForCreateApi>
+          <IsCustomField>1</IsCustomField>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsSecured>0</IsSecured>
+          <IntroducedVersion>3.0.0</IntroducedVersion>
+          <IsCustomizable>1</IsCustomizable>
+          <IsRenameable>1</IsRenameable>
+          <CanModifySearchSettings>1</CanModifySearchSettings>
+          <CanModifyRequirementLevelSettings>1</CanModifyRequirementLevelSettings>
+          <CanModifyAdditionalSettings>1</CanModifyAdditionalSettings>
+          <SourceType>3</SourceType>
+          <IsGlobalFilterEnabled>0</IsGlobalFilterEnabled>
+          <IsSortableEnabled>0</IsSortableEnabled>
+          <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
+          <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
+          <IsDataSourceSecret>0</IsDataSourceSecret>
+          <AutoNumberFormat></AutoNumberFormat>
+          <IsSearchable>0</IsSearchable>
+          <IsFilterable>0</IsFilterable>
+          <IsRetrievable>0</IsRetrievable>
+          <IsLocalizable>0</IsLocalizable>
+          <Format>text</Format>
+          <MaxLength>4000</MaxLength>
+          <Length>8000</Length>
+          <displaynames>
+            <displayname description="Key Vault ID Collection Name" languagecode="1033" />
+            <displayname description="Key Vault ID Samlingsnavn" languagecode="1044" />
+          </displaynames>
+          <Descriptions>
+            <Description description="For internal use" languagecode="1033" />
+            <Description description="For internt bruk" languagecode="1044" />
+          </Descriptions>
+          <FormulaDefinitionFileName>/Formulas/az_keyvaultreference-FormulaDefinitions.yaml</FormulaDefinitionFileName>
+        </attribute>
+        <attribute PhysicalName="az_vaultobjectiduri">
+          <Type>nvarchar</Type>
+          <Name>az_vaultobjectiduri</Name>
+          <LogicalName>az_vaultobjectiduri</LogicalName>
+          <RequiredLevel>none</RequiredLevel>
+          <DisplayMask>ValidForAdvancedFind|ValidForForm|ValidForGrid</DisplayMask>
+          <ImeMode>auto</ImeMode>
+          <ValidForUpdateApi>0</ValidForUpdateApi>
+          <ValidForReadApi>1</ValidForReadApi>
+          <ValidForCreateApi>0</ValidForCreateApi>
+          <IsCustomField>1</IsCustomField>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsSecured>0</IsSecured>
+          <IntroducedVersion>3.0.0</IntroducedVersion>
+          <IsCustomizable>1</IsCustomizable>
+          <IsRenameable>1</IsRenameable>
+          <CanModifySearchSettings>1</CanModifySearchSettings>
+          <CanModifyRequirementLevelSettings>1</CanModifyRequirementLevelSettings>
+          <CanModifyAdditionalSettings>1</CanModifyAdditionalSettings>
+          <SourceType>3</SourceType>
+          <IsGlobalFilterEnabled>0</IsGlobalFilterEnabled>
+          <IsSortableEnabled>0</IsSortableEnabled>
+          <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
+          <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
+          <IsDataSourceSecret>0</IsDataSourceSecret>
+          <AutoNumberFormat></AutoNumberFormat>
+          <IsSearchable>0</IsSearchable>
+          <IsFilterable>0</IsFilterable>
+          <IsRetrievable>0</IsRetrievable>
+          <IsLocalizable>0</IsLocalizable>
+          <Format>url</Format>
+          <MaxLength>4000</MaxLength>
+          <Length>8000</Length>
+          <displaynames>
+            <displayname description="Key Vault Object URI" languagecode="1033" />
+            <displayname description="Key Vault Objekt URI" languagecode="1044" />
+          </displaynames>
+          <Descriptions>
+            <Description description="URI that identifies the referenced object in Azure Key Vault" languagecode="1033" />
+            <Description description="URI som identifiserer angitt objekt i Azure Key Vault" languagecode="1044" />
+          </Descriptions>
+          <FormulaDefinitionFileName>/Formulas/az_keyvaultreference-FormulaDefinitions.yaml</FormulaDefinitionFileName>
+        </attribute>
         <attribute PhysicalName="az_vaulturi">
           <Type>nvarchar</Type>
           <Name>az_vaulturi</Name>
@@ -546,7 +716,7 @@
           <IsFilterable>0</IsFilterable>
           <IsRetrievable>0</IsRetrievable>
           <IsLocalizable>0</IsLocalizable>
-          <Format>url</Format>
+          <Format>text</Format>
           <MaxLength>4000</MaxLength>
           <Length>8000</Length>
           <displaynames>
@@ -1209,17 +1379,55 @@
               <Description description="Status for Azure Key Vault Referanse" languagecode="1044" />
             </Descriptions>
             <statuses>
+              <status value="3" state="0" IsHidden="0">
+                <labels>
+                  <label description="Validated" languagecode="1033" />
+                  <label description="Validert" languagecode="1044" />
+                </labels>
+                <Descriptions>
+                  <Description description="The record has been validated with Azure Resource Manager" languagecode="1033" />
+                  <Description description="Oppføringen har blitt validert mot Azure Resource Manager" languagecode="1044" />
+                </Descriptions>
+              </status>
               <status value="1" state="0" IsHidden="0">
                 <labels>
-                  <label description="Active" languagecode="1033" />
-                  <label description="Aktiv" languagecode="1044" />
+                  <label description="New" languagecode="1033" />
+                  <label description="Ny" languagecode="1044" />
                 </labels>
+                <Descriptions>
+                  <Description description="The record has been created, but has not yet been validated with Azure Resource Manager" languagecode="1033" />
+                  <Description description="Oppføringen har blitt opprettet, men er ikke ennå validert med Azure Resource Manager" languagecode="1044" />
+                </Descriptions>
               </status>
               <status value="2" state="1" IsHidden="0">
                 <labels>
-                  <label description="Inactive" languagecode="1033" />
-                  <label description="Inaktiv" languagecode="1044" />
+                  <label description="Deactivated" languagecode="1033" />
+                  <label description="Deaktivert" languagecode="1044" />
                 </labels>
+                <Descriptions>
+                  <Description description="The record has been deactivated" languagecode="1033" />
+                  <Description description="Oppføringen har blitt deaktivert" languagecode="1044" />
+                </Descriptions>
+              </status>
+              <status value="4" state="1" IsHidden="0">
+                <labels>
+                  <label description="Invalid Key Vault" languagecode="1033" />
+                  <label description="Ugyldig Key Vault" languagecode="1044" />
+                </labels>
+                <Descriptions>
+                  <Description description="Referenced Azure Key Vault not found or inaccessible" languagecode="1033" />
+                  <Description description="Angitt Azure Key Vault er ikke tilgjengelig eller finnes ikke" languagecode="1044" />
+                </Descriptions>
+              </status>
+              <status value="5" state="1" IsHidden="0">
+                <labels>
+                  <label description="Invalid Reference" languagecode="1033" />
+                  <label description="Ugyldig Referanse" languagecode="1044" />
+                </labels>
+                <Descriptions>
+                  <Description description="Referenced object within Azure Key Vault not found or inaccessible" languagecode="1033" />
+                  <Description description="Angitt object innenfor Azure Key Vault er ikke tilgjengelig eller finnes ikke" languagecode="1044" />
+                </Descriptions>
               </status>
             </statuses>
           </optionset>

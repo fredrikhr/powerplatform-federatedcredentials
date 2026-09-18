@@ -14,6 +14,7 @@
           <cell name="az_version" width="80" />
           <cell name="az_vaulturi" width="125" />
           <cell name="az_type" width="50" />
+          <cell name="statuscode" width="50" />
         </row>
       </grid>
     </layoutxml>
@@ -26,6 +27,7 @@
           <attribute name="az_name" />
           <attribute name="az_version" />
           <attribute name="az_type" />
+          <attribute name="statuscode" />
           <order attribute="az_vaulturi" descending="false" />
           <order attribute="az_name" descending="false" />
           <order attribute="createdon" descending="false" />

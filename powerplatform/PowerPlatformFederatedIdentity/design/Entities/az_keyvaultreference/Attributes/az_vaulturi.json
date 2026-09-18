@@ -7,7 +7,7 @@
     "Value": "StringType"
   },
   "FormatName": {
-    "Value": "Url"
+    "Value": "Text"
   },
   "MaxLength": 1024,
   "RequiredLevel": {
@@ -23,7 +23,7 @@
   "IsValidForAdvancedFind": { "Value": true },
   "SourceTypeMask": 1,
   "SourceType": 3,
-  "FormulaDefinition": "If(Not(IsBlank(az_keyvaultreference_parent)), If(IsBlank(az_keyvaultreference_parent.az_templatevaultname), Blank(), \"https://\" & az_keyvaultreference_parent.az_templatevaultname & \".vault.azure.net/\"), Not(IsBlank(az_keyvaultreference_parentcomponent)), az_keyvaultreference_parentcomponent.keyvaulturi, If(IsBlank(az_templatevaultname), Blank(), \"https://\" & az_templatevaultname & \".vault.azure.net/\"))",
+  "FormulaDefinition": "If(\n    Not(IsBlank(az_keyvaultreference_parent)),\n    If(\n        IsBlank(az_keyvaultreference_parent.az_templatevaultname),\n        Blank(),\n        \"https://\" & az_keyvaultreference_parent.az_templatevaultname & \".vault.azure.net/\"\n    ),\n    Not(IsBlank(az_keyvaultreference_parentcomponent)),\n    az_keyvaultreference_parentcomponent.keyvaulturi,\n    If(\n        IsBlank(az_templatevaultname),\n        Blank(),\n        \"https://\" & az_templatevaultname & \".vault.azure.net/\"\n    )\n)",
   "DisplayName": {
     "LocalizedLabels": [
       {

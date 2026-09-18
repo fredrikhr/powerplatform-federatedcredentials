@@ -1,0 +1,51 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "LogicalName": "az_vaultobjectidcollectionname",
+  "SchemaName": "az_vaultobjectidcollectionname",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Text"
+  },
+  "MaxLength": 1024,
+  "RequiredLevel": {
+    "Value": "ApplicationRequired"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": false,
+  "IsValidForRead": true,
+  "IsValidForUpdate": false,
+  "IsRequiredForForm": false,
+  "IsValidForForm": false,
+  "IsValidForGrid": false,
+  "IsValidForAdvancedFind": { "Value": false },
+  "SourceTypeMask": 1,
+  "SourceType": 3,
+  "FormulaDefinition": "Switch(\n    az_type,\n    global_az_keyvaultdataobjecttype.'0',\n    \"secrets\",\n    global_az_keyvaultdataobjecttype.'1',\n    \"certificates\",\n    global_az_keyvaultdataobjecttype.'2',\n    \"certificates\",\n    \"secrets\"\n)",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Key Vault ID Collection Name"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Key Vault ID Samlingsnavn"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "For internal use"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "For internt bruk"
+      }
+    ]
+  }
+}

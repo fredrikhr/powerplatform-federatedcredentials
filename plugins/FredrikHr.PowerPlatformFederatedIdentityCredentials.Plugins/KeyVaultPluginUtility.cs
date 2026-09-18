@@ -285,4 +285,19 @@ internal static class KeyVaultPluginUtility
                 ).ConfigureAwait(continueOnCapturedContext: false)
                 ;
     }
+
+    internal static async Task<KeyVaultSecret> GetKeyVaultSecretAsync(
+        TokenCredential tokenCredential,
+        KeyVaultSecretIdentifier keyVaultSecretId
+        )
+    {
+        SecretClient keyVaultClient = new(
+            keyVaultSecretId.VaultUri,
+            tokenCredential
+            );
+        return await keyVaultClient.GetSecretAsync(
+            keyVaultSecretId.Name,
+            keyVaultSecretId.Version
+            ).ConfigureAwait(continueOnCapturedContext: false);
+    }
 }

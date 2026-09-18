@@ -13,7 +13,7 @@
             <label description="Generelt" languagecode="1044" />
           </labels>
           <columns>
-            <column width="100%">
+            <column width="50%">
               <sections>
                 <section showlabel="false" showbar="false" IsUserDefined="0" id="{2ab76df3-700a-4499-8871-c55c77c6fe49}" name="section_general">
                   <labels>
@@ -110,7 +110,7 @@
                     </row>
                   </rows>
                 </section>
-                <section name="section_versions" id="a3cc1279-a9ac-4887-a50e-dd0ca254b9e9" IsUserDefined="0" locklevel="0" showlabel="false" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115">
+                <section name="section_versions" id="a3cc1279-a9ac-4887-a50e-dd0ca254b9e9" IsUserDefined="0" locklevel="0" showlabel="false" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Left" columns="1" labelwidth="115" availableforphone="false">
                   <labels>
                     <label description="Versions" languagecode="1033" />
                     <label description="Versjoner" languagecode="1044" />
@@ -136,6 +136,46 @@
                             <ViewIds>{88fd7ddb-dfc7-45fb-b1ec-0119c390c9aa}</ViewIds>
                           </parameters>
                         </control>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+            <column width="50%">
+              <sections>
+                <section name="section_validation" id="81f122d0-b7aa-4b05-805d-60ddc826c2cb" IsUserDefined="0" locklevel="0" showlabel="false" showbar="false" layout="varwidth" celllabelalignment="Left" celllabelposition="Top" columns="1" labelwidth="115" availableforphone="false">
+                  <labels>
+                    <label description="Validation" languagecode="1033" />
+                    <label description="Validering" languagecode="1044" />
+                  </labels>
+                  <rows>
+                    <row />
+                    <row>
+                      <cell id="{6f5916bd-6a06-4d6d-a9e4-13f07214d327}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Key Vault Object URI" languagecode="1033" />
+                          <label description="Key Vault Objekt URI" languagecode="1044" />
+                        </labels>
+                        <control id="az_vaultobjectiduri" classid="{71716B6C-711E-476C-8AB8-5D11542BFB47}" datafieldname="az_vaultobjectiduri" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{95833eaf-dd0c-42a0-a9b1-f591f55d05f0}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Resource ID" languagecode="1033" />
+                          <label description="Ressurs-ID" languagecode="1044" />
+                        </labels>
+                        <control id="az_resourceid" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="az_resourceid" disabled="true" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{9956bd20-1a78-4374-b14e-9fac270a84e6}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Resource validated on" languagecode="1033" />
+                          <label description="Ressurs validert den" languagecode="1044" />
+                        </labels>
+                        <control id="az_resourcevalidatedon" classid="{5B773807-9FB2-42DB-97C3-7A91EFF8ADFF}" datafieldname="az_resourcevalidatedon" disabled="true" />
                       </cell>
                     </row>
                   </rows>

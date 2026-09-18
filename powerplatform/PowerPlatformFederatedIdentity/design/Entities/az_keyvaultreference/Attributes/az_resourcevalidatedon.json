@@ -1,0 +1,45 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.DateTimeAttributeMetadata",
+  "AttributeType": "DateTime",
+  "Format": "DateAndTime",
+  "DateTimeBehavior": {
+    "Value": "UserLocal"
+  },
+  "RequiredLevel": {
+    "Value": "None"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": true,
+  "IsValidForRead": true,
+  "IsValidForUpdate": true,
+  "IsRequiredForForm": false,
+  "IsValidForForm": true,
+  "IsValidForGrid": false,
+  "IsValidForAdvancedFind": { "Value": false },
+  "LogicalName": "az_resourcevalidatedon",
+  "SchemaName": "az_resourcevalidatedon",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Resource validated on"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Ressurs validert den"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Date and time when the record was last validated with Azure Resource Manager"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Tid og dato når oppføringen sist ble validert mot Azure Resource Manager"
+      }
+    ]
+  }
+}

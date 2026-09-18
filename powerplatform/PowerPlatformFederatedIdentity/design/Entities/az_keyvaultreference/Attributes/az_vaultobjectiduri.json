@@ -1,0 +1,51 @@
+{
+  "@odata.type": "Microsoft.Dynamics.CRM.StringAttributeMetadata",
+  "LogicalName": "az_vaultobjectiduri",
+  "SchemaName": "az_vaultobjectiduri",
+  "AttributeType": "String",
+  "AttributeTypeName": {
+    "Value": "StringType"
+  },
+  "FormatName": {
+    "Value": "Url"
+  },
+  "MaxLength": 1024,
+  "RequiredLevel": {
+    "Value": "ApplicationRequired"
+  },
+  "IntroducedVersion": "3.0.0",
+  "IsValidForCreate": false,
+  "IsValidForRead": true,
+  "IsValidForUpdate": false,
+  "IsRequiredForForm": false,
+  "IsValidForForm": true,
+  "IsValidForGrid": true,
+  "IsValidForAdvancedFind": { "Value": true },
+  "SourceTypeMask": 1,
+  "SourceType": 3,
+  "FormulaDefinition": "az_vaulturi & az_vaultobjectidcollectionname & \"/\" & az_name & If(Not(IsBlank(az_version)), \"/\" & az_version)",
+  "DisplayName": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "Key Vault Object URI"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "Key Vault Objekt URI"
+      }
+    ]
+  },
+  "Description": {
+    "LocalizedLabels": [
+      {
+        "LanguageCode": 1033,
+        "Label": "URI that identifies the referenced object in Azure Key Vault"
+      },
+      {
+        "LanguageCode": 1044,
+        "Label": "URI som identifiserer angitt objekt i Azure Key Vault"
+      }
+    ]
+  }
+}

@@ -10,8 +10,8 @@
 
 namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 {
-
-
+	
+	
 	/// <summary>
 	/// Type of user.
 	/// </summary>
@@ -19,26 +19,26 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_accessmode
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		ReadWrite = 0,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Administrative = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Read = 2,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		SupportUser = 3,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Noninteractive = 4,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DelegatedAdmin = 5,
 	}
-
+	
 	/// <summary>
 	/// Type of address for address 1, such as billing, shipping, or primary address.
 	/// </summary>
@@ -46,11 +46,11 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_address1_addresstypecode
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DefaultValue = 1,
 	}
-
+	
 	/// <summary>
 	/// Method of shipment for address 1.
 	/// </summary>
@@ -58,11 +58,11 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_address1_shippingmethodcode
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DefaultValue = 1,
 	}
-
+	
 	/// <summary>
 	/// Type of address for address 2, such as billing, shipping, or primary address.
 	/// </summary>
@@ -70,11 +70,11 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_address2_addresstypecode
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DefaultValue = 1,
 	}
-
+	
 	/// <summary>
 	/// Method of shipment for address 2.
 	/// </summary>
@@ -82,11 +82,11 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_address2_shippingmethodcode
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DefaultValue = 1,
 	}
-
+	
 	/// <summary>
 	/// Azure state of user.
 	/// </summary>
@@ -94,17 +94,17 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_azurestate
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Exists = 0,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Softdeleted = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Notfoundorharddeleted = 2,
 	}
-
+	
 	/// <summary>
 	/// License type of user. This is used only in the on-premises version of the product. Online licenses are managed through Microsoft 365 Office Portal.
 	/// </summary>
@@ -112,47 +112,47 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_caltype
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Professional = 0,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Administrative = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Basic = 2,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DeviceProfessional = 3,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DeviceBasic = 4,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Essential = 5,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DeviceEssential = 6,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Enterprise = 7,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DeviceEnterprise = 8,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Sales = 9,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Service = 10,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		FieldService = 11,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		ProjectService = 12,
 	}
-
+	
 	/// <summary>
 	/// User delete state.
 	/// </summary>
@@ -160,14 +160,14 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_deletestate
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Notdeleted = 0,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Softdeleted = 1,
 	}
-
+	
 	/// <summary>
 	/// Indicates the approval options for server-side synchronization or Email Router access.
 	/// </summary>
@@ -175,20 +175,20 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_emailrouteraccessapproval
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Empty = 0,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Approved = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		PendingApproval = 2,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Rejected = 3,
 	}
-
+	
 	/// <summary>
 	/// Incoming email delivery method for the user.
 	/// </summary>
@@ -196,20 +196,20 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_incomingemaildeliverymethod
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		None = 0,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		MicrosoftDynamics365forOutlook = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		ServerSideSynchronizationorEmailRouter = 2,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		ForwardMailbox = 3,
 	}
-
+	
 	/// <summary>
 	/// User invitation status.
 	/// </summary>
@@ -217,29 +217,29 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_invitestatuscode
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		InvitationNotSent = 0,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		Invited = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		InvitationNearExpired = 2,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		InvitationExpired = 3,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		InvitationAccepted = 4,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		InvitationRejected = 5,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		InvitationRevoked = 6,
 	}
-
+	
 	/// <summary>
 	/// Outgoing email delivery method for the user.
 	/// </summary>
@@ -247,17 +247,17 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_outgoingemaildeliverymethod
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		None = 0,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		MicrosoftDynamics365forOutlook = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		ServerSideSynchronizationorEmailRouter = 2,
 	}
-
+	
 	/// <summary>
 	/// Preferred address for the user.
 	/// </summary>
@@ -265,14 +265,14 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_preferredaddresscode
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		MailingAddress = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		OtherAddress = 2,
 	}
-
+	
 	/// <summary>
 	/// Preferred email address for the user.
 	/// </summary>
@@ -280,11 +280,11 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_preferredemailcode
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		DefaultValue = 1,
 	}
-
+	
 	/// <summary>
 	/// Preferred phone number for the user.
 	/// </summary>
@@ -292,20 +292,20 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_preferredphonecode
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		MainPhone = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		OtherPhone = 2,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		HomePhone = 3,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		MobilePhone = 4,
 	}
-
+	
 	/// <summary>
 	/// The type of user
 	/// </summary>
@@ -313,23 +313,23 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public enum systemuser_systemmanagedusertype
 	{
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		EntraUser = 0,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		C2User = 1,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		ImpersonableStubUser = 2,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		AgenticUser = 3,
-
+		
 		[System.Runtime.Serialization.EnumMemberAttribute()]
 		NonLicensed = 4,
 	}
-
+	
 	/// <summary>
 	/// Person with access to the Microsoft CRM system and who owns objects in the Microsoft CRM database.
 	/// </summary>
@@ -338,7 +338,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public partial class SystemUser : Microsoft.Xrm.Sdk.Entity
 	{
-
+		
 				/// <summary>
 		/// Available fields, a the time of codegen, for the systemuser entity
 		/// </summary>
@@ -485,6 +485,10 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			public const string lk_applicationuser_createdonbehalfby = "lk_applicationuser_createdonbehalfby";
 			public const string lk_applicationuser_modifiedby = "lk_applicationuser_modifiedby";
 			public const string lk_applicationuser_modifiedonbehalfby = "lk_applicationuser_modifiedonbehalfby";
+			public const string lk_az_keyvaultreference_createdby = "lk_az_keyvaultreference_createdby";
+			public const string lk_az_keyvaultreference_createdonbehalfby = "lk_az_keyvaultreference_createdonbehalfby";
+			public const string lk_az_keyvaultreference_modifiedby = "lk_az_keyvaultreference_modifiedby";
+			public const string lk_az_keyvaultreference_modifiedonbehalfby = "lk_az_keyvaultreference_modifiedonbehalfby";
 			public const string lk_keyvaultreference_createdby = "lk_keyvaultreference_createdby";
 			public const string lk_keyvaultreference_createdonbehalfby = "lk_keyvaultreference_createdonbehalfby";
 			public const string lk_keyvaultreference_modifiedby = "lk_keyvaultreference_modifiedby";
@@ -510,6 +514,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			public const string modifiedby_pluginassembly = "modifiedby_pluginassembly";
 			public const string modifiedby_plugintype = "modifiedby_plugintype";
 			public const string modifiedby_sdkmessageprocessingstep = "modifiedby_sdkmessageprocessingstep";
+			public const string user_az_keyvaultreference = "user_az_keyvaultreference";
 			public const string user_keyvaultreference = "user_keyvaultreference";
 			public const string user_managedidentity = "user_managedidentity";
 			public const string Referenceduser_parent_user = "Referenceduser_parent_user";
@@ -519,21 +524,21 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			public const string Referencinglk_systemuserbase_modifiedby = "lk_systemuserbase_modifiedby";
 			public const string Referencinguser_parent_user = "user_parent_user";
 		}
-
+		
 		/// <summary>
 		/// Default Constructor.
 		/// </summary>
-		public SystemUser() :
+		public SystemUser() : 
 				base(EntityLogicalName)
 		{
 		}
-
+		
 		public const string EntityLogicalName = "systemuser";
-
+		
 		public const string EntityLogicalCollectionName = "systemusers";
-
+		
 		public const string EntitySetName = "systemusers";
-
+		
 		/// <summary>
 		/// Type of user.
 		/// </summary>
@@ -549,7 +554,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("accessmode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier for address 1.
 		/// </summary>
@@ -565,7 +570,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_addressid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Type of address for address 1, such as billing, shipping, or primary address.
 		/// </summary>
@@ -581,7 +586,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_addresstypecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// City name for address 1.
 		/// </summary>
@@ -597,7 +602,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_city", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Shows the complete primary address.
 		/// </summary>
@@ -609,7 +614,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<string>("address1_composite");
 			}
 		}
-
+		
 		/// <summary>
 		/// Country/region name in address 1.
 		/// </summary>
@@ -625,7 +630,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_country", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// County name for address 1.
 		/// </summary>
@@ -641,7 +646,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_county", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Fax number for address 1.
 		/// </summary>
@@ -657,7 +662,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_fax", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Latitude for address 1.
 		/// </summary>
@@ -673,7 +678,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_latitude", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// First line for entering address 1 information.
 		/// </summary>
@@ -689,7 +694,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_line1", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Second line for entering address 1 information.
 		/// </summary>
@@ -705,7 +710,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_line2", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Third line for entering address 1 information.
 		/// </summary>
@@ -721,7 +726,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_line3", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Longitude for address 1.
 		/// </summary>
@@ -737,7 +742,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_longitude", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Name to enter for address 1.
 		/// </summary>
@@ -753,7 +758,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_name", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// ZIP Code or postal code for address 1.
 		/// </summary>
@@ -769,7 +774,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_postalcode", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Post office box number for address 1.
 		/// </summary>
@@ -785,7 +790,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_postofficebox", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Method of shipment for address 1.
 		/// </summary>
@@ -801,7 +806,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_shippingmethodcode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// State or province for address 1.
 		/// </summary>
@@ -817,7 +822,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_stateorprovince", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// First telephone number associated with address 1.
 		/// </summary>
@@ -833,7 +838,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_telephone1", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Second telephone number associated with address 1.
 		/// </summary>
@@ -849,7 +854,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_telephone2", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Third telephone number associated with address 1.
 		/// </summary>
@@ -865,7 +870,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_telephone3", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// United Parcel Service (UPS) zone for address 1.
 		/// </summary>
@@ -881,7 +886,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_upszone", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// UTC offset for address 1. This is the difference between local time and standard Coordinated Universal Time.
 		/// </summary>
@@ -897,7 +902,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address1_utcoffset", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier for address 2.
 		/// </summary>
@@ -913,7 +918,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_addressid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Type of address for address 2, such as billing, shipping, or primary address.
 		/// </summary>
@@ -929,7 +934,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_addresstypecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// City name for address 2.
 		/// </summary>
@@ -945,7 +950,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_city", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Shows the complete secondary address.
 		/// </summary>
@@ -957,7 +962,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<string>("address2_composite");
 			}
 		}
-
+		
 		/// <summary>
 		/// Country/region name in address 2.
 		/// </summary>
@@ -973,7 +978,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_country", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// County name for address 2.
 		/// </summary>
@@ -989,7 +994,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_county", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Fax number for address 2.
 		/// </summary>
@@ -1005,7 +1010,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_fax", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Latitude for address 2.
 		/// </summary>
@@ -1021,7 +1026,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_latitude", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// First line for entering address 2 information.
 		/// </summary>
@@ -1037,7 +1042,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_line1", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Second line for entering address 2 information.
 		/// </summary>
@@ -1053,7 +1058,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_line2", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Third line for entering address 2 information.
 		/// </summary>
@@ -1069,7 +1074,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_line3", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Longitude for address 2.
 		/// </summary>
@@ -1085,7 +1090,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_longitude", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Name to enter for address 2.
 		/// </summary>
@@ -1101,7 +1106,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_name", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// ZIP Code or postal code for address 2.
 		/// </summary>
@@ -1117,7 +1122,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_postalcode", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Post office box number for address 2.
 		/// </summary>
@@ -1133,7 +1138,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_postofficebox", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Method of shipment for address 2.
 		/// </summary>
@@ -1149,7 +1154,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_shippingmethodcode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// State or province for address 2.
 		/// </summary>
@@ -1165,7 +1170,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_stateorprovince", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// First telephone number associated with address 2.
 		/// </summary>
@@ -1181,7 +1186,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_telephone1", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Second telephone number associated with address 2.
 		/// </summary>
@@ -1197,7 +1202,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_telephone2", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Third telephone number associated with address 2.
 		/// </summary>
@@ -1213,7 +1218,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_telephone3", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// United Parcel Service (UPS) zone for address 2.
 		/// </summary>
@@ -1229,7 +1234,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_upszone", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// UTC offset for address 2. This is the difference between local time and standard Coordinated Universal Time.
 		/// </summary>
@@ -1245,7 +1250,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("address2_utcoffset", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// The identifier for the application. This is used to access data in another application.
 		/// </summary>
@@ -1261,7 +1266,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("applicationid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// The URI used as a unique logical identifier for the external app. This can be used to validate the application.
 		/// </summary>
@@ -1273,7 +1278,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<string>("applicationiduri");
 			}
 		}
-
+		
 		/// <summary>
 		/// This is the application directory object Id.
 		/// </summary>
@@ -1284,8 +1289,12 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 			{
 				return this.GetAttributeValue<System.Nullable<System.Guid>>("azureactivedirectoryobjectid");
 			}
+			set
+			{
+				this.SetAttributeValue("azureactivedirectoryobjectid", value);
+			}
 		}
-
+		
 		/// <summary>
 		/// Date and time when the user was set as soft deleted in Azure.
 		/// </summary>
@@ -1297,7 +1306,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<System.DateTime>>("azuredeletedon");
 			}
 		}
-
+		
 		/// <summary>
 		/// Azure state of user
 		/// </summary>
@@ -1313,7 +1322,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("azurestate", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the business unit with which the user is associated.
 		/// </summary>
@@ -1329,7 +1338,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("businessunitid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Fiscal calendar associated with the user.
 		/// </summary>
@@ -1345,7 +1354,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("calendarid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// License type of user. This is used only in the on-premises version of the product. Online licenses are managed through Microsoft 365 Office Portal
 		/// </summary>
@@ -1361,7 +1370,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("caltype", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the user who created the user.
 		/// </summary>
@@ -1373,7 +1382,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
 			}
 		}
-
+		
 		/// <summary>
 		/// Date and time when the user was created.
 		/// </summary>
@@ -1385,7 +1394,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the delegate user who created the systemuser.
 		/// </summary>
@@ -1397,7 +1406,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdonbehalfby");
 			}
 		}
-
+		
 		/// <summary>
 		/// Indicates if default outlook filters have been populated.
 		/// </summary>
@@ -1409,7 +1418,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<bool>>("defaultfilterspopulated");
 			}
 		}
-
+		
 		/// <summary>
 		/// Select the mailbox associated with this user.
 		/// </summary>
@@ -1421,7 +1430,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("defaultmailbox");
 			}
 		}
-
+		
 		/// <summary>
 		/// Type a default folder name for the user's OneDrive For Business location.
 		/// </summary>
@@ -1433,7 +1442,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<string>("defaultodbfoldername");
 			}
 		}
-
+		
 		/// <summary>
 		/// User delete state
 		/// </summary>
@@ -1445,7 +1454,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return ((systemuser_deletestate?)(EntityOptionSetEnum.GetEnum(this, "deletedstate")));
 			}
 		}
-
+		
 		/// <summary>
 		/// Reason for disabling the user.
 		/// </summary>
@@ -1457,7 +1466,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<string>("disabledreason");
 			}
 		}
-
+		
 		/// <summary>
 		/// Whether to display the user in service views.
 		/// </summary>
@@ -1473,7 +1482,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("displayinserviceviews", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Active Directory domain of which the user is a member.
 		/// </summary>
@@ -1489,7 +1498,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("domainname", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Shows the status of the primary email address.
 		/// </summary>
@@ -1505,7 +1514,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("emailrouteraccessapproval", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Employee identifier for the user.
 		/// </summary>
@@ -1521,7 +1530,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("employeeid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Shows the default image for the record.
 		/// </summary>
@@ -1537,7 +1546,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("entityimage", value);
 			}
 		}
-
+		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("entityimage_timestamp")]
 		public System.Nullable<long> EntityImage_Timestamp
 		{
@@ -1546,7 +1555,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<long>>("entityimage_timestamp");
 			}
 		}
-
+		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("entityimage_url")]
 		public string EntityImage_URL
 		{
@@ -1555,7 +1564,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<string>("entityimage_url");
 			}
 		}
-
+		
 		/// <summary>
 		/// For internal use only.
 		/// </summary>
@@ -1567,7 +1576,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<System.Guid>>("entityimageid");
 			}
 		}
-
+		
 		/// <summary>
 		/// Exchange rate for the currency associated with the systemuser with respect to the base currency.
 		/// </summary>
@@ -1579,7 +1588,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<decimal>>("exchangerate");
 			}
 		}
-
+		
 		/// <summary>
 		/// First name of the user.
 		/// </summary>
@@ -1595,7 +1604,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("firstname", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Full name of the user.
 		/// </summary>
@@ -1607,7 +1616,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<string>("fullname");
 			}
 		}
-
+		
 		/// <summary>
 		/// Government identifier for the user.
 		/// </summary>
@@ -1623,7 +1632,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("governmentid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Home phone number for the user.
 		/// </summary>
@@ -1639,7 +1648,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("homephone", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// For internal use only.
 		/// </summary>
@@ -1651,7 +1660,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<int>>("identityid");
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the data import or data migration that created this record.
 		/// </summary>
@@ -1667,7 +1676,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("importsequencenumber", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Incoming email delivery method for the user.
 		/// </summary>
@@ -1683,7 +1692,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("incomingemaildeliverymethod", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Internal email address for the user.
 		/// </summary>
@@ -1699,7 +1708,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("internalemailaddress", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// User invitation status.
 		/// </summary>
@@ -1715,7 +1724,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("invitestatuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Bypasses the selected user from IP firewall restriction
 		/// </summary>
@@ -1731,7 +1740,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("isallowedbyipfirewall", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Information about whether the user is enabled.
 		/// </summary>
@@ -1747,7 +1756,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("isdisabled", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Shows the status of approval of the email address by O365 Admin.
 		/// </summary>
@@ -1759,7 +1768,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<bool>>("isemailaddressapprovedbyo365admin");
 			}
 		}
-
+		
 		/// <summary>
 		/// Check if user is an integration user.
 		/// </summary>
@@ -1775,7 +1784,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("isintegrationuser", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Information about whether the user is licensed.
 		/// </summary>
@@ -1791,7 +1800,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("islicensed", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Information about whether the user is synced with the directory.
 		/// </summary>
@@ -1807,7 +1816,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("issyncwithdirectory", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Job title of the user.
 		/// </summary>
@@ -1823,7 +1832,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("jobtitle", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Last name of the user.
 		/// </summary>
@@ -1839,7 +1848,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("lastname", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Middle name of the user.
 		/// </summary>
@@ -1855,7 +1864,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("middlename", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Mobile alert email address for the user.
 		/// </summary>
@@ -1871,7 +1880,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("mobilealertemail", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Items contained with a particular SystemUser.
 		/// </summary>
@@ -1887,7 +1896,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("mobileofflineprofileid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Mobile phone number for the user.
 		/// </summary>
@@ -1903,7 +1912,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("mobilephone", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the user who last modified the user.
 		/// </summary>
@@ -1915,7 +1924,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("modifiedby");
 			}
 		}
-
+		
 		/// <summary>
 		/// Date and time when the user was last modified.
 		/// </summary>
@@ -1927,7 +1936,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<System.DateTime>>("modifiedon");
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the delegate user who last modified the systemuser.
 		/// </summary>
@@ -1939,7 +1948,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("modifiedonbehalfby");
 			}
 		}
-
+		
 		/// <summary>
 		/// Nickname of the user.
 		/// </summary>
@@ -1955,7 +1964,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("nickname", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the organization associated with the user.
 		/// </summary>
@@ -1967,7 +1976,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<System.Guid>>("organizationid");
 			}
 		}
-
+		
 		/// <summary>
 		/// Outgoing email delivery method for the user.
 		/// </summary>
@@ -1983,7 +1992,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("outgoingemaildeliverymethod", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Date and time that the record was migrated.
 		/// </summary>
@@ -1999,7 +2008,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("overriddencreatedon", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the manager of the user.
 		/// </summary>
@@ -2015,7 +2024,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("parentsystemuserid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// For internal use only.
 		/// </summary>
@@ -2031,7 +2040,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("passporthi", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// For internal use only.
 		/// </summary>
@@ -2047,7 +2056,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("passportlo", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Personal email address of the user.
 		/// </summary>
@@ -2063,7 +2072,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("personalemailaddress", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// URL for the Website on which a photo of the user is located.
 		/// </summary>
@@ -2079,7 +2088,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("photourl", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// User's position in hierarchical security model.
 		/// </summary>
@@ -2095,7 +2104,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("positionid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Preferred address for the user.
 		/// </summary>
@@ -2111,7 +2120,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("preferredaddresscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Preferred email address for the user.
 		/// </summary>
@@ -2127,7 +2136,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("preferredemailcode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Preferred phone number for the user.
 		/// </summary>
@@ -2143,7 +2152,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("preferredphonecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Shows the ID of the process.
 		/// </summary>
@@ -2159,7 +2168,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("processid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the default queue for the user.
 		/// </summary>
@@ -2175,7 +2184,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("queueid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Salutation for correspondence with the user.
 		/// </summary>
@@ -2191,7 +2200,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("salutation", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Check if user is a setup user.
 		/// </summary>
@@ -2207,7 +2216,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("setupuser", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// SharePoint Work Email Address
 		/// </summary>
@@ -2223,7 +2232,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("sharepointemailaddress", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Skill set of the user.
 		/// </summary>
@@ -2239,7 +2248,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("skills", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Shows the ID of the stage.
 		/// </summary>
@@ -2255,7 +2264,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("stageid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// The type of user
 		/// </summary>
@@ -2271,7 +2280,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("systemmanagedusertype", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier for the user.
 		/// </summary>
@@ -2295,7 +2304,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				}
 			}
 		}
-
+		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("systemuserid")]
 		public override System.Guid Id
 		{
@@ -2308,7 +2317,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SystemUserId = value;
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the territory to which the user is assigned.
 		/// </summary>
@@ -2324,7 +2333,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("territoryid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// For internal use only.
 		/// </summary>
@@ -2340,7 +2349,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("timezoneruleversionnumber", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Title of the user.
 		/// </summary>
@@ -2356,7 +2365,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("title", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Unique identifier of the currency associated with the systemuser.
 		/// </summary>
@@ -2372,7 +2381,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("transactioncurrencyid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// For internal use only.
 		/// </summary>
@@ -2388,7 +2397,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("traversedpath", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Shows the type of user license.
 		/// </summary>
@@ -2404,7 +2413,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("userlicensetype", value);
 			}
 		}
-
+		
 		/// <summary>
 		///  User PUID User Identifiable Information
 		/// </summary>
@@ -2416,7 +2425,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<string>("userpuid");
 			}
 		}
-
+		
 		/// <summary>
 		/// Time zone code that was in use when the record was created.
 		/// </summary>
@@ -2432,7 +2441,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("utcconversiontimezonecode", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Version number of the user.
 		/// </summary>
@@ -2444,7 +2453,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
 			}
 		}
-
+		
 		/// <summary>
 		/// Windows Live ID
 		/// </summary>
@@ -2460,7 +2469,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("windowsliveid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// User's Yammer login email address
 		/// </summary>
@@ -2476,7 +2485,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("yammeremailaddress", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// User's Yammer ID
 		/// </summary>
@@ -2492,7 +2501,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("yammeruserid", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Pronunciation of the first name of the user, written in phonetic hiragana or katakana characters.
 		/// </summary>
@@ -2508,7 +2517,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("yomifirstname", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Pronunciation of the full name of the user, written in phonetic hiragana or katakana characters.
 		/// </summary>
@@ -2520,7 +2529,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetAttributeValue<string>("yomifullname");
 			}
 		}
-
+		
 		/// <summary>
 		/// Pronunciation of the last name of the user, written in phonetic hiragana or katakana characters.
 		/// </summary>
@@ -2536,7 +2545,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("yomilastname", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// Pronunciation of the middle name of the user, written in phonetic hiragana or katakana characters.
 		/// </summary>
@@ -2552,7 +2561,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetAttributeValue("yomimiddlename", value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N createdby_pluginassembly
 		/// </summary>
@@ -2568,7 +2577,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginAssembly>("createdby_pluginassembly", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N createdby_plugintype
 		/// </summary>
@@ -2584,7 +2593,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginType>("createdby_plugintype", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N createdby_sdkmessageprocessingstep
 		/// </summary>
@@ -2600,7 +2609,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SdkMessageProcessingStep>("createdby_sdkmessageprocessingstep", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N impersonatinguserid_sdkmessageprocessingstep
 		/// </summary>
@@ -2616,7 +2625,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SdkMessageProcessingStep>("impersonatinguserid_sdkmessageprocessingstep", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_applicationuser_createdby
 		/// </summary>
@@ -2632,7 +2641,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_createdby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_applicationuser_createdonbehalfby
 		/// </summary>
@@ -2648,7 +2657,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_createdonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_applicationuser_modifiedby
 		/// </summary>
@@ -2664,7 +2673,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_modifiedby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_applicationuser_modifiedonbehalfby
 		/// </summary>
@@ -2680,7 +2689,71 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ApplicationUser>("lk_applicationuser_modifiedonbehalfby", null, value);
 			}
 		}
-
+		
+		/// <summary>
+		/// 1:N lk_az_keyvaultreference_createdby
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("lk_az_keyvaultreference_createdby")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference> lk_az_keyvaultreference_createdby
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("lk_az_keyvaultreference_createdby", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("lk_az_keyvaultreference_createdby", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N lk_az_keyvaultreference_createdonbehalfby
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("lk_az_keyvaultreference_createdonbehalfby")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference> lk_az_keyvaultreference_createdonbehalfby
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("lk_az_keyvaultreference_createdonbehalfby", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("lk_az_keyvaultreference_createdonbehalfby", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N lk_az_keyvaultreference_modifiedby
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("lk_az_keyvaultreference_modifiedby")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference> lk_az_keyvaultreference_modifiedby
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("lk_az_keyvaultreference_modifiedby", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("lk_az_keyvaultreference_modifiedby", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N lk_az_keyvaultreference_modifiedonbehalfby
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("lk_az_keyvaultreference_modifiedonbehalfby")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference> lk_az_keyvaultreference_modifiedonbehalfby
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("lk_az_keyvaultreference_modifiedonbehalfby", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("lk_az_keyvaultreference_modifiedonbehalfby", null, value);
+			}
+		}
+		
 		/// <summary>
 		/// 1:N lk_keyvaultreference_createdby
 		/// </summary>
@@ -2696,7 +2769,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.KeyVaultReference>("lk_keyvaultreference_createdby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_keyvaultreference_createdonbehalfby
 		/// </summary>
@@ -2712,7 +2785,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.KeyVaultReference>("lk_keyvaultreference_createdonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_keyvaultreference_modifiedby
 		/// </summary>
@@ -2728,7 +2801,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.KeyVaultReference>("lk_keyvaultreference_modifiedby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_keyvaultreference_modifiedonbehalfby
 		/// </summary>
@@ -2744,7 +2817,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.KeyVaultReference>("lk_keyvaultreference_modifiedonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_managedidentity_createdby
 		/// </summary>
@@ -2760,7 +2833,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ManagedIdentity>("lk_managedidentity_createdby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_managedidentity_createdonbehalfby
 		/// </summary>
@@ -2776,7 +2849,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ManagedIdentity>("lk_managedidentity_createdonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_managedidentity_modifiedby
 		/// </summary>
@@ -2792,7 +2865,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ManagedIdentity>("lk_managedidentity_modifiedby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_managedidentity_modifiedonbehalfby
 		/// </summary>
@@ -2808,7 +2881,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ManagedIdentity>("lk_managedidentity_modifiedonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_pluginassembly_createdonbehalfby
 		/// </summary>
@@ -2824,7 +2897,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginAssembly>("lk_pluginassembly_createdonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_pluginassembly_modifiedonbehalfby
 		/// </summary>
@@ -2840,7 +2913,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginAssembly>("lk_pluginassembly_modifiedonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_pluginpackage_createdby
 		/// </summary>
@@ -2856,7 +2929,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginPackage>("lk_pluginpackage_createdby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_pluginpackage_createdonbehalfby
 		/// </summary>
@@ -2872,7 +2945,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginPackage>("lk_pluginpackage_createdonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_pluginpackage_modifiedby
 		/// </summary>
@@ -2888,7 +2961,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginPackage>("lk_pluginpackage_modifiedby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_pluginpackage_modifiedonbehalfby
 		/// </summary>
@@ -2904,7 +2977,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginPackage>("lk_pluginpackage_modifiedonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_plugintype_createdonbehalfby
 		/// </summary>
@@ -2920,7 +2993,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginType>("lk_plugintype_createdonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_plugintype_modifiedonbehalfby
 		/// </summary>
@@ -2936,7 +3009,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginType>("lk_plugintype_modifiedonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_sdkmessageprocessingstep_createdonbehalfby
 		/// </summary>
@@ -2952,7 +3025,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SdkMessageProcessingStep>("lk_sdkmessageprocessingstep_createdonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_sdkmessageprocessingstep_modifiedonbehalfby
 		/// </summary>
@@ -2968,7 +3041,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SdkMessageProcessingStep>("lk_sdkmessageprocessingstep_modifiedonbehalfby", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_systemuser_createdonbehalfby
 		/// </summary>
@@ -2984,7 +3057,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SystemUser>("lk_systemuser_createdonbehalfby", Microsoft.Xrm.Sdk.EntityRole.Referenced, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_systemuser_modifiedonbehalfby
 		/// </summary>
@@ -3000,7 +3073,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SystemUser>("lk_systemuser_modifiedonbehalfby", Microsoft.Xrm.Sdk.EntityRole.Referenced, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_systemuserbase_createdby
 		/// </summary>
@@ -3016,7 +3089,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SystemUser>("lk_systemuserbase_createdby", Microsoft.Xrm.Sdk.EntityRole.Referenced, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N lk_systemuserbase_modifiedby
 		/// </summary>
@@ -3032,7 +3105,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SystemUser>("lk_systemuserbase_modifiedby", Microsoft.Xrm.Sdk.EntityRole.Referenced, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N modifiedby_pluginassembly
 		/// </summary>
@@ -3048,7 +3121,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginAssembly>("modifiedby_pluginassembly", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N modifiedby_plugintype
 		/// </summary>
@@ -3064,7 +3137,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.PluginType>("modifiedby_plugintype", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N modifiedby_sdkmessageprocessingstep
 		/// </summary>
@@ -3080,7 +3153,23 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SdkMessageProcessingStep>("modifiedby_sdkmessageprocessingstep", null, value);
 			}
 		}
-
+		
+		/// <summary>
+		/// 1:N user_az_keyvaultreference
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("user_az_keyvaultreference")]
+		public System.Collections.Generic.IEnumerable<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference> user_az_keyvaultreference
+		{
+			get
+			{
+				return this.GetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("user_az_keyvaultreference", null);
+			}
+			set
+			{
+				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.az_keyvaultreference>("user_az_keyvaultreference", null, value);
+			}
+		}
+		
 		/// <summary>
 		/// 1:N user_keyvaultreference
 		/// </summary>
@@ -3096,7 +3185,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.KeyVaultReference>("user_keyvaultreference", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N user_managedidentity
 		/// </summary>
@@ -3112,7 +3201,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.ManagedIdentity>("user_managedidentity", null, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// 1:N user_parent_user
 		/// </summary>
@@ -3128,7 +3217,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				this.SetRelatedEntities<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SystemUser>("user_parent_user", Microsoft.Xrm.Sdk.EntityRole.Referenced, value);
 			}
 		}
-
+		
 		/// <summary>
 		/// N:1 lk_systemuser_createdonbehalfby
 		/// </summary>
@@ -3141,7 +3230,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetRelatedEntity<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SystemUser>("lk_systemuser_createdonbehalfby", Microsoft.Xrm.Sdk.EntityRole.Referencing);
 			}
 		}
-
+		
 		/// <summary>
 		/// N:1 lk_systemuser_modifiedonbehalfby
 		/// </summary>
@@ -3154,7 +3243,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetRelatedEntity<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SystemUser>("lk_systemuser_modifiedonbehalfby", Microsoft.Xrm.Sdk.EntityRole.Referencing);
 			}
 		}
-
+		
 		/// <summary>
 		/// N:1 lk_systemuserbase_createdby
 		/// </summary>
@@ -3167,7 +3256,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetRelatedEntity<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SystemUser>("lk_systemuserbase_createdby", Microsoft.Xrm.Sdk.EntityRole.Referencing);
 			}
 		}
-
+		
 		/// <summary>
 		/// N:1 lk_systemuserbase_modifiedby
 		/// </summary>
@@ -3180,7 +3269,7 @@ namespace FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities
 				return this.GetRelatedEntity<FredrikHr.PowerPlatformFederatedIdentityCredentials.Plugins.Entities.SystemUser>("lk_systemuserbase_modifiedby", Microsoft.Xrm.Sdk.EntityRole.Referencing);
 			}
 		}
-
+		
 		/// <summary>
 		/// N:1 user_parent_user
 		/// </summary>
